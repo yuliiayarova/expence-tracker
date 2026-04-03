@@ -6,7 +6,7 @@ interface IconProps {
   className?: string; // Для додаткових стилів Tailwind
 }
 
-const Icon: React.FC<IconProps> = ({ name, size = 24, className = "" }) => {
+export default function Icon({ name, size = 24, className = "" }: IconProps) {
   return (
     <svg 
       width={size} 
@@ -19,4 +19,3 @@ const Icon: React.FC<IconProps> = ({ name, size = 24, className = "" }) => {
   );
 };
 
-export default Icon;
