@@ -1,0 +1,68 @@
+.formTitle {
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+.formDescr {
+  max-width: 533px;
+  margin-bottom: 37px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+}
+
+.input {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px 18px;
+  width: 399px;
+  height: 48px;
+  background-color: var(--color-input-bg);
+  outline: none;
+  color: var(--color-white);
+}
+
+.input:hover,
+.input:focus {
+  border-color: var(--color-primary);
+}
+
+input::placeholder {
+  color: var(--color-white-40);
+  line-height: var(--line-height-normal);
+}
+
+.actions {
+  margin-top: 40px;
+}
+
+.submitButton {
+  margin-bottom: 20px;
+}
+
+.signInText {
+  font-size: var(--font-size-xs);
+  color: var(--color-white-60);
+}
+
+.signInLink {
+  font-size: var(--font-size-xs);
+  color: var(--color-white);
+  text-decoration-skip-ink: none;
+}
