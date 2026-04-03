@@ -1,4 +1,4 @@
-// * ================= REQUESTS ================= */
+// * --------------- REQUESTS --------------- */
 
 export interface CreateTransactionRequest {
   type: "incomes" | "expenses";
@@ -17,7 +17,7 @@ export interface UpdateTransactionRequest {
   comment?: string;
 }
 
-// * ================= SHARED ================= */
+// * --------------- SHARED --------------- */
 
 export interface TransactionCategory {
   _id: string;
