@@ -44,6 +44,11 @@
     <symbol id="icon-user" viewBox="0 0 32 32">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6" d="M26.667 28v-2.667c0-1.415-.562-2.771-1.562-3.771S22.748 20 21.334 20H10.667c-1.415 0-2.771.562-3.771 1.562s-1.562 2.357-1.562 3.771V28m10.665-13.333c2.946 0 5.333-2.388 5.333-5.333s-2.388-5.333-5.333-5.333-5.333 2.388-5.333 5.333 2.388 5.333 5.333 5.333"/>
     </symbol>
+    <symbol id="icon-log-out" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M12 28H6.667A2.666 2.666 0 0 1 4 25.333V6.667A2.666 2.666 0 0 1 6.667 4H12"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M21.333 22.667 28 16l-6.667-6.667"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M28 16H12"/>
+    </symbol>
     <symbol id="icon-eye-off" viewBox="0 0 32 32">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M23.92 23.92A13.43 13.43 0 0 1 16 26.667C6.667 26.667 1.333 16 1.333 16A24.605 24.605 0 0 1 8.08 8.08m5.12-2.427c.918-.215 1.857-.322 2.8-.32C25.333 5.333 30.667 16 30.667 16a24.65 24.65 0 0 1-2.88 4.253m-8.96-1.426a4.003 4.003 0 0 1-2.856 1.273c-.537.009-1.071-.089-1.569-.291s-.95-.501-1.33-.88c-.38-.38-.679-.832-.88-1.33s-.3-1.032-.29-1.569c.009-.537.127-1.067.346-1.558s.534-.932.927-1.298M1.333 1.333l29.333 29.333"/>
     </symbol>

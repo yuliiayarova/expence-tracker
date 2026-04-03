@@ -1,0 +1,223 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(12, 13, 13, 0.45);
+}
+
+.modal {
+  width: 100%;
+  max-width: 335px;
+  padding: 40px 20px 32px;
+  border: 1px solid rgba(250, 250, 250, 0.1);
+  border-radius: 30px;
+  background: #171719;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.closeButton {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #fafafa;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: #0c0d0d;
+  color: #0ef387;
+  overflow: hidden;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke: currentColor;
+}
+
+.avatarActions {
+  display: flex;
+  gap: 8px;
+}
+
+.avatarButton {
+  min-height: 28px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(250, 250, 250, 0.1);
+  color: #fafafa;
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 8px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input,
+.selectButton {
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 14px;
+  border: 1px solid rgba(250, 250, 250, 0.1);
+  border-radius: 12px;
+  background: transparent;
+  color: #fafafa;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.selectWrap {
+  position: relative;
+}
+
+.selectButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.selectIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: rgba(250, 250, 250, 0.8);
+  transition: transform 250ms ease-in-out;
+}
+
+.selectIconOpen {
+  transform: rotate(180deg);
+}
+
+.selectDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(250, 250, 250, 0.1);
+  border-radius: 16px;
+  background: #0c0d0d;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+.selectOption {
+  width: 100%;
+  padding: 6px 0;
+  border: none;
+  background: transparent;
+  color: rgba(250, 250, 250, 0.5);
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+}
+
+.selectOptionActive {
+  color: #fafafa;
+}
+
+.input::placeholder {
+  color: rgba(250, 250, 250, 0.4);
+}
+
+.error {
+  font-size: 12px;
+  line-height: 1.2;
+  color: #ff868d;
+}
+
+.saveButton {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 30px;
+  background: #0ef387;
+  color: #0c0d0d;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 768px) {
+  .modal {
+    max-width: 438px;
+    padding: 40px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .row {
+    grid-template-columns: 122px 1fr;
+  }
+}

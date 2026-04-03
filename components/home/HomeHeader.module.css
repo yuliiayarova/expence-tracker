@@ -1,0 +1,55 @@
+.header {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 48px;
+}
+
+.desktopNav,
+.desktopUser {
+  display: none;
+}
+
+.userArea {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: max-content;
+  gap: 8px;
+}
+
+.status {
+  font-size: 12px;
+  line-height: 1;
+  color: #0ef387;
+}
+
+@media only screen and (min-width: 768px) {
+  .header {
+    min-height: 56px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .header {
+    min-height: 91px;
+    border-bottom: 1px solid rgba(250, 250, 250, 0.1);
+  }
+
+  .desktopNav {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: auto;
+    margin-right: 269px;
+  }
+
+  .desktopUser {
+    display: inline-flex;
+    align-items: center;
+  }
+}
