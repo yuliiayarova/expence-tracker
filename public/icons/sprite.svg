@@ -1,17 +1,4 @@
 
-SVGOMG
-Powered by SVGO v4.0.0
-
-
-Open SVG
-Paste markup
-
-Demo
-Contribute
-
-
-
-2.12k → 2.04k 95.95%
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
   <defs>
     <symbol id="icon-burger-menu" viewBox="0 0 32 32">

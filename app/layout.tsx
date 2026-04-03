@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import Container from "@/components/Container/Container";
-
+import Button from "@/components/Button/Button";
 
 const inter = Inter({
   weight: ["400", "700"],
