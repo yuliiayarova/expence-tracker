@@ -1,0 +1,14 @@
+.transationsBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8;
+}
+/* для видалення */
+:global(.ag-theme-quartz) {
+  --ag-foreground-color: #000;
+  --ag-header-foreground-color: #000;
+  --ag-color: #000;
+  --ag-background-color: #fff;
+  --ag-header-background-color: #f3f3f3;
+}
