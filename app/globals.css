@@ -1,0 +1,16 @@
+/* app/globals.css */
+@import "normalize.css";
+@import "./styles/variables.css";
+@import "./styles/typography.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: var(--color-bg-main);
+  color: var(--color-white);
+  font-family: var(--font-inter), sans-serif;
+}

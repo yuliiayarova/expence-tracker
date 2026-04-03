@@ -1,0 +1,91 @@
+:root {
+  /* ===== COLORS ===== */
+  /* Background Colors */
+  --color-bg-main: #0c0d0d; /* Основний фон сторінки */
+  --color-bg-card: #171717; /* Фон карток (як блок з аватаром) */
+  --color-bg-modal-backdrop: #0c0d0d99; /* Напівпрозорий чорний для фону модальних вікон */
+
+  /* Primary & Accents (Greens) */
+  --color-primary: #0ef387; /* Яскравий основний зелений (Sign Up, іконки) */
+  --color-primary-hover: #0ebb69; /* Темно-зелений для стану hover */
+
+  /* Neutral Colors */
+  --color-white: #fafafa; /* Основний текст, логотип */
+  --color-white-40: #5e4c4c66; /* Вторинний текст (підписи до інпутів) */
+  --color-white-50: #fafafa80; /* Текст у неактивних кнопках (Cancel) */
+  --color-text-black: #0c0d0d; /* Чорний для тексту */
+
+  /* UI Elements */
+  --color-border: rgba(250, 250, 250, 0.1); /* Межі звичайних інпутів */
+  --color-input-bg: transparent; /* Фон полів введення */
+  --color-button-secondary-bg: #292929; /* Фон кнопки Cancel */
+
+  /* Feedback States */
+  --color-error: #e74a3b; /* Червоний для помилок */
+  --color-success: #097b45; /* Зелений для валідних полів */
+  --color-warning: #f6e05e; /* Жовтий */
+
+  --color-health-info: rgba(
+    250,
+    250,
+    250,
+    0.2
+  ); /* Фон для інформації про здоров'я (Health Info) */
+
+  /* ===== Border ===== */
+  --border-gray: 1px solid var(--color-white-40);
+  --border-primary: 1px solid var(--color-primary);
+
+  /* ===== TYPOGRAPHY ===== */
+  /* Розміри шрифтів */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-2_5xl: 1.75rem; /* 28px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-3_5xl: 2rem; /* 32px */
+  --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-4_5xl: 2.375rem; /* 38px*/
+  --font-size-5xl: 3rem; /* 48px */
+  --font-size-6xl: 3.5rem; /* 56px */
+
+  /* Вага шрифтів */
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+
+  /* Міжрядкові інтервали */
+  --line-height-none: 1;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+
+  /* Letter Spacing (Міжлітерний інтервал) */
+  --letter-spacing-tighter: -0.05em; /* Для великих заголовків */
+  --letter-spacing-tight: -0.02em; /* Для підзаголовків */
+  --letter-spacing-normal: 0em; /* Стандарт */
+  --letter-spacing-wide: 0.025em; /* Для кнопок (наприклад, Sign Up) */
+  --letter-spacing-widest: 0.1em; /* Для акцентних елементів */
+
+  /* ===== CONTAINER ===== */
+  --container-padding: 1rem;
+  --container-max-width-sm: 640px;
+  --container-max-width-md: 768px;
+  --container-max-width-lg: 1024px;
+  --container-max-width-xl: 1280px;
+  --container-max-width-2xl: 1536px;
+
+  /* ===== ANIMATIONS ===== */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
+
+  /* ===== MEDIA QUERIES ===== */
+  /* Використовуйте у медіа-запитах */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
