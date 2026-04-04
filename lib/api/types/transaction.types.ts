@@ -17,13 +17,13 @@ export interface UpdateTransactionRequest {
   comment?: string;
 }
 
-// * --------------- SHARED --------------- */
 
 export interface TransactionCategory {
   _id: string;
   categoryName: string;
 }
 
+//GET /transactions/{type}
 export interface Transaction {
   _id: string;
   type: "incomes" | "expenses";
@@ -34,10 +34,21 @@ export interface Transaction {
   comment?: string;
 }
 
+//POST /transactions
+export interface CreatedTransaction {
+  _id: string;
+  type: "incomes" | "expenses";
+  date: string;
+  time: string;
+  category: string;
+  sum: number;
+  comment?: string;
+}
+
 // * --------------- RESPONSES --------------- */
 
 export interface CreateTransactionResponse {
-  transaction: Transaction;
+  transaction: CreatedTransaction;
   total: number;
 }
 

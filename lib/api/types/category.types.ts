@@ -6,7 +6,7 @@ export interface CreateCategoryRequest {
 }
 
 export interface UpdateCategoryRequest {
-  _id: string;
+  _id?: string;
   categoryName: string;
 }
 

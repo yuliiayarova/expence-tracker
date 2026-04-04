@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api } from "../clientApi";
 
 import type {
   CreateTransactionRequest,
@@ -7,17 +7,7 @@ import type {
   UpdateTransactionRequest,
   UpdateTransactionResponse,
   DeleteTransactionResponse,
-} from "./transaction.types";
-
-/* --------------- API --------------- */
-
-// POST /transactions
-export const createTransaction = async (
-  data: CreateTransactionRequest,
-): Promise<CreateTransactionResponse> => {
-  const res = await api.post("/transactions", data);
-  return res.data;
-};
+} from "../../types/transaction.types";
 
 // GET /transactions/{type}
 export const getTransactions = async (
@@ -27,17 +17,15 @@ export const getTransactions = async (
     search?: string;
   },
 ): Promise<GetTransactionsResponse> => {
-  const res = await api.get(`/transactions/${type}`, {
-    params,
-  });
+  const res = await api.get(`/transactions/${type}`, { params });
   return res.data;
 };
 
-// DELETE /transactions/{id}
-export const deleteTransaction = async (
-  id: string,
-): Promise<DeleteTransactionResponse> => {
-  const res = await api.delete(`/transactions/${id}`);
+// POST /transactions
+export const createTransaction = async (
+  data: CreateTransactionRequest,
+): Promise<CreateTransactionResponse> => {
+  const res = await api.post("/transactions", data);
   return res.data;
 };
 
@@ -48,5 +36,13 @@ export const updateTransaction = async (
   data: UpdateTransactionRequest,
 ): Promise<UpdateTransactionResponse> => {
   const res = await api.patch(`/transactions/${type}/${id}`, data);
+  return res.data;
+};
+
+// DELETE /transactions/{id}
+export const deleteTransaction = async (
+  id: string,
+): Promise<DeleteTransactionResponse> => {
+  const res = await api.delete(`/transactions/${id}`);
   return res.data;
 };
