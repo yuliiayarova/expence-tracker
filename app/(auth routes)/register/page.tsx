@@ -11,6 +11,7 @@ import { RegisterRequest } from "@/lib/api/auth/auth.types";
 import { register } from "@/lib/api/auth/authApi";
 import Button from "@/components/Button/Button";
 import Link from "next/link";
+import PasswordInput from "@/components/PasswordInput/PasswordInput";
 
 type ErrorResponse = {
   error?: string;
@@ -95,19 +96,12 @@ export default function RegisterPage() {
           />
         </div>
 
-        <div className={css.fieldset}>
-          <label className={css.visuallyHidden} htmlFor="password">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            className={css.input}
-            required
-          />
-        </div>
+        <PasswordInput
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
 
         <div className={css.actions}>
           <Button className={css.submitButton} type="submit" text="Sign Up" />
