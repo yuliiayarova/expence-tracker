@@ -8,19 +8,13 @@
   flex-direction: column;
 }
 .log {
-  font-weight: 400;
-  font-size: 14px;
+  
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(250, 250, 250, 0.4);
   padding-bottom: 10px;
 }
 .title {
   margin: 0;
-  font-weight: 400;
-  font-size: 32px;
-  letter-spacing: -0.02em;
-  color: #fafafa;
   padding-bottom: 14px;
 }
 .span {
@@ -29,32 +23,25 @@
   color: #0ef387;
 }
 .description {
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: -0.02em;
-  color: rgba(250, 250, 250, 0.4);
   padding-bottom: 30px;
 }
 @media only screen and (min-width: 768px) {
   .page {
     max-width: 575px;
-
     padding-bottom: 10px;
   }
   .title {
-    font-size: 56px;
-    letter-spacing: -0.02em;
-    color: #fafafa;
+    letter-spacing: var(--letter-spacing-tight);
     padding-bottom: 20px;
   }
   .description {
-    font-size: 16px;
+    
     padding-bottom: 40px;
     width: 533px;
   }
 }
 
-/* Styles for Desktop devices */
+
 @media only screen and (min-width: 1440px) {
   .page {
     display: flex;
