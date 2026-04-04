@@ -7,6 +7,8 @@ import Container from "@/components/Container/Container";
 import Button from "@/components/Button/Button";
 import { BgImageWrapper } from "@/components/BgImageWrapper/BgImageWrapper";
 
+import WelcomePage from "@/components/WellcomPage/WellcomPage";
+
 const inter = Inter({
   weight: ["400", "700"],
   variable: "--font-inter",
@@ -28,8 +30,14 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <TanStackProvider>
           <Container>
-            <BgImageWrapper/>
+
+           
+            <WelcomePage />
             <main>{children}</main>
+
+
+              
+
           </Container>
         </TanStackProvider>
       </body>

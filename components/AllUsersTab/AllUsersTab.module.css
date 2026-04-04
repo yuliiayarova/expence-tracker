@@ -1,0 +1,67 @@
+.userstab {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .userstab {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .usersAvatar {
+    position: relative;
+    width: 125px;
+
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid #0a0a0a;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+  }
+
+  .avatar:nth-child(1) {
+    left: 0;
+    z-index: 3;
+  }
+
+  .avatar:nth-child(2) {
+    left: 37px;
+
+    z-index: 2;
+  }
+
+  .avatar:nth-child(3) {
+    left: 74px;
+    z-index: 1;
+  }
+
+  /* Текстова частина */
+  .textBox {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .info {
+    font-weight: 400;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    color: #fafafa;
+  }
+
+  .description {
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+    color: rgba(250, 250, 250, 0.4);
+  }
+}
