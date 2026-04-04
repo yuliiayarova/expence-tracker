@@ -50,9 +50,10 @@
   .info {
     font-size: var(--font-size-2_5xl);
     letter-spacing: var(--letter-spacing-tight);
+    
   }
 
   .description {
-    color: rgba(250, 250, 250, 0.4);
+    color: var(--color-grey);
   }
 }

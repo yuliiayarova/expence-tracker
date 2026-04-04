@@ -3,7 +3,6 @@
   position: relative;
   justify-content: start;
   align-items: start;
-  margin-top: 29px;
 }
 
 .imageContainer {
@@ -21,10 +20,6 @@
 }
 
 @media screen and (min-width: 768px) {
-  .wrapper {
-    margin-top: 10px;
-  }
-
   .imageContainer {
     width: 704px;
     height: 482px;
@@ -41,21 +36,17 @@
 }
 
 @media screen and (min-width: 1440px) {
-  .wrapper {
-    margin-top: 0px;
-  }
-
   .imageContainer {
     width: 611px;
     height: 568px;
   }
- 
-.tabletImage {
-  display: none;
-}
-.desktopImage {
-  display: block;
-}
+
+  .tabletImage {
+    display: none;
+  }
+  .desktopImage {
+    display: block;
+  }
 }
 
 .bgImage {
