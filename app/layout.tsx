@@ -1,9 +1,11 @@
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import Container from "@/components/Container/Container";
 import Button from "@/components/Button/Button";
+import { BgImageWrapper } from "@/components/BgImageWrapper/BgImageWrapper";
 
 const inter = Inter({
   weight: ["400", "700"],
@@ -26,6 +28,7 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <TanStackProvider>
           <Container>
+            <BgImageWrapper/>
             <main>{children}</main>
           </Container>
         </TanStackProvider>
