@@ -1,7 +1,7 @@
 .userstab {
   display: none;
 }
-@media (min-width: 1024px) {
+@media (min-width: 1440px) {
   .userstab {
     display: flex;
     align-items: center;
@@ -11,16 +11,13 @@
   .usersAvatar {
     position: relative;
     width: 125px;
-
     height: 48px;
     flex-shrink: 0;
   }
 
   .avatar {
-    width: 48px;
-    height: 48px;
     border-radius: 50%;
-    border: 3px solid #0a0a0a;
+    border: 3px solid var(--color-text-black);
     object-fit: cover;
     position: absolute;
     top: 0;
@@ -42,7 +39,6 @@
     z-index: 1;
   }
 
-  /* Текстова частина */
   .textBox {
     display: flex;
     align-items: flex-start;
@@ -52,16 +48,11 @@
   }
 
   .info {
-    font-weight: 400;
-    font-size: 28px;
-    letter-spacing: -0.02em;
-    color: #fafafa;
+    font-size: var(--font-size-2_5xl);
+    letter-spacing: var(--letter-spacing-tight);
   }
 
   .description {
-    font-weight: 400;
-    font-size: 16px;
-    letter-spacing: -0.02em;
     color: rgba(250, 250, 250, 0.4);
   }
 }
