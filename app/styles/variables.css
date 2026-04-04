@@ -14,6 +14,8 @@
   --color-white-40: #5e4c4c66; /* Вторинний текст (підписи до інпутів) */
   --color-white-50: #fafafa80; /* Текст у неактивних кнопках (Cancel) */
   --color-text-black: #0c0d0d; /* Чорний для тексту */
+  --color-primary-green: #02b15a; /* Neutral Colors */
+  --color-primary-green-15: rgba(2, 177, 90, 0.15); /* 15% opacity */
 
   /* UI Elements */
   --color-border: rgba(250, 250, 250, 0.1); /* Межі звичайних інпутів */
