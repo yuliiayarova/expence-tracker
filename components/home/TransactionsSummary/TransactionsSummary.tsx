@@ -55,9 +55,11 @@ export default function TransactionsSummary({
 
           <div className={css.content}>
             <p className={css.label}>{card.label}</p>
-            <strong className={css.value}>
-              {isLoading ? "Loading..." : formatAmount(card.value, currency)}
-            </strong>
+            {isLoading ? (
+              <span className={css.valueSkeleton} aria-hidden="true" />
+            ) : (
+              <strong className={css.value}>{formatAmount(card.value, currency)}</strong>
+            )}
           </div>
         </article>
       ))}

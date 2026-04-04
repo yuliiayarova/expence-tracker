@@ -126,6 +126,13 @@ export default function UserSetsModal({
     }
 
     setError("");
+
+    if (pendingFile) {
+      const uploadedUrl = await onUploadAvatar(pendingFile);
+      setPendingFile(null);
+      setPreviewUrl(uploadedUrl ?? previewUrl);
+    }
+
     await onSave({
       name: formName.trim(),
       currency: formCurrency,

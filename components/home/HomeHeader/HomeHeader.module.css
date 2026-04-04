@@ -22,12 +22,6 @@
   gap: 8px;
 }
 
-.status {
-  font-size: 12px;
-  line-height: 1;
-  color: #0ef387;
-}
-
 @media only screen and (min-width: 768px) {
   .header {
     min-height: 56px;

@@ -1,19 +1,17 @@
 "use client";
 
 import { useEffect } from "react";
-import {
-  useIsFetching,
-  useQuery,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Toaster, toast } from "react-hot-toast";
 
 import { getCurrentMonthStats } from "@/lib/api/stats/statsApi";
+import type { CategoryStatsItem } from "@/lib/api/stats/stats.types";
 import { getCurrentUser } from "@/lib/api/user/userApi";
 import type { GetUserResponse } from "@/lib/api/user/user.types";
 
-import HomeHeader from "./HomeHeader";
-import TransactionsChart from "./TransactionsChart";
-import TransactionsSummary from "./TransactionsSummary";
+import HomeHeader from "../HomeHeader/HomeHeader";
+import TransactionsChart from "../TransactionsChart/TransactionsChart";
+import TransactionsSummary from "../TransactionsSummary/TransactionsSummary";
 import css from "./HomePage.module.css";
 
 const hasApiConfig = Boolean(process.env.NEXT_PUBLIC_API_URL);
@@ -29,17 +27,12 @@ const fallbackUser: GetUserResponse = {
     expenses: [],
   },
   transactionsTotal: {
-    incomes: 632,
-    expenses: 632,
+    incomes: 0,
+    expenses: 0,
   },
 };
 
-const fallbackStats = [
-  { _id: "hobby", category: "Hobby", totalAmount: 45 },
-  { _id: "products", category: "Products", totalAmount: 25 },
-  { _id: "cinema", category: "Cinema", totalAmount: 20 },
-  { _id: "health", category: "Health", totalAmount: 10 },
-];
+const fallbackStats: CategoryStatsItem[] = [];
 
 export default function HomePage() {
   const currentUserQuery = useQuery({
@@ -66,8 +59,6 @@ export default function HomePage() {
     }
   }, [statsQuery.error]);
 
-  const fetchingCount = useIsFetching();
-  const isBusy = fetchingCount > 0;
   const user = currentUserQuery.data ?? fallbackUser;
   const chartItems = statsQuery.data ?? fallbackStats;
   const isSummaryLoading = hasApiConfig ? currentUserQuery.isLoading : false;
@@ -76,7 +67,7 @@ export default function HomePage() {
   return (
     <>
       <div className={css.home}>
-        <HomeHeader user={user} isBusy={isBusy} />
+        <HomeHeader user={user} />
 
         <section className={css.content}>
           <div className={css.overview}>

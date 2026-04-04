@@ -16,25 +16,23 @@ import type {
   UpdateUserRequest,
 } from "@/lib/api/user/user.types";
 
-import BurgerMenu from "./BurgerMenu";
-import BurgerMenuBtn from "./BurgerMenuBtn";
+import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import BurgerMenuBtn from "../BurgerMenuBtn/BurgerMenuBtn";
 import css from "./HomeHeader.module.css";
-import Logo from "./Logo";
-import TransactionsHistoryNav from "./TransactionsHistoryNav";
-import UserBarBtn from "./UserBarBtn";
-import UserPanel from "./UserPanel";
-import UserSetsModal from "./UserSetsModal";
+import Logo from "../Logo/Logo";
+import TransactionsHistoryNav from "../TransactionsHistoryNav/TransactionsHistoryNav";
+import UserBarBtn from "../UserBarBtn/UserBarBtn";
+import UserPanel from "../UserPanel/UserPanel";
+import UserSetsModal from "../UserSetsModal/UserSetsModal";
 
 interface HomeHeaderProps {
   user: GetUserResponse;
-  isBusy: boolean;
 }
 
 const hasApiConfig = Boolean(process.env.NEXT_PUBLIC_API_URL);
 
 export default function HomeHeader({
   user,
-  isBusy,
 }: HomeHeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
@@ -218,8 +216,6 @@ export default function HomeHeader({
           onLogoutClick={handleLogoutClick}
         />
       ) : null}
-
-      {isBusy ? <span className={css.status}>Syncing...</span> : null}
     </div>
   );
 

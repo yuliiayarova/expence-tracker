@@ -40,6 +40,25 @@
   transform: translateX(-50%);
 }
 
+.chartValueSkeleton {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  width: 52px;
+  height: 16px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(14, 243, 135, 0.12) 0%,
+      rgba(14, 243, 135, 0.3) 50%,
+      rgba(14, 243, 135, 0.12) 100%
+    );
+  background-size: 200% 100%;
+  transform: translateX(-50%);
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
 .legend {
   display: flex;
   flex-direction: column;
@@ -98,9 +117,35 @@
   color: var(--color-white);
 }
 
+.legendSkeletonRow {
+  display: block;
+  width: 100%;
+  height: 16px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(14, 243, 135, 0.08) 0%,
+      rgba(14, 243, 135, 0.22) 50%,
+      rgba(14, 243, 135, 0.08) 100%
+    );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
 .emptyState {
   font-size: 14px;
   color: rgba(250, 250, 250, 0.4);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 @media only screen and (min-width: 768px) {
