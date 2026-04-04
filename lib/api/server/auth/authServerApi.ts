@@ -1,34 +1,36 @@
-import { api } from "../api";
+import { serverFetch } from "../serverApi";
 
 import type {
   RegisterRequest,
   RegisterResponse,
   LoginRequest,
   LoginResponse,
-} from "./auth.types";
-
-// * --------------- API --------------- */
+} from "../../types/auth.types";
 
 // POST /auth/register
 export const register = async (
   data: RegisterRequest,
 ): Promise<RegisterResponse> => {
-  const res = await api.post("/auth/register", data);
-  return res.data;
+  return serverFetch<RegisterResponse>("/auth/register", {
+    method: "POST",
+    body: data,
+  });
 };
 
 // POST /auth/login
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
-  const res = await api.post("/auth/login", data);
-  return res.data;
+  return serverFetch<LoginResponse>("/auth/login", {
+    method: "POST",
+    body: data,
+  });
 };
 
 // POST /auth/logout
 export const logout = async (): Promise<void> => {
-  await api.post("/auth/logout");
+  return serverFetch<void>("/auth/logout", { method: "POST" });
 };
 
 // GET /auth/session
 export const refreshSession = async (): Promise<void> => {
-  await api.get("/auth/session");
+  return serverFetch<void>("/auth/session");
 };

@@ -1,13 +1,11 @@
-import { api } from "../api";
+import { api } from "../clientApi";
 
 import type {
   GetUserResponse,
   UpdateUserRequest,
   UpdateUserResponse,
   UpdateAvatarResponse,
-} from "./user.types";
-
-// * --------------- API --------------- */
+} from "../../types/user.types";
 
 // GET /users/current
 export const getCurrentUser = async (): Promise<GetUserResponse> => {
@@ -31,9 +29,7 @@ export const updateAvatar = async (
   formData.append("avatar", file);
 
   const res = await api.patch("/users/avatar", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
+    headers: { "Content-Type": "multipart/form-data" },
   });
 
   return res.data;

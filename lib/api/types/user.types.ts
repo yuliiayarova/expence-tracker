@@ -1,3 +1,5 @@
+export type Currency = "usd" | "eur" | "uah";
+
 export interface Category {
   _id: string;
   categoryName: string;
@@ -14,6 +16,13 @@ export interface TransactionsTotal {
   expenses: number;
 }
 
+// * --------------- REQUESTS --------------- */
+
+export interface UpdateUserRequest {
+  name?: string;
+  currency?: Currency;
+}
+
 // * --------------- RESPONSES --------------- */
 
 export interface GetUserResponse {
@@ -21,20 +30,15 @@ export interface GetUserResponse {
   name?: string;
   email: string;
   avatarUrl: string | null;
-  currency: string;
+  currency: Currency;
   categories: Categories;
   transactionsTotal: TransactionsTotal;
-}
-
-export interface UpdateUserRequest {
-  name?: string;
-  currency?: string;
 }
 
 export interface UpdateUserResponse {
   _id: string;
   name?: string;
-  currency: string;
+  currency: Currency;
 }
 
 export interface UpdateAvatarResponse {
