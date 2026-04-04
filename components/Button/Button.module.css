@@ -19,6 +19,7 @@
   background-color: var(--color-primary-hover);
 }
 
+
 @media only screen and (min-width: 768px) {
   .btn {
     min-width: 146px;
