@@ -3,7 +3,7 @@
 import { useEffect, useId, useState } from "react";
 import { Cell, Pie, PieChart } from "recharts";
 
-import type { CategoryStatsItem } from "@/lib/api/stats/stats.types";
+import type { CategoryStatsItem } from "@/lib/api/types/stats.types";
 
 import css from "./TransactionsChart.module.css";
 

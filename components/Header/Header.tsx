@@ -5,35 +5,35 @@ import { usePathname, useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
-import { logout } from "@/lib/api/auth/authApi";
+import { logout } from "@/lib/api/client/auth/authApi";
 import {
   deleteAvatar,
   updateAvatar,
   updateUser,
-} from "@/lib/api/user/userApi";
+} from "@/lib/api/client/user/userApi";
 import type {
   GetUserResponse,
   UpdateUserRequest,
-} from "@/lib/api/user/user.types";
+} from "@/lib/api/types/user.types";
 
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
-import BurgerMenuBtn from "../BurgerMenuBtn/BurgerMenuBtn";
-import css from "./HomeHeader.module.css";
-import Logo from "../Logo/Logo";
-import TransactionsHistoryNav from "../TransactionsHistoryNav/TransactionsHistoryNav";
-import UserBarBtn from "../UserBarBtn/UserBarBtn";
-import UserPanel from "../UserPanel/UserPanel";
-import UserSetsModal from "../UserSetsModal/UserSetsModal";
+import BurgerMenu from "./BurgerMenu/BurgerMenu";
+import BurgerMenuBtn from "./BurgerMenuBtn/BurgerMenuBtn";
+import css from "./Header.module.css";
+import Logo from "./Logo/Logo";
+import TransactionsHistoryNav from "./TransactionsHistoryNav/TransactionsHistoryNav";
+import UserBarBtn from "./UserBarBtn/UserBarBtn";
+import UserPanel from "./UserPanel/UserPanel";
+import UserSetsModal from "./UserSetsModal/UserSetsModal";
 
-interface HomeHeaderProps {
+interface HeaderProps {
   user: GetUserResponse;
 }
 
 const hasApiConfig = Boolean(process.env.NEXT_PUBLIC_API_URL);
 
-export default function HomeHeader({
+export default function Header({
   user,
-}: HomeHeaderProps) {
+}: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const queryClient = useQueryClient();

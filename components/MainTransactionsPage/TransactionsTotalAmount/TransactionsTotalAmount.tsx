@@ -1,6 +1,6 @@
-import css from "./TransactionsSummary.module.css";
+import css from "./TransactionsTotalAmount.module.css";
 
-interface TransactionsSummaryProps {
+interface TransactionsTotalAmountProps {
   totals?: {
     incomes: number;
     expenses: number;
@@ -10,12 +10,15 @@ interface TransactionsSummaryProps {
 }
 
 const currencySymbols: Record<string, string> = {
+  uah: "₴",
+  usd: "$",
+  eur: "€",
   UAH: "₴",
   USD: "$",
   EUR: "€",
 };
 
-function formatAmount(value: number, currency = "USD") {
+function formatAmount(value: number, currency = "usd") {
   const symbol = currencySymbols[currency] ?? currency;
   const formatted = new Intl.NumberFormat("de-DE", {
     maximumFractionDigits: 3,
@@ -25,11 +28,11 @@ function formatAmount(value: number, currency = "USD") {
   return `${symbol}${formatted}`;
 }
 
-export default function TransactionsSummary({
+export default function TransactionsTotalAmount({
   totals,
   currency,
   isLoading,
-}: TransactionsSummaryProps) {
+}: TransactionsTotalAmountProps) {
   const cards = [
     {
       label: "Total Income",

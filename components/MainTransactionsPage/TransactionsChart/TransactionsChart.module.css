@@ -1,7 +1,7 @@
 .card {
   padding: 20px 18px;
   border-radius: 30px;
-  background: #171719;
+  background: var(--color-bg-card);
 }
 
 .header {
@@ -12,7 +12,7 @@
   font-size: 16px;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: rgba(250, 250, 250, 0.5);
+  color: var(--color-white-50);
 }
 
 .chartLayout {
@@ -67,7 +67,7 @@
   overflow-y: auto;
   padding-right: 8px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(250, 250, 250, 0.28) #0c0d0d;
+  scrollbar-color: rgba(250, 250, 250, 0.28) var(--color-bg-main);
 }
 
 .legend::-webkit-scrollbar {
@@ -76,7 +76,7 @@
 
 .legend::-webkit-scrollbar-track {
   border-radius: 12px;
-  background: #0c0d0d;
+  background: var(--color-bg-main);
 }
 
 .legend::-webkit-scrollbar-thumb {

@@ -6,8 +6,8 @@
   padding: 8px 20px 8px 8px;
   border: none;
   border-radius: 30px;
-  background: #171719;
-  color: #fafafa;
+  background: var(--color-bg-card);
+  color: var(--color-white);
   cursor: pointer;
 }
 
@@ -19,7 +19,7 @@
   height: 44px;
   border-radius: 50%;
   background: linear-gradient(135deg, #f8f8f8 0%, #bdbdbd 100%);
-  color: #0c0d0d;
+  color: var(--color-text-black);
   font-size: 12px;
   font-weight: 700;
   overflow: hidden;
@@ -43,8 +43,8 @@
   height: 20px;
   flex-shrink: 0;
   fill: none;
-  stroke: #0ef387;
-  transition: transform 250ms ease-in-out;
+  stroke: var(--color-primary);
+  transition: transform var(--transition-base);
 }
 
 .profileIconOpen {

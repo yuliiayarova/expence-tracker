@@ -11,7 +11,7 @@
   min-height: 81px;
   padding: 18px 20px;
   border-radius: 30px;
-  background: #171719;
+  background: var(--color-bg-card);
 }
 
 .iconWrap {

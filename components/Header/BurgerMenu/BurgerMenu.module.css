@@ -15,7 +15,7 @@
   width: 100vw;
   height: 100vh;
   padding: 24px 36px 24px;
-  background: #0ef387;
+  background: var(--color-primary);
 }
 
 .burgerTop {
@@ -34,7 +34,7 @@
   padding: 0;
   border: none;
   background: transparent;
-  color: #0c0d0d;
+  color: var(--color-text-black);
   font-size: 52px;
   font-weight: 300;
   line-height: 1;

@@ -4,15 +4,17 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Toaster, toast } from "react-hot-toast";
 
-import { getCurrentMonthStats } from "@/lib/api/stats/statsApi";
-import type { CategoryStatsItem } from "@/lib/api/stats/stats.types";
-import { getCurrentUser } from "@/lib/api/user/userApi";
-import type { GetUserResponse } from "@/lib/api/user/user.types";
+import { getCurrentMonthStats } from "@/lib/api/client/stats/statsApi";
+import type { CategoryStatsItem } from "@/lib/api/types/stats.types";
+import { getCurrentUser } from "@/lib/api/client/user/userApi";
+import type { GetUserResponse } from "@/lib/api/types/user.types";
 
-import HomeHeader from "../HomeHeader/HomeHeader";
-import TransactionsChart from "../TransactionsChart/TransactionsChart";
-import TransactionsSummary from "../TransactionsSummary/TransactionsSummary";
-import css from "./HomePage.module.css";
+import Header from "../Header/Header";
+import TransactionsChart from "./TransactionsChart/TransactionsChart";
+import TransactionsTotalAmount from "./TransactionsTotalAmount/TransactionsTotalAmount";
+import css from "./MainTransactionsPage.module.css";
+
+type TransactionsType = "expenses" | "incomes";
 
 const hasApiConfig = Boolean(process.env.NEXT_PUBLIC_API_URL);
 
@@ -21,7 +23,7 @@ const fallbackUser: GetUserResponse = {
   name: "Alex Rybachok",
   email: "alex@example.com",
   avatarUrl: null,
-  currency: "USD",
+  currency: "usd",
   categories: {
     incomes: [],
     expenses: [],
@@ -34,7 +36,13 @@ const fallbackUser: GetUserResponse = {
 
 const fallbackStats: CategoryStatsItem[] = [];
 
-export default function HomePage() {
+interface MainTransactionsPageProps {
+  transactionsType: TransactionsType;
+}
+
+export default function MainTransactionsPage({
+  transactionsType,
+}: MainTransactionsPageProps) {
   const currentUserQuery = useQuery({
     queryKey: ["current-user"],
     queryFn: getCurrentUser,
@@ -67,9 +75,12 @@ export default function HomePage() {
   return (
     <>
       <div className={css.home}>
-        <HomeHeader user={user} />
+        <Header user={user} />
 
-        <section className={css.content}>
+        <section
+          className={css.content}
+          data-transactions-type={transactionsType}
+        >
           <div className={css.overview}>
             <div className={css.hero}>
               <h1 className={css.title}>Expense Log</h1>
@@ -79,7 +90,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <TransactionsSummary
+            <TransactionsTotalAmount
               currency={user?.currency}
               totals={user?.transactionsTotal}
               isLoading={isSummaryLoading}

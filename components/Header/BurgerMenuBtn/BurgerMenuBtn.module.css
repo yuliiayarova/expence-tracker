@@ -7,7 +7,7 @@
   padding: 0;
   border: none;
   background: transparent;
-  color: #fafafa;
+  color: var(--color-white);
   cursor: pointer;
 }
 

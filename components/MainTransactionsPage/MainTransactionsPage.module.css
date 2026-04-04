@@ -23,9 +23,9 @@
 }
 
 .title {
-  font-size: 32px;
-  line-height: 1;
-  letter-spacing: -0.02em;
+  font-size: var(--font-size-3_5xl);
+  line-height: var(--line-height-none);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .description {
@@ -69,9 +69,9 @@
   }
 
   .title {
-    font-size: 38px;
+    font-size: var(--font-size-4_5xl);
     line-height: 1.21;
-    letter-spacing: -0.02em;
+    letter-spacing: var(--letter-spacing-tight);
   }
 
   .description {

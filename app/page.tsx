@@ -1,5 +1,5 @@
-import HomePage from "@/components/home/HomePage/HomePage";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return <HomePage />;
+  redirect("/transactions/expenses");
 }

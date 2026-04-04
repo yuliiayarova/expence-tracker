@@ -13,9 +13,9 @@
   width: 100%;
   max-width: 335px;
   padding: 40px 20px 32px;
-  border: 1px solid rgba(250, 250, 250, 0.1);
+  border: 1px solid var(--color-border);
   border-radius: 30px;
-  background: #171719;
+  background: var(--color-bg-card);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
@@ -39,7 +39,7 @@
   padding: 0;
   border: none;
   background: transparent;
-  color: #fafafa;
+  color: var(--color-white);
   font-size: 28px;
   line-height: 1;
   cursor: pointer;
@@ -60,8 +60,8 @@
   width: 88px;
   height: 88px;
   border-radius: 50%;
-  background: #0c0d0d;
-  color: #0ef387;
+  background: var(--color-bg-main);
+  color: var(--color-primary);
   overflow: hidden;
 }
 
@@ -89,7 +89,7 @@
   border: none;
   border-radius: 20px;
   background: rgba(250, 250, 250, 0.1);
-  color: #fafafa;
+  color: var(--color-white);
   font-size: 10px;
   line-height: 1;
   cursor: pointer;
@@ -118,10 +118,10 @@
   width: 100%;
   min-height: 44px;
   padding: 12px 14px;
-  border: 1px solid rgba(250, 250, 250, 0.1);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   background: transparent;
-  color: #fafafa;
+  color: var(--color-white);
   font-size: 14px;
   line-height: 1;
 }
@@ -143,7 +143,7 @@
   flex-shrink: 0;
   fill: none;
   stroke: rgba(250, 250, 250, 0.8);
-  transition: transform 250ms ease-in-out;
+  transition: transform var(--transition-base);
 }
 
 .selectIconOpen {
@@ -157,9 +157,9 @@
   z-index: 3;
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid rgba(250, 250, 250, 0.1);
+  border: 1px solid var(--color-border);
   border-radius: 16px;
-  background: #0c0d0d;
+  background: var(--color-bg-main);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
 }
 
@@ -176,7 +176,7 @@
 }
 
 .selectOptionActive {
-  color: #fafafa;
+  color: var(--color-white);
 }
 
 .input::placeholder {
@@ -195,8 +195,8 @@
   margin-top: 4px;
   border: none;
   border-radius: 30px;
-  background: #0ef387;
-  color: #0c0d0d;
+  background: var(--color-primary);
+  color: var(--color-text-black);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;

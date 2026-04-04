@@ -7,9 +7,9 @@
   border-radius: 30px;
   text-decoration: none;
   transition:
-    background-color 250ms ease-in-out,
-    border-color 250ms ease-in-out,
-    color 250ms ease-in-out;
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    color var(--transition-base);
 }
 
 .navChip {
@@ -18,7 +18,7 @@
   font-size: 12px;
   line-height: 1;
   letter-spacing: -0.02em;
-  color: #fafafa;
+  color: var(--color-white);
 }
 
 .navChipActive {
@@ -32,7 +32,7 @@
   padding: 12px 30px;
   border-color: rgba(12, 13, 13, 0.2);
   background: transparent;
-  color: #0c0d0d;
+  color: var(--color-text-black);
   font-size: 16px;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -43,9 +43,9 @@
 .burgerChipActive,
 .burgerChipActive:hover,
 .burgerChipActive:focus-visible {
-  border-color: #0c0d0d;
-  background: #0c0d0d;
-  color: #fafafa;
+  border-color: var(--color-text-black);
+  background: var(--color-text-black);
+  color: var(--color-white);
 }
 
 @media only screen and (min-width: 768px) {

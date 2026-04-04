@@ -5,7 +5,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 
-import type { UpdateUserRequest } from "@/lib/api/user/user.types";
+import Button from "@/components/Button/Button";
+import type { Currency, UpdateUserRequest } from "@/lib/api/types/user.types";
 
 import css from "./UserSetsModal.module.css";
 
@@ -32,16 +33,18 @@ export default function UserSetsModal({
 }: UserSetsModalProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [formName, setFormName] = useState(name);
-  const [formCurrency, setFormCurrency] = useState(currency);
+  const [formCurrency, setFormCurrency] = useState<Currency>(
+    currency as Currency,
+  );
   const [previewUrl, setPreviewUrl] = useState<string | null>(avatarUrl ?? null);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
   const [error, setError] = useState("");
 
   const currencyOptions = [
-    { value: "UAH", label: "₴ UAH" },
-    { value: "USD", label: "$ USD" },
-    { value: "EUR", label: "€ EUR" },
+    { value: "uah" as Currency, label: "₴ UAH" },
+    { value: "usd" as Currency, label: "$ USD" },
+    { value: "eur" as Currency, label: "€ EUR" },
   ];
 
   useEffect(() => {
@@ -249,9 +252,12 @@ export default function UserSetsModal({
 
           {error ? <p className={css.error}>{error}</p> : null}
 
-          <button type="submit" className={css.saveButton} disabled={isSaving}>
-            {isSaving ? "Saving..." : "Save"}
-          </button>
+          <Button
+            type="submit"
+            text={isSaving ? "Saving..." : "Save"}
+            className={css.saveButton}
+            disabled={isSaving}
+          />
         </form>
       </div>
     </div>
