@@ -8,8 +8,16 @@
 
 .imageContainer {
   width: 335px;
-
   height: 381px;
+}
+.mobileImage {
+  display: block;
+}
+.tabletImage {
+  display: none;
+}
+.desktopImage {
+  display: none;
 }
 
 @media screen and (min-width: 768px) {
@@ -20,6 +28,15 @@
   .imageContainer {
     width: 704px;
     height: 482px;
+  }
+  .mobileImage {
+    display: none;
+  }
+  .tabletImage {
+    display: block;
+  }
+  .desktopImage {
+    display: none;
   }
 }
 
@@ -32,10 +49,35 @@
     width: 611px;
     height: 568px;
   }
+ 
+.tabletImage {
+  display: none;
+}
+.desktopImage {
+  display: block;
+}
 }
 
 .bgImage {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+}
+
+.decorationTab {
+  position: absolute;
+  top: 235;
+  left: -10;
+}
+
+@media screen and (min-width: 768px) {
+  .decorationTab {
+    top: 350;
+    left: -15;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .decorationTab {
+    top: 350;
+    left: -45;
+  }
 }

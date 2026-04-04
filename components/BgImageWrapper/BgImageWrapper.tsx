@@ -1,92 +1,141 @@
-'use client';
-
-import React, { useState, useEffect, useRef } from 'react';
+"use client";
 import Image from "next/image";
 import css from "./BgImageWrapper.module.css";
-import DecorationTab from '../DecorationTab/DecorationTab';
+import { useEffect, useRef, useState } from "react";
+import DecorationTab from "../DecorationTab/DecorationTab";
 
+type Position = { x: number; y: number };
+
+const getInitialPosition = (): Position => {
+  if (typeof window === "undefined") {
+    return { x: -10, y: 235 };
+  }
+
+  if (window.innerWidth >= 1440) return { x: -45, y: 350 };
+  if (window.innerWidth >= 768) return { x: -15, y: 350 };
+  return { x: -10, y: 235 };
+};
 
 export const BgImageWrapper = () => {
-  // Посилання на батьківський контейнер та анімований блок
-  const containerRef = useRef(null);
-  const tabRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const tabRef = useRef<HTMLDivElement>(null);
 
-  // Стан для позиції (x, y) та швидкості (vx, vy)
-  const [position, setPosition] = useState({ x: 50, y: 50 }); // Початкова позиція
-  const [velocity, setVelocity] = useState({ vx: 2, vy: 1.5 }); // Швидкість (пікселів за кадр)
+  const [position, setPosition] = useState<Position>(() => {
+    if (typeof window === "undefined") return { x: -10, y: 235 };
+    return getInitialPosition();
+  });
+
+  const [velocity, setVelocity] = useState({ vx: 0.5, vy: 0.3 });
 
   useEffect(() => {
-    // Функція анімації
+    const handleResize = () => {
+      setPosition(getInitialPosition());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    let animationFrameId: number;
+
     const animate = () => {
       const container = containerRef.current;
       const tab = tabRef.current;
 
-      if (!container || !tab) return;
+      if (!container || !tab) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
 
-      // Отримуємо поточні розміри контейнера та блоку
       const containerRect = container.getBoundingClientRect();
       const tabRect = tab.getBoundingClientRect();
 
-      // Розраховуємо наступну позицію
+      const OFFSET = 10;
+
       let nextX = position.x + velocity.vx;
       let nextY = position.y + velocity.vy;
 
       let nextVx = velocity.vx;
       let nextVy = velocity.vy;
 
-      // --- ПЕРЕВІРКА ЗІТКНЕНЬ З КРАЯМИ ---
-
-      // Відбивання від лівого або правого краю
-      if (nextX <= 0 || nextX + tabRect.width >= containerRect.width) {
-        nextVx = -velocity.vx; // Міняємо напрямок по X
-        // Трохи коригуємо позицію, щоб блок не "застряг" у стіні
-        nextX = Math.max(0, Math.min(nextX, containerRect.width - tabRect.width));
+      if (
+        nextX <= -OFFSET ||
+        nextX + tabRect.width >= containerRect.width + OFFSET
+      ) {
+        nextVx = -velocity.vx;
+        nextX = Math.max(
+          -OFFSET,
+          Math.min(nextX, containerRect.width + OFFSET - tabRect.width),
+        );
       }
 
-      // Відбивання від верхнього або нижнього краю
-      if (nextY <= 0 || nextY + tabRect.height >= containerRect.height) {
-        nextVy = -velocity.vy; // Міняємо напрямок по Y
-        // Трохи коригуємо позицію
-        nextY = Math.max(0, Math.min(nextY, containerRect.height - tabRect.height));
+      if (
+        nextY <= -OFFSET ||
+        nextY + tabRect.height >= containerRect.height + OFFSET
+      ) {
+        nextVy = -velocity.vy;
+        nextY = Math.max(
+          -OFFSET,
+          Math.min(nextY, containerRect.height + OFFSET - tabRect.height),
+        );
       }
 
-      // Оновлюємо стан: позицію та (якщо треба) швидкість
       setPosition({ x: nextX, y: nextY });
+
       if (nextVx !== velocity.vx || nextVy !== velocity.vy) {
         setVelocity({ vx: nextVx, vy: nextVy });
       }
+
+      animationFrameId = requestAnimationFrame(animate);
     };
 
-    // Запускаємо анімацію через requestAnimationFrame для плавності
-    const animationFrameId = requestAnimationFrame(animate);
+    animationFrameId = requestAnimationFrame(animate);
 
-    // Очищення при відмонтуванні компонента
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [position, velocity]); // Ефект перезапускається при зміні позиції або швидкості
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [position, velocity]);
 
   return (
     <div className={css.wrapper}>
-      {/* Додаємо ref до батьківського контейнера */}
       <div className={css.imageContainer} ref={containerRef}>
+        <Image
+          src="/images/bg-image-mobile.png"
+          alt="User managing finances"
+          width={335}
+          height={381}
+          className={`${css.bgImage} ${css.mobileImage}`}
+          priority
+        />
+
         <Image
           src="/images/bg-image-tablet.png"
           alt="User managing finances"
+          width={704}
+          height={482}
+          className={`${css.bgImage} ${css.tabletImage}`}
+        />
+
+        <Image
+          src="/images/bg-image-desc.png"
+          alt="User managing finances"
           width={611}
           height={568}
-          className={css.bgImage}
-          priority
+          className={`${css.bgImage} ${css.desktopImage}`}
         />
-        
-        {/* Додаємо ref до анімованого блоку і застосовуємо стилі руху */}
-        <div 
-          className={css.decorationTab} 
+
+        <div
+          className={css.decorationTab}
           ref={tabRef}
+          suppressHydrationWarning
           style={{
-            // Використовуємо transform: translate для максимальної продуктивності анімації
             transform: `translate(${position.x}px, ${position.y}px)`,
-            // Обов'язково прибираємо top/left, які могли бути раніше
             top: 0,
             left: 0,
+            position: "absolute",
           }}
         >
           <DecorationTab />

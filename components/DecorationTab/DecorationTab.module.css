@@ -1,51 +1,45 @@
-.tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  background-color: #fafafa; /* или белый */
-  border-radius: 20px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
-  white-space: nowrap;
-  z-index: 10;
-  /* Убираем любые top/left здесь, так как ими управляет родитель */
-}
 
-.iconContainer {
+.tab {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
-  background-color: #ef8094; /* пример цвета иконки */
-  border-radius: 12px;
-  color: white;
+  
+  border-radius: 20px;
+  background-color: var(--color-white);
+  min-width: 248px;
+  padding: 20px;
+  gap: 12px;
+  
 }
 
-.textContainer {
+.iconWrapper {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px;
+  background-color: var(--color-primary);
 }
 
 .label {
-  font-size: 12px;
-  color: rgba(17, 17, 17, 0.5);
+  font-size: var(--font-size-xs);
   margin-bottom: 4px;
 }
 
-.value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #111111;
+.amount {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-black);
 }
 
-/* Адаптив под планшет/десктоп, если нужно увеличить размеры */
-@media screen and (min-width: 768px) {
-  .tab {
-    padding: 16px 24px;
-  }
-  
-  .value {
-    font-size: 24px;
-  }
+.percentage {
+  margin-top: 17px;
+  padding: 4px 9px;
+  border-radius: 13px;
+  font-size: var(--font-size-xs);
+  color: var(--color-primary-green);
+  background-color: var(--color-primary-green-15);
 }
