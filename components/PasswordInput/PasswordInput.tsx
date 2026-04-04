@@ -46,9 +46,9 @@ export default function PasswordInput({
         aria-pressed={showPassword}
       >
         {showPassword ? (
-          <Icon name="icon-eye" className="icon" />
+          <Icon name="icon-eye" size={20} />
         ) : (
-          <Icon name="icon-eye-off" className="icon" />
+          <Icon name="icon-eye-off" size={20} />
         )}
       </button>
     </div>
