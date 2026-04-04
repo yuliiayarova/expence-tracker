@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { serverFetch } from "../serverApi";
 
 import type {
   CreateCategoryRequest,
@@ -6,22 +6,21 @@ import type {
   CategoriesResponse,
   UpdateCategoryRequest,
   UpdateCategoryResponse,
-} from "./category.types";
+} from "../../types/category.types";
 
-// * --------------- API --------------- */
+// GET /categories
+export const getCategories = async (): Promise<CategoriesResponse> => {
+  return serverFetch<CategoriesResponse>("/categories");
+};
 
 // POST /categories
 export const createCategory = async (
   data: CreateCategoryRequest,
 ): Promise<CreateCategoryResponse> => {
-  const res = await api.post("/categories", data);
-  return res.data;
-};
-
-// GET /categories
-export const getCategories = async (): Promise<CategoriesResponse> => {
-  const res = await api.get("/categories");
-  return res.data;
+  return serverFetch<CreateCategoryResponse>("/categories", {
+    method: "POST",
+    body: data,
+  });
 };
 
 // PATCH /categories/{id}
@@ -29,11 +28,13 @@ export const updateCategory = async (
   id: string,
   data: UpdateCategoryRequest,
 ): Promise<UpdateCategoryResponse> => {
-  const res = await api.patch(`/categories/${id}`, data);
-  return res.data;
+  return serverFetch<UpdateCategoryResponse>(`/categories/${id}`, {
+    method: "PATCH",
+    body: data,
+  });
 };
 
 // DELETE /categories/{id}
 export const deleteCategory = async (id: string): Promise<void> => {
-  await api.delete(`/categories/${id}`);
+  return serverFetch<void>(`/categories/${id}`, { method: "DELETE" });
 };
