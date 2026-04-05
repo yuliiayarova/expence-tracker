@@ -1,0 +1,45 @@
+
+.tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  border-radius: 20px;
+  background-color: var(--color-white);
+  min-width: 248px;
+  padding: 20px;
+  gap: 12px;
+  
+}
+
+.iconWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px;
+  background-color: var(--color-primary);
+}
+
+.label {
+  font-size: var(--font-size-xs);
+  margin-bottom: 4px;
+}
+
+.amount {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-black);
+}
+
+.percentage {
+  margin-top: 17px;
+  padding: 4px 9px;
+  border-radius: 13px;
+  font-size: var(--font-size-xs);
+  color: var(--color-primary-green);
+  background-color: var(--color-primary-green-15);
+}
