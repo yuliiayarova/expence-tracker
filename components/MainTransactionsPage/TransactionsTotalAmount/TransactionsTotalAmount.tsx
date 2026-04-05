@@ -1,0 +1,71 @@
+import css from "./TransactionsTotalAmount.module.css";
+
+interface TransactionsTotalAmountProps {
+  totals?: {
+    incomes: number;
+    expenses: number;
+  };
+  currency?: string;
+  isLoading: boolean;
+}
+
+const currencySymbols: Record<string, string> = {
+  uah: "₴",
+  usd: "$",
+  eur: "€",
+  UAH: "₴",
+  USD: "$",
+  EUR: "€",
+};
+
+function formatAmount(value: number, currency = "usd") {
+  const symbol = currencySymbols[currency] ?? currency;
+  const formatted = new Intl.NumberFormat("de-DE", {
+    maximumFractionDigits: 3,
+    minimumFractionDigits: 3,
+  }).format(value);
+
+  return `${symbol}${formatted}`;
+}
+
+export default function TransactionsTotalAmount({
+  totals,
+  currency,
+  isLoading,
+}: TransactionsTotalAmountProps) {
+  const cards = [
+    {
+      label: "Total Income",
+      value: totals?.incomes ?? 0,
+      icon: "icon-arrow-up",
+    },
+    {
+      label: "Total Expense",
+      value: totals?.expenses ?? 0,
+      icon: "icon-arrow-down",
+    },
+  ];
+
+  return (
+    <div className={css.grid}>
+      {cards.map((card) => (
+        <article key={card.label} className={css.card}>
+          <span className={css.iconWrap}>
+            <svg className={css.icon} aria-hidden="true">
+              <use href={`/icons/sprite.svg#${card.icon}`} />
+            </svg>
+          </span>
+
+          <div className={css.content}>
+            <p className={css.label}>{card.label}</p>
+            {isLoading ? (
+              <span className={css.valueSkeleton} aria-hidden="true" />
+            ) : (
+              <strong className={css.value}>{formatAmount(card.value, currency)}</strong>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}

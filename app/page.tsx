@@ -1,11 +1,5 @@
-import TransactionsList from "@/components/TransactionsList/TransactionsList";
-import TransactionsSearchTools from "@/components/TransactionsSearchTools/TransactionsSearchTools";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <>
-      <TransactionsSearchTools />
-      <TransactionsList type={"incomes"} />
-    </>
-  );
+  redirect("/transactions/expenses");
 }
