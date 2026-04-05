@@ -47,7 +47,7 @@ export default function RegisterPage() {
       const user = await getCurrentUser();
       setUser(user);
 
-      router.replace("/transactions/[transactionsType]");
+      router.replace("/"); //змінити на домашню сторінку після реєстрації
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
 
