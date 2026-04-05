@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { GetUserResponse } from "../api/user/user.types";
+import { GetUserResponse } from "../api/types/user.types";
 
 type AuthStore = {
   isAuthenticated: boolean;

@@ -3,15 +3,14 @@
 import { useRouter } from "next/navigation";
 import css from "./Register.module.css";
 import { useState } from "react";
-
 import { AxiosError } from "axios";
 import { useAuthStore } from "@/lib/store/authStore";
-import { getCurrentUser } from "@/lib/api/user/userApi";
-import { RegisterRequest } from "@/lib/api/auth/auth.types";
-import { register } from "@/lib/api/auth/authApi";
 import Button from "@/components/Button/Button";
 import Link from "next/link";
 import PasswordInput from "@/components/PasswordInput/PasswordInput";
+import { register } from "@/lib/api/client/auth/authApi";
+import { RegisterRequest } from "@/lib/api/types/auth.types";
+import { getCurrentUser } from "@/lib/api/client/user/userApi";
 
 type ErrorResponse = {
   error?: string;
@@ -47,7 +46,7 @@ export default function RegisterPage() {
       const user = await getCurrentUser();
       setUser(user);
 
-      router.replace("/"); //змінити на домашню сторінку після реєстрації
+      router.replace("/transactions/expenses"); //змінити на домашню сторінку після реєстрації
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
 
