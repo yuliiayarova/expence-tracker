@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -6,7 +5,6 @@ import "./globals.css";
 
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import Container from "@/components/Container/Container";
-
 
 import WelcomePage from "@/components/WellcomPage/WellcomPage";
 
@@ -30,14 +28,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <TanStackProvider>
           <Container>
-
-           
             <WelcomePage />
             <main>{children}</main>
-
-
-              
-
           </Container>
         </TanStackProvider>
       </body>

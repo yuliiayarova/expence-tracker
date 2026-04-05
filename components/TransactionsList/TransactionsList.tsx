@@ -5,9 +5,9 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import css from "./TransactionsList.module.css";
 import { AllCommunityModule, ColDef } from "ag-grid-community";
 import { AgGridProvider } from "ag-grid-react";
-import { getTransactions } from "@/lib/api/transactions/transactionApi";
 import Button from "../Button/Button";
 import { useWindowSize } from "react-use";
+import { getTransactions } from "@/lib/api/client/transactions/transactionApi";
 
 interface TransactionsListProps {
   type: "incomes" | "expenses";
