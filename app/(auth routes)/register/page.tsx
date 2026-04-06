@@ -2,15 +2,46 @@
 
 import { useRouter } from "next/navigation";
 import css from "./Register.module.css";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { AxiosError } from "axios";
+import Link from "next/link";
+import { Field, Form, Formik, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
 import { useAuthStore } from "@/lib/store/authStore";
 import Button from "@/components/Button/Button";
-import Link from "next/link";
 import PasswordInput from "@/components/PasswordInput/PasswordInput";
 import { register } from "@/lib/api/client/auth/authApi";
-import { RegisterRequest } from "@/lib/api/types/auth.types";
 import { getCurrentUser } from "@/lib/api/client/user/userApi";
+import { RegisterRequest } from "@/lib/api/types/auth.types";
+
+const initialValues: RegisterRequest = {
+  name: "",
+  email: "",
+  password: "",
+};
+
+export const registerSchema = Yup.object({
+  name: Yup.string()
+    .trim()
+    .min(2, "Name must be at least 2 characters")
+    .max(32, "Name must be at most 32 characters")
+    .required("Name is required"),
+
+  email: Yup.string()
+    .trim()
+    .lowercase()
+    .matches(/^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/, "Email format is not supported")
+    .email("Invalid email format")
+    .max(64, "Email must be at most 64 characters")
+    .required("Email is required"),
+
+  password: Yup.string()
+    .trim()
+    .min(8, "Password must be at least 8 characters")
+    .max(64, "Password must be at most 64 characters")
+    .required("Password is required"),
+});
 
 type ErrorResponse = {
   error?: string;
@@ -19,43 +50,34 @@ type ErrorResponse = {
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [error, setError] = useState("");
   const { setUser } = useAuthStore();
+  const [serverError, setServerError] = useState("");
+  const id = useId();
 
-  const handleSubmit = async (formData: FormData) => {
-    setError("");
+  const handleSubmit = async (
+    values: RegisterRequest,
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
+  ) => {
+    setServerError("");
 
     try {
-      const name = formData.get("name");
-      const email = formData.get("email");
-      const password = formData.get("password");
-
-      if (
-        typeof name !== "string" ||
-        typeof email !== "string" ||
-        typeof password !== "string"
-      ) {
-        setError("Please fill in all fields correctly");
-        return;
-      }
-
-      const formValues: RegisterRequest = { name, email, password };
-
-      await register(formValues);
+      await register(values);
 
       const user = await getCurrentUser();
       setUser(user);
 
-      router.replace("/transactions/expenses"); //змінити на домашню сторінку після реєстрації
+      router.replace("/transactions/expenses");
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
 
-      setError(
+      setServerError(
         axiosError.response?.data?.error ??
           axiosError.response?.data?.message ??
           axiosError.message ??
           "Oops... some error",
       );
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -66,54 +88,80 @@ export default function RegisterPage() {
         Step into a world of hassle-free expense management! Your journey
         towards financial mastery begins here.
       </p>
-      <form className={css.form} action={handleSubmit}>
-        <div className={css.fieldset}>
-          <label className={css.visuallyHidden} htmlFor="name">
-            Name
-          </label>
-          <input
-            id="name"
-            type="text"
-            name="name"
-            placeholder="Name"
-            className={css.input}
-            required
-          />
-        </div>
 
-        <div className={css.fieldset}>
-          <label className={css.visuallyHidden} htmlFor="email">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="Email"
-            className={css.input}
-            required
-          />
-        </div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={registerSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ errors, touched, isSubmitting }) => (
+          <Form className={css.form}>
+            <div className={css.fieldset}>
+              <label className={css.visuallyHidden} htmlFor={`${id}-name`}>
+                Name
+              </label>
+              <Field
+                id={`${id}-name`}
+                type="text"
+                name="name"
+                placeholder="Name"
+                className={`${css.input} ${
+                  errors.name && touched.name ? css.inputError : ""
+                }`}
+              />
+              <ErrorMessage
+                name="name"
+                component="span"
+                className={css.error}
+              />
+            </div>
 
-        <PasswordInput
-          id="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
+            <div className={css.fieldset}>
+              <label className={css.visuallyHidden} htmlFor={`${id}-email`}>
+                Email
+              </label>
+              <Field
+                id={`${id}-email`}
+                type="email"
+                name="email"
+                placeholder="Email"
+                className={`${css.input} ${
+                  errors.email && touched.email ? css.inputError : ""
+                }`}
+              />
+              <ErrorMessage
+                name="email"
+                component="span"
+                className={css.error}
+              />
+            </div>
 
-        <div className={css.actions}>
-          <Button className={css.submitButton} type="submit" text="Sign Up" />
-          <p className={css.signInText}>
-            Already have account? &nbsp;
-            <Link className={css.signInLink} href="/login">
-              Sign In
-            </Link>
-          </p>
-        </div>
+            <PasswordInput
+              id={`${id}-password`}
+              name="password"
+              placeholder="Password"
+            />
 
-        {error && <p className={css.error}>{error}</p>}
-      </form>
+            <div className={css.actions}>
+              <Button
+                className={css.submitButton}
+                type="submit"
+                text={isSubmitting ? "Signing Up..." : "Sign Up"}
+                disabled={isSubmitting}
+              />
+
+              <p className={css.signInText}>
+                Already have account? &nbsp;
+                <Link className={css.signInLink} href="/login">
+                  Sign In
+                </Link>
+              </p>
+            </div>
+
+            {serverError && <p className={css.error}>{serverError}</p>}
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }

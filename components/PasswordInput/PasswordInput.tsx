@@ -1,28 +1,32 @@
 "use client";
 
 import { useState } from "react";
+import { useField } from "formik";
 import css from "./PasswordInput.module.css";
 import Icon from "../Icon/Icon";
+import clsx from "clsx";
 
 type PasswordInputProps = {
   id: string;
   name: string;
-  placeholder: string;
-  required: boolean;
+  placeholder?: string;
 };
 
 export default function PasswordInput({
   id,
   name,
   placeholder = "Password",
-  required = false,
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
+
+  const [field, meta] = useField(name);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
+  const isError = meta.touched && !!meta.error;
+  const isSuccess = meta.touched && !meta.error && field.value.length > 0;
   return (
     <div className={css.wrapper}>
       <label className={css.visuallyHidden} htmlFor={id}>
@@ -30,27 +34,46 @@ export default function PasswordInput({
       </label>
 
       <input
+        {...field}
         id={id}
-        name={name}
         type={showPassword ? "text" : "password"}
         placeholder={placeholder}
-        className={css.input}
-        required={required}
+        className={`${css.input} 
+    ${isError ? css.inputError : ""} 
+    ${isSuccess ? css.inputSuccess : ""}
+  `}
       />
+      {isError && <span className={css.error}>{meta.error}</span>}
 
-      <button
-        type="button"
-        className={css.toggle}
-        onClick={togglePasswordVisibility}
-        aria-label={showPassword ? "Hide password" : "Show password"}
-        aria-pressed={showPassword}
-      >
-        {showPassword ? (
-          <Icon name="icon-eye" size={20} className={css.icon} />
+      {isSuccess && <span className={css.success}>Password is secure</span>}
+
+      <div className={css.actions}>
+        {isError ? (
+          <Icon
+            name="icon-error"
+            size={20}
+            className={clsx(css.icon, css.errorIcon)}
+          />
+        ) : isSuccess ? (
+          <Icon
+            name="icon-success"
+            size={20}
+            className={clsx(css.icon, css.successIcon)}
+          />
         ) : (
-          <Icon name="icon-eye-off" size={20} className={css.icon} />
+          <button
+            type="button"
+            className={css.toggle}
+            onClick={togglePasswordVisibility}
+          >
+            <Icon
+              name={showPassword ? "icon-eye" : "icon-eye-off"}
+              size={20}
+              className={css.icon}
+            />
+          </button>
         )}
-      </button>
+      </div>
     </div>
   );
 }

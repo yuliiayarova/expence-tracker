@@ -16,7 +16,12 @@
   --color-white-60: #fafafa99; /* Текст-навігація в формі реєстрації */
 
   --color-text-black: #0c0d0d; /* Чорний для тексту */
-  --color-grey: rgba(250, 250, 250, 0.4); /* Сірий для вторинного тексту (опис, підписи) */
+  --color-grey: rgba(
+    250,
+    250,
+    250,
+    0.4
+  ); /* Сірий для вторинного тексту (опис, підписи) */
   --color-primary-green: #02b15a; /* Neutral Colors */
   --color-primary-green-15: rgba(2, 177, 90, 0.15); /* 15% opacity */
 
@@ -43,6 +48,7 @@
 
   /* ===== TYPOGRAPHY ===== */
   /* Розміри шрифтів */
+  --font-size-xxs: 0.625rem;
   --font-size-xs: 0.75rem; /* 12px */
   --font-size-sm: 0.875rem; /* 14px */
   --font-size-base: 1rem; /* 16px */

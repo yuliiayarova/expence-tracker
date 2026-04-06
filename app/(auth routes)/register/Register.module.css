@@ -117,3 +117,14 @@ input::placeholder {
   color: var(--color-white);
   text-decoration-skip-ink: none;
 }
+
+.error {
+  font-size: var(--font-size-xxs);
+  color: var(--color-error);
+  margin-top: 4px;
+  margin-left: 15px;
+}
+
+.inputError {
+  border-color: var(--color-error);
+}
