@@ -21,7 +21,7 @@ export default function TransactionsSearchTools({
         <input
           className={css.searchInput}
           type="text"
-          placeholder="Search for anything"
+          placeholder="Search for anything..."
           onChange={handleChange}
           value={inputSearch}
         />

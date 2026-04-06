@@ -33,3 +33,19 @@
 .tableWrapper :global(.ag-cell) {
   border: none;
 }
+
+.tableWrapper {
+  margin-bottom: 80px;
+}
+
+@media only screen and (min-width: 768px) {
+  .tableWrapper {
+    margin-bottom: 32px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .tableWrapper {
+    margin-bottom: 50px;
+  }
+}

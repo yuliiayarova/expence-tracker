@@ -41,11 +41,7 @@ export default function TransactionsList({
 }: TransactionsListProps) {
   const params = { ...(date && { date }), ...(search && { search }) };
   const { width } = useWindowSize();
-  const {
-    data = [],
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data = [] } = useQuery({
     queryKey: ["transactions", type, params],
     queryFn: () => getTransactions(type, params),
   });
@@ -76,10 +72,10 @@ export default function TransactionsList({
     { headerName: "Actions", cellRenderer: SimleComp, flex: 0.7 },
   ];
   const mobileCols: ColDef<Row>[] = [
-    { field: "category", headerName: "Category", width: 110 },
-    { field: "comment", headerName: "Comment", width: 110 },
-    { field: "date", headerName: "Date", width: 110 },
-    { field: "time", headerName: "Time", width: 110 },
+    { field: "category", headerName: "Category", width: 105 },
+    { field: "comment", headerName: "Comment", width: 105 },
+    { field: "date", headerName: "Date", width: 80 },
+    { field: "time", headerName: "Time", width: 85 },
     { field: "sum", headerName: "Sum", width: 110 },
     { headerName: "Actions", cellRenderer: SimleComp, width: 110 },
   ];
@@ -110,7 +106,7 @@ export default function TransactionsList({
           <AgGridReact
             rowData={rows}
             columnDefs={currentCols}
-            overlayNoRowsTemplate="<span>Нічого немає</span>"
+            overlayNoRowsTemplate="<span>Нічого немає??</span>"
           />
         </div>
       </div>
