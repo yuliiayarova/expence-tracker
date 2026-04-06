@@ -6,8 +6,6 @@ import "./globals.css";
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import Container from "@/components/Container/Container";
 
-import WelcomePage from "@/components/WellcomPage/WellcomPage";
-
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -28,7 +26,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <TanStackProvider>
           <Container>
-            <WelcomePage />
             <main>{children}</main>
           </Container>
         </TanStackProvider>

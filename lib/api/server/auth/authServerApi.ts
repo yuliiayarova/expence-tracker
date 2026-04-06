@@ -6,6 +6,7 @@ import type {
   LoginRequest,
   LoginResponse,
 } from "../../types/auth.types";
+import { AxiosResponse } from "axios";
 
 // POST /auth/register
 export const register = async (
@@ -31,6 +32,6 @@ export const logout = async (): Promise<void> => {
 };
 
 // GET /auth/session
-export const refreshSession = async (): Promise<void> => {
-  return serverFetch<void>("/auth/session");
+export const refreshSession = async (): Promise<AxiosResponse> => {
+  return serverFetch("/auth/session");
 };

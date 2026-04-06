@@ -1,3 +1,5 @@
-import { redirect } from "next/navigation";
+import WelcomePage from "@/components/WellcomPage/WellcomPage";
 
-export default function Home() {}
+export default function Home() {
+  return <WelcomePage />;
+}
