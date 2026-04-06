@@ -1,32 +1,45 @@
 "use client";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import css from "./TransactionsSearchTools.module.css";
 
-export default function TransactionsSearchTools() {
-  const [search, setSearch] = useState("");
-  const [dateSearch, setDateSearch] = useState("");
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearch(value);
-  };
-  const handleDateSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const dateSearch = e.target.value;
-    setDateSearch(dateSearch);
-  };
+interface TransactionsSearchToolsProps {
+  inputSearch?: string;
+  dateSearch?: string;
+  handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleDateSearch?: (e: ChangeEvent<HTMLInputElement>) => void;
+}
 
+export default function TransactionsSearchTools({
+  inputSearch,
+  dateSearch,
+  handleChange,
+  handleDateSearch,
+}: TransactionsSearchToolsProps) {
   return (
     <div className={css.search}>
-      <input
-        className={css.searchInput}
-        type="text"
-        placeholder="Search for anything"
-        onChange={handleChange}
-      />
-      <input
-        className={css.searchDate}
-        type="date"
-        onChange={handleDateSearch}
-      />
+      <div className={css.searchBox}>
+        <input
+          className={css.searchInput}
+          type="text"
+          placeholder="Search for anything"
+          onChange={handleChange}
+          value={inputSearch}
+        />
+        <svg className={css.searchIcon} width={20} height={20}>
+          <use href="/icons/sprite.svg#icon-search"></use>
+        </svg>
+      </div>
+      <div className={css.dateBox}>
+        <input
+          className={css.searchDate}
+          type="date"
+          onChange={handleDateSearch}
+          value={dateSearch}
+        />
+        <svg className={css.searchIconDate} width={20} height={20}>
+          <use href="/icons/sprite.svg#icon-calendar"></use>
+        </svg>
+      </div>
     </div>
   );
 }

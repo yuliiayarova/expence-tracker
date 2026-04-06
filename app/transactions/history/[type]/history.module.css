@@ -1,0 +1,33 @@
+.financeSummary {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+  flex-wrap: wrap;
+  margin-top: 66px;
+  margin-bottom: 40px;
+}
+
+@media only screen and (min-width: 768px) {
+  .financeSummary {
+    gap: 40px;
+    margin-top: 59px;
+  }
+  .financeHeader {
+    width: 570px;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  .financeSummary {
+    gap: 94px;
+  }
+  .financeHeader {
+    width: 516px;
+  }
+}
+
+.financeHeader {
+  display: flex;
+  align-items: start;
+  gap: 20px;
+  flex-direction: column;
+}
