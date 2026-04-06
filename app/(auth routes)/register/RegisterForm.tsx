@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import css from "./Register.module.css";
-import { useId, useState } from "react";
+import { useId } from "react";
 import { AxiosError } from "axios";
 import Link from "next/link";
 import { Field, Form, Formik, ErrorMessage } from "formik";
@@ -14,11 +14,21 @@ import PasswordInput from "@/components/PasswordInput/PasswordInput";
 import { register } from "@/lib/api/client/auth/authApi";
 import { getCurrentUser } from "@/lib/api/client/user/userApi";
 import { RegisterRequest } from "@/lib/api/types/auth.types";
+import toast from "react-hot-toast";
+import Loader from "@/components/Loader/Loader";
 
 const initialValues: RegisterRequest = {
   name: "",
   email: "",
   password: "",
+};
+
+type ErrorResponse = {
+  error?: string;
+  message?: string;
+  response?: {
+    message?: string;
+  };
 };
 
 export const registerSchema = Yup.object({
@@ -43,23 +53,15 @@ export const registerSchema = Yup.object({
     .required("Password is required"),
 });
 
-type ErrorResponse = {
-  error?: string;
-  message?: string;
-};
-
 export default function RegisterForm() {
   const router = useRouter();
   const { setUser } = useAuthStore();
-  const [serverError, setServerError] = useState("");
   const id = useId();
 
   const handleSubmit = async (
     values: RegisterRequest,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ) => {
-    setServerError("");
-
     try {
       await register(values);
 
@@ -70,9 +72,10 @@ export default function RegisterForm() {
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
 
-      setServerError(
-        axiosError.response?.data?.error ??
+      toast.error(
+        axiosError.response?.data?.response?.message ??
           axiosError.response?.data?.message ??
+          axiosError.response?.data?.error ??
           axiosError.message ??
           "Oops... some error",
       );
@@ -128,12 +131,15 @@ export default function RegisterForm() {
           />
 
           <div className={css.actions}>
-            <Button
-              className={css.submitButton}
-              type="submit"
-              text={isSubmitting ? "Signing Up..." : "Sign Up"}
-              disabled={isSubmitting}
-            />
+            <div className={css.loadingWrapper}>
+              <Button
+                className={css.submitButton}
+                type="submit"
+                text={isSubmitting ? "Signing Up..." : "Sign Up"}
+                disabled={isSubmitting}
+              />
+              {isSubmitting && <Loader size="small" />}
+            </div>
 
             <p className={css.signInText}>
               Already have account? &nbsp;
@@ -142,8 +148,6 @@ export default function RegisterForm() {
               </Link>
             </p>
           </div>
-
-          {serverError && <p className={css.error}>{serverError}</p>}
         </Form>
       )}
     </Formik>

@@ -128,3 +128,8 @@ input::placeholder {
 .inputError {
   border-color: var(--color-error);
 }
+
+.loadingWrapper {
+  display: flex;
+  gap: 12px;
+}

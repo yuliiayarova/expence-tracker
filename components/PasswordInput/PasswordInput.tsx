@@ -47,32 +47,32 @@ export default function PasswordInput({
 
       {isSuccess && <span className={css.success}>Password is secure</span>}
 
-      <div className={css.actions}>
-        {isError ? (
-          <Icon
-            name="icon-error"
-            size={20}
-            className={clsx(css.icon, css.errorIcon)}
-          />
-        ) : isSuccess ? (
-          <Icon
-            name="icon-success"
-            size={20}
-            className={clsx(css.icon, css.successIcon)}
-          />
-        ) : (
-          <button
-            type="button"
-            className={css.toggle}
-            onClick={togglePasswordVisibility}
-          >
+      <div className={css.icons}>
+        {(isError || isSuccess) && (
+          <span className={css.statusIcon}>
             <Icon
-              name={showPassword ? "icon-eye" : "icon-eye-off"}
+              name={isError ? "icon-error" : "icon-success"}
               size={20}
-              className={css.icon}
+              className={clsx(css.icon, {
+                [css.errorIcon]: isError,
+                [css.successIcon]: isSuccess,
+              })}
             />
-          </button>
+          </span>
         )}
+
+        <button
+          type="button"
+          className={css.toggle}
+          onClick={togglePasswordVisibility}
+          aria-label={showPassword ? "Hide password" : "Show password"}
+        >
+          <Icon
+            name={showPassword ? "icon-eye" : "icon-eye-off"}
+            size={20}
+            className={css.icon}
+          />
+        </button>
       </div>
     </div>
   );
