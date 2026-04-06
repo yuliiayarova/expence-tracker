@@ -1,12 +1,18 @@
 'use client'
 import React from 'react';
 import Button from '../Button/Button';
+import { useRouter } from 'next/navigation';
 
 import css from "./AuthNav.module.css"
 
 export default function AuthNav() {
+    const router = useRouter()
     const handleClick = (type: "signup" | "signin") => {
-    alert(` ${type === "signup" ? "Sign Up" : "Sign In"}`);
+        if (type === "signup") {
+        router.push("/register")
+        } else {
+            router.push("/login")
+    }
   };
     return (
         <section>
