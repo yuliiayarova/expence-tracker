@@ -1,7 +1,5 @@
 import Header from "@/components/Header/Header";
 import TransactionsTotalAmount from "@/components/MainTransactionsPage/TransactionsTotalAmount/TransactionsTotalAmount";
-import TransactionsList from "@/components/TransactionsList/TransactionsList";
-import TransactionsSearchTools from "@/components/TransactionsSearchTools/TransactionsSearchTools";
 import { GetUserResponse } from "@/lib/api/types/user.types";
 import { notFound } from "next/navigation";
 import css from "./history.module.css";
