@@ -5,6 +5,7 @@ import "./globals.css";
 
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import Container from "@/components/Container/Container";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
         <TanStackProvider>
           <Container>
             <main>{children}</main>
+            <Toaster position="top-right" />
           </Container>
         </TanStackProvider>
       </body>
