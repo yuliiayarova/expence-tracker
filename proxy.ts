@@ -22,7 +22,7 @@ export async function proxy(request: NextRequest) {
   if (!accessToken) {
     if (refreshToken) {
       try {
-        const data = await checkSession();
+        const data = await refreshSession();
         const setCookie = data.headers["set-cookie"];
 
         if (setCookie) {
