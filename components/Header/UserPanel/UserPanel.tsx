@@ -21,7 +21,11 @@ export default function UserPanel({
         </svg>
         Profile settings
       </button>
-      <button type="button" className={css.userPanelItem} onClick={onLogoutClick}>
+      <button
+        type="button"
+        className={css.userPanelItem}
+        onClick={onLogoutClick}
+      >
         <svg className={css.userPanelIcon} aria-hidden="true">
           <use href="/icons/sprite.svg#icon-log-out" />
         </svg>
