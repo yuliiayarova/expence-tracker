@@ -47,7 +47,7 @@ export default function Header({ user }: HeaderProps) {
 
   const initials = useMemo(
     () =>
-      (user.name || "Alex Rybachok")
+      (user.name || "")
         .split(" ")
         .filter(Boolean)
         .slice(0, 2)
@@ -173,24 +173,26 @@ export default function Header({ user }: HeaderProps) {
 
   const handleSave = async (payload: UpdateUserRequest) => {
     if (!hasApiConfig) {
-      applyUserUpdate({
-        ...user,
-        ...payload,
-      });
+      const latestUser =
+        queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
+      applyUserUpdate({ ...latestUser, ...payload });
+      setIsUserSettingsOpen(false);
       toast.success("Profile updated locally.");
       return;
     }
 
-    await updateUserMutation.mutateAsync(payload);
+    try {
+      await updateUserMutation.mutateAsync(payload);
+      setIsUserSettingsOpen(false);
+    } catch {}
   };
 
   const handleUploadAvatar = async (file: File) => {
     if (!hasApiConfig) {
       const localUrl = URL.createObjectURL(file);
-      applyUserUpdate({
-        ...user,
-        avatarUrl: localUrl,
-      });
+      const latestUser =
+        queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
+      applyUserUpdate({ ...latestUser, avatarUrl: localUrl });
       toast.success("Avatar updated locally.");
       return localUrl;
     }
@@ -201,10 +203,9 @@ export default function Header({ user }: HeaderProps) {
 
   const handleRemoveAvatar = async () => {
     if (!hasApiConfig) {
-      applyUserUpdate({
-        ...user,
-        avatarUrl: null,
-      });
+      const latestUser =
+        queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
+      applyUserUpdate({ ...latestUser, avatarUrl: null });
       toast.success("Avatar removed locally.");
       return;
     }
@@ -215,7 +216,7 @@ export default function Header({ user }: HeaderProps) {
   const userBar = (
     <div className={css.userArea}>
       <UserBarBtn
-        userName={user.name || "Alex Rybachok"}
+        userName={user.name || ""}
         avatarUrl={user.avatarUrl}
         initials={initials}
         isOpen={isUserPanelOpen}
@@ -267,7 +268,7 @@ export default function Header({ user }: HeaderProps) {
 
       {isUserSettingsOpen ? (
         <UserSetsModal
-          name={user.name || "Alex Rybachok"}
+          name={user.name || ""}
           currency={user.currency}
           avatarUrl={user.avatarUrl}
           onClose={() => setIsUserSettingsOpen(false)}

@@ -1,3 +1,4 @@
+import Icon from "@/components/Icon/Icon";
 import css from "./UserPanel.module.css";
 
 interface UserPanelProps {
@@ -16,9 +17,12 @@ export default function UserPanel({
         className={css.userPanelItem}
         onClick={onProfileSettingsClick}
       >
-        <svg className={css.userPanelIcon} aria-hidden="true">
-          <use href="/icons/sprite.svg#icon-user" />
-        </svg>
+        <Icon
+          name="icon-user"
+          size={16}
+          className={css.userPanelIcon}
+          aria-hidden="true"
+        />
         Profile settings
       </button>
       <button
@@ -26,9 +30,12 @@ export default function UserPanel({
         className={css.userPanelItem}
         onClick={onLogoutClick}
       >
-        <svg className={css.userPanelIcon} aria-hidden="true">
-          <use href="/icons/sprite.svg#icon-log-out" />
-        </svg>
+        <Icon
+          name="icon-log-out"
+          size={16}
+          className={css.userPanelIcon}
+          aria-hidden="true"
+        />
         Log out
       </button>
     </div>
