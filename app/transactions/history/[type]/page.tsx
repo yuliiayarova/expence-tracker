@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/api/server/user/userServerApi";
 import { notFound } from "next/navigation";
 import css from "./history.module.css";
 import TransactionsHistoryClient from "./TransactionsHistoryClient";
+import { GetUserResponse } from "@/lib/api/types/user.types";
 
 type Type = "expenses" | "incomes";
 
@@ -23,9 +24,26 @@ export default async function TransactionsPage({
     notFound();
   }
 
+  const mockUser: GetUserResponse = {
+    _id: "1",
+    name: "Alex Rybachok",
+    email: "alex@example.com",
+    avatarUrl: null,
+    currency: "uah",
+    categories: {
+      incomes: [],
+      expenses: [],
+    },
+    transactionsTotal: {
+      incomes: 0,
+      expenses: 0,
+    },
+  };
+
   return (
     <main>
-      <Header user={user} />
+      {/* user={user} */}
+      <Header user={mockUser} />
       <div className={css.financeSummary}>
         <div className={css.financeHeader}>
           <h2 className={css.financeTitle}>All {type}</h2>
