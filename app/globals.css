@@ -9,8 +9,31 @@
   box-sizing: border-box;
 }
 
-body{
+html,
+body {
+  min-height: 100%;
+}
+
+body {
   background-color: var(--color-bg-main);
   color: var(--color-white);
-  font-family: var(--font-inter), sans-serif;
+  font-family:
+    "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img,
+svg {
+  display: block;
+}
+
+main {
+  width: 100%;
 }

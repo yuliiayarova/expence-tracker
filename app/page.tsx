@@ -1,7 +1,5 @@
+import WelcomePage from '@/components/WellcomPage/WellcomPage';
+
 export default function Home() {
-  return (
-    <>
-      <h1>Hello world!</h1>
-    </>
-  );
+  return <WelcomePage />;
 }

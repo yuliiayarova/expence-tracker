@@ -37,7 +37,7 @@ p {
   font-size: var(--font-size-sm);
 
   letter-spacing: var(--letter-spacing-tight);
-  color: var(--color-white-40);
+  color: var(--color-grey);
 }
 @media only screen and (min-width: 768px) {
   p {

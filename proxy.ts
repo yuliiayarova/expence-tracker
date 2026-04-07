@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { parse } from "cookie";
+import { refreshSession } from "./lib/api/server/auth/authServerApi";
 
-const privateRoutes = [];
-const publicRoutes = ["/sign-in", "/sign-up"];
+const privateRoutes = ["/transactions"];
+const publicRoutes = ["/login", "/register"];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -22,7 +23,7 @@ export async function proxy(request: NextRequest) {
   if (!accessToken) {
     if (refreshToken) {
       try {
-        const data = await checkSession();
+        const data = await refreshSession();
         const setCookie = data.headers["set-cookie"];
 
         if (setCookie) {
@@ -60,7 +61,7 @@ export async function proxy(request: NextRequest) {
         }
       } catch {
         if (isPrivateRoute) {
-          return NextResponse.redirect(new URL("/sign-in", request.url));
+          return NextResponse.redirect(new URL("/login", request.url));
         }
 
         return NextResponse.next();
@@ -72,7 +73,7 @@ export async function proxy(request: NextRequest) {
     }
 
     if (isPrivateRoute) {
-      return NextResponse.redirect(new URL("/sign-in", request.url));
+      return NextResponse.redirect(new URL("/login", request.url));
     }
   }
 
@@ -88,5 +89,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [],
+  matcher: ["/transactions/:path*", "/login", "/register"],
 };
