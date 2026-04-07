@@ -24,6 +24,9 @@ import TransactionsHistoryNav from "./TransactionsHistoryNav/TransactionsHistory
 import UserBarBtn from "./UserBarBtn/UserBarBtn";
 import UserPanel from "./UserPanel/UserPanel";
 import UserSetsModal from "./UserSetsModal/UserSetsModal";
+import Modal from "../Modal/Modal";
+import Logout from "../Logout/Logout";
+import { useAuthStore } from "@/lib/store/authStore";
 
 interface HeaderProps {
   user: GetUserResponse;
@@ -39,6 +42,8 @@ export default function Header({ user }: HeaderProps) {
   const [isUserPanelOpen, setIsUserPanelOpen] = useState(false);
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isUserSettingsOpen, setIsUserSettingsOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const initials = useMemo(
     () =>
@@ -119,19 +124,9 @@ export default function Header({ user }: HeaderProps) {
     },
   });
 
-  const logoutMutation = useMutation({
-    mutationFn: logout,
-    onSuccess: async () => {
-      setIsUserPanelOpen(false);
-      setIsBurgerOpen(false);
-      await queryClient.invalidateQueries({ queryKey: ["current-user"] });
-      toast.success("Logged out.");
-      router.push("/");
-    },
-    onError: () => {
-      toast.error("Unable to log out.");
-    },
-  });
+  const clearIsAuthenticated = useAuthStore(
+    (state) => state.clearIsAuthenticated,
+  );
 
   const closeBurger = () => {
     setIsBurgerOpen(false);
@@ -144,17 +139,36 @@ export default function Header({ user }: HeaderProps) {
     setIsUserSettingsOpen(true);
   };
 
-  const handleLogoutClick = async () => {
+  const handleLogoutClick = () => {
     setIsUserPanelOpen(false);
     setIsBurgerOpen(false);
+    setIsLogoutModalOpen(true);
+  };
 
-    if (!hasApiConfig) {
-      toast.success("Logged out locally.");
+  const handleConfirmLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+
+      await logout();
+
+      clearIsAuthenticated();
+      queryClient.removeQueries({ queryKey: ["current-user"] });
+
+      setIsLogoutModalOpen(false);
+      setIsUserPanelOpen(false);
+      setIsBurgerOpen(false);
+
+      toast.success("Logged out.");
       router.push("/");
-      return;
+    } catch {
+      toast.error("Unable to log out.");
+    } finally {
+      setIsLoggingOut(false);
     }
+  };
 
-    await logoutMutation.mutateAsync();
+  const handleCloseLogoutModal = () => {
+    setIsLogoutModalOpen(false);
   };
 
   const handleSave = async (payload: UpdateUserRequest) => {
@@ -267,6 +281,15 @@ export default function Header({ user }: HeaderProps) {
             deleteAvatarMutation.isPending
           }
         />
+      ) : null}
+      {isLogoutModalOpen ? (
+        <Modal onClose={handleCloseLogoutModal}>
+          <Logout
+            onCancel={handleCloseLogoutModal}
+            onConfirm={handleConfirmLogout}
+            isLoading={isLoggingOut}
+          />
+        </Modal>
       ) : null}
     </>
   );

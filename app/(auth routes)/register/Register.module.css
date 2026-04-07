@@ -59,6 +59,7 @@
   background-color: var(--color-input-bg);
   outline: none;
   color: var(--color-white);
+  transition: border-color var(--transition-base);
 }
 
 @media only screen and (min-width: 768px) {

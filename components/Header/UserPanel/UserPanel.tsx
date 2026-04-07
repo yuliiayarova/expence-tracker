@@ -17,12 +17,25 @@ export default function UserPanel({
         className={css.userPanelItem}
         onClick={onProfileSettingsClick}
       >
-        <Icon name="icon-user" size={16} className={css.userPanelIcon} aria-hidden="true" />
-      
+        <Icon
+          name="icon-user"
+          size={16}
+          className={css.userPanelIcon}
+          aria-hidden="true"
+        />
         Profile settings
       </button>
-      <button type="button" className={css.userPanelItem} onClick={onLogoutClick}>
-        <Icon name="icon-log-out" size={16} className={css.userPanelIcon} aria-hidden="true" />
+      <button
+        type="button"
+        className={css.userPanelItem}
+        onClick={onLogoutClick}
+      >
+        <Icon
+          name="icon-log-out"
+          size={16}
+          className={css.userPanelIcon}
+          aria-hidden="true"
+        />
         Log out
       </button>
     </div>

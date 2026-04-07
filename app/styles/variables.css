@@ -2,7 +2,7 @@
   /* ===== COLORS ===== */
   /* Background Colors */
   --color-bg-main: #0c0d0d; /* Основний фон сторінки */
-  --color-bg-card: #171717; /* Фон карток (як блок з аватаром) */
+  --color-bg-card: #171719; /* Фон карток (як блок з аватаром) */
   --color-bg-modal-backdrop: #0c0d0d99; /* Напівпрозорий чорний для фону модальних вікон */
 
   /* Primary & Accents (Greens) */
@@ -22,13 +22,20 @@
     250,
     0.4
   ); /* Сірий для вторинного тексту (опис, підписи) */
+  --color-dark-grey: rgba(
+    250,
+    250,
+    250,
+    0.5
+  ); /* Колір тексту кнопки Cancel при ховері */
   --color-primary-green: #02b15a; /* Neutral Colors */
   --color-primary-green-15: rgba(2, 177, 90, 0.15); /* 15% opacity */
 
   /* UI Elements */
   --color-border: rgba(250, 250, 250, 0.2); /* Межі звичайних інпутів */
   --color-input-bg: transparent; /* Фон полів введення */
-  --color-button-secondary-bg: #292929; /* Фон кнопки Cancel */
+  --color-button-secondary-bg: #29292b; /* Фон кнопки Cancel */
+  --color-border-modal: rgba(250, 250, 250, 0.1); /* Межі модальних вікон */
 
   /* Feedback States */
   --color-error: #e74a3b; /* Червоний для помилок */

@@ -6,6 +6,7 @@ import "./globals.css";
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import Container from "@/components/Container/Container";
 import { Toaster } from "react-hot-toast";
+import AuthProvider from "@/components/AuthProvider/AuthProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,10 +27,12 @@ export default function RootLayout({
     <html lang="uk">
       <body className={inter.className}>
         <TanStackProvider>
-          <Container>
-            <main>{children}</main>
-            <Toaster position="top-right" />
-          </Container>
+          <AuthProvider>
+            <Container>
+              <main>{children}</main>
+              <Toaster position="top-right" />
+            </Container>
+          </AuthProvider>
         </TanStackProvider>
       </body>
     </html>
