@@ -1,7 +1,12 @@
 .grid {
   display: grid;
+  width: 100%;
   grid-template-columns: 1fr;
   gap: 12px;
+}
+
+.gridCompact {
+  width: 100%;
 }
 
 .card {
@@ -12,6 +17,10 @@
   padding: 18px 20px;
   border-radius: 30px;
   background: var(--color-bg-card);
+}
+
+.cardCompact {
+  gap: 16px;
 }
 
 .iconWrap {
@@ -25,16 +34,31 @@
   flex-shrink: 0;
 }
 
+.iconWrapCompact {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+}
+
 .icon {
   width: 16px;
   height: 16px;
   fill: var(--color-text-black);
 }
 
+.iconCompact {
+  width: 18px;
+  height: 18px;
+}
+
 .content {
   display: flex;
   flex-direction: column;
   gap: 7px;
+}
+
+.contentCompact {
+  gap: 6px;
 }
 
 .label {
@@ -44,11 +68,19 @@
   color: rgba(250, 250, 250, 0.5);
 }
 
+.labelCompact {
+  font-size: 14px;
+}
+
 .value {
   font-size: 24px;
   font-weight: 700;
   line-height: 1;
   color: var(--color-white);
+}
+
+.valueCompact {
+  font-size: 20px;
 }
 
 .valueSkeleton {
@@ -66,6 +98,11 @@
   animation: shimmer 1.6s ease-in-out infinite;
 }
 
+.valueSkeletonCompact {
+  width: 112px;
+  height: 24px;
+}
+
 @keyframes shimmer {
   0% {
     background-position: 200% 0;
@@ -81,11 +118,29 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
   }
+
+  .gridCompact {
+    gap: 16px;
+  }
 }
 
 @media only screen and (min-width: 1440px) {
+  .grid {
+    width: 630px;
+  }
+
   .card {
     min-height: 121px;
     padding: 32px 23px;
+  }
+
+  .gridCompact {
+    width: 410px;
+    gap: 16px;
+  }
+
+  .cardCompact {
+    min-height: 80px;
+    padding: 18px 20px;
   }
 }

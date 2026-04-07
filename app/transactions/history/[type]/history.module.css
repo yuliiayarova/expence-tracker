@@ -1,6 +1,6 @@
 .financeSummary {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 19px;
   flex-wrap: wrap;
   margin-top: 66px;
@@ -11,6 +11,7 @@
   .financeSummary {
     gap: 40px;
     margin-top: 59px;
+    justify-content: space-between;
   }
   .financeHeader {
     width: 570px;
@@ -19,6 +20,7 @@
 @media only screen and (min-width: 1440px) {
   .financeSummary {
     gap: 94px;
+    flex-wrap: nowrap;
   }
   .financeHeader {
     width: 516px;
