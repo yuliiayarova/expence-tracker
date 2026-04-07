@@ -15,7 +15,7 @@ import type {
   GetUserResponse,
   UpdateUserRequest,
 } from "@/lib/api/types/user.types";
-
+import { useAuthStore } from "@/lib/store/authStore";
 import BurgerMenu from "./BurgerMenu/BurgerMenu";
 import BurgerMenuBtn from "./BurgerMenuBtn/BurgerMenuBtn";
 import css from "./Header.module.css";
@@ -31,9 +31,7 @@ interface HeaderProps {
 
 const hasApiConfig = Boolean(process.env.NEXT_PUBLIC_API_URL);
 
-export default function Header({
-  user,
-}: HeaderProps) {
+export default function Header({ user }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -42,15 +40,16 @@ export default function Header({
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isUserSettingsOpen, setIsUserSettingsOpen] = useState(false);
 
+  const { isAuthenticated } = useAuthStore();
   const initials = useMemo(
     () =>
-      (user.name || "Alex Rybachok")
+      (user?.name || "Alex Rybachok")
         .split(" ")
         .filter(Boolean)
         .slice(0, 2)
         .map((part) => part[0]?.toUpperCase() ?? "")
         .join(""),
-    [user.name],
+    [user?.name],
   );
 
   useEffect(() => {
@@ -79,6 +78,7 @@ export default function Header({
   const updateUserMutation = useMutation({
     mutationFn: updateUser,
     onSuccess: async (updatedUser) => {
+      if (!user) return;
       applyUserUpdate({
         ...user,
         ...updatedUser,
@@ -161,7 +161,8 @@ export default function Header({
 
   const handleSave = async (payload: UpdateUserRequest) => {
     if (!hasApiConfig) {
-      const latestUser = queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
+      const latestUser =
+        queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
       applyUserUpdate({ ...latestUser, ...payload });
       setIsUserSettingsOpen(false);
       toast.success("Profile updated locally.");
@@ -171,14 +172,14 @@ export default function Header({
     try {
       await updateUserMutation.mutateAsync(payload);
       setIsUserSettingsOpen(false);
-    } catch {
-    }
+    } catch {}
   };
 
   const handleUploadAvatar = async (file: File) => {
     if (!hasApiConfig) {
       const localUrl = URL.createObjectURL(file);
-      const latestUser = queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
+      const latestUser =
+        queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
       applyUserUpdate({ ...latestUser, avatarUrl: localUrl });
       toast.success("Avatar updated locally.");
       return localUrl;
@@ -190,7 +191,8 @@ export default function Header({
 
   const handleRemoveAvatar = async () => {
     if (!hasApiConfig) {
-      const latestUser = queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
+      const latestUser =
+        queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
       applyUserUpdate({ ...latestUser, avatarUrl: null });
       toast.success("Avatar removed locally.");
       return;
@@ -198,12 +200,21 @@ export default function Header({
 
     await deleteAvatarMutation.mutateAsync();
   };
+  if (!isAuthenticated) {
+    return (
+      <header className={`${css.header} ${css.headerHome}`}>
+        <div className={css.logoHome}>
+          <Logo />
+        </div>
+      </header>
+    );
+  }
 
   const userBar = (
     <div className={css.userArea}>
       <UserBarBtn
-        userName={user.name || "Alex Rybachok"}
-        avatarUrl={user.avatarUrl}
+        userName={user?.name || "Alex Rybachok"}
+        avatarUrl={user?.avatarUrl}
         initials={initials}
         isOpen={isUserPanelOpen}
         onToggle={() => setIsUserPanelOpen((value) => !value)}

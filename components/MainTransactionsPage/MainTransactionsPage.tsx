@@ -75,7 +75,7 @@ export default function MainTransactionsPage({
   return (
     <>
       <div className={css.home}>
-        <Header user={user} />
+        
 
         <section
           className={css.content}
