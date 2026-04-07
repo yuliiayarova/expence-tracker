@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { BgImageWrapper } from "@/components/BgImageWrapper/BgImageWrapper";
+import css from "./AuthLayout.module.css";
 
 export default function PublicLayout({
   children,
@@ -14,5 +16,13 @@ export default function PublicLayout({
     router.refresh();
   }, [router]);
 
-  return children;
+  return (
+    <div className={css.wrapper}>
+      <div className={css.decor}>
+        <BgImageWrapper />
+      </div>
+
+      <div className={css.content}>{children}</div>
+    </div>
+  );
 }

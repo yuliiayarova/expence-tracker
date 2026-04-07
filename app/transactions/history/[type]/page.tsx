@@ -1,6 +1,6 @@
 import Header from "@/components/Header/Header";
 import TransactionsTotalAmount from "@/components/MainTransactionsPage/TransactionsTotalAmount/TransactionsTotalAmount";
-import { GetUserResponse } from "@/lib/api/types/user.types";
+import { getCurrentUser } from "@/lib/api/server/user/userServerApi";
 import { notFound } from "next/navigation";
 import css from "./history.module.css";
 import TransactionsHistoryClient from "./TransactionsHistoryClient";
@@ -16,22 +16,8 @@ interface TransactionsPageProps {
 export default async function TransactionsPage({
   params,
 }: TransactionsPageProps) {
-  const mockUser: GetUserResponse = {
-    _id: "1",
-    name: "Alex",
-    email: "alex@example.com",
-    avatarUrl: null,
-    currency: "uah",
-    categories: {
-      incomes: [],
-      expenses: [],
-    },
-    transactionsTotal: {
-      incomes: 0,
-      expenses: 0,
-    },
-  };
   const { type } = await params;
+  const user = await getCurrentUser();
 
   if (type !== "expenses" && type !== "incomes") {
     notFound();
@@ -39,7 +25,7 @@ export default async function TransactionsPage({
 
   return (
     <main>
-      <Header user={mockUser} />
+      <Header user={user} />
       <div className={css.financeSummary}>
         <div className={css.financeHeader}>
           <h2 className={css.financeTitle}>All {type}</h2>
