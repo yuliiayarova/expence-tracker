@@ -31,9 +31,7 @@ interface HeaderProps {
 
 const hasApiConfig = Boolean(process.env.NEXT_PUBLIC_API_URL);
 
-export default function Header({
-  user,
-}: HeaderProps) {
+export default function Header({ user }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -44,7 +42,7 @@ export default function Header({
 
   const initials = useMemo(
     () =>
-      (user.name || "Alex Rybachok")
+      (user.name || "")
         .split(" ")
         .filter(Boolean)
         .slice(0, 2)
@@ -161,7 +159,8 @@ export default function Header({
 
   const handleSave = async (payload: UpdateUserRequest) => {
     if (!hasApiConfig) {
-      const latestUser = queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
+      const latestUser =
+        queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
       applyUserUpdate({ ...latestUser, ...payload });
       setIsUserSettingsOpen(false);
       toast.success("Profile updated locally.");
@@ -171,14 +170,14 @@ export default function Header({
     try {
       await updateUserMutation.mutateAsync(payload);
       setIsUserSettingsOpen(false);
-    } catch {
-    }
+    } catch {}
   };
 
   const handleUploadAvatar = async (file: File) => {
     if (!hasApiConfig) {
       const localUrl = URL.createObjectURL(file);
-      const latestUser = queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
+      const latestUser =
+        queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
       applyUserUpdate({ ...latestUser, avatarUrl: localUrl });
       toast.success("Avatar updated locally.");
       return localUrl;
@@ -190,7 +189,8 @@ export default function Header({
 
   const handleRemoveAvatar = async () => {
     if (!hasApiConfig) {
-      const latestUser = queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
+      const latestUser =
+        queryClient.getQueryData<GetUserResponse>(["current-user"]) ?? user;
       applyUserUpdate({ ...latestUser, avatarUrl: null });
       toast.success("Avatar removed locally.");
       return;
@@ -202,7 +202,7 @@ export default function Header({
   const userBar = (
     <div className={css.userArea}>
       <UserBarBtn
-        userName={user.name || "Alex Rybachok"}
+        userName={user.name || ""}
         avatarUrl={user.avatarUrl}
         initials={initials}
         isOpen={isUserPanelOpen}
@@ -254,7 +254,7 @@ export default function Header({
 
       {isUserSettingsOpen ? (
         <UserSetsModal
-          name={user.name || "Alex Rybachok"}
+          name={user.name || ""}
           currency={user.currency}
           avatarUrl={user.avatarUrl}
           onClose={() => setIsUserSettingsOpen(false)}
