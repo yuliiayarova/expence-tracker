@@ -7,6 +7,7 @@ import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import Container from "@/components/Container/Container";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/Header/Header";
+import AuthProvider from "@/components/AuthProvider/AuthProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,11 +29,14 @@ export default async function RootLayout({
     <html lang="uk">
       <body className={inter.className}>
         <TanStackProvider>
-          <Container>
-            <Header  />
-            <main>{children}</main>
-            <Toaster position="top-right" />
-          </Container>
+
+          <AuthProvider>
+            <Container>
+              <Header  />
+              <main>{children}</main>
+              <Toaster position="top-right" />
+            </Container>
+          </AuthProvider>
         </TanStackProvider>
       </body>
     </html>

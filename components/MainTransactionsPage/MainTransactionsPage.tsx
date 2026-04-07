@@ -20,8 +20,8 @@ const hasApiConfig = Boolean(process.env.NEXT_PUBLIC_API_URL);
 
 const fallbackUser: GetUserResponse = {
   _id: "local-user",
-  name: "Alex Rybachok",
-  email: "alex@example.com",
+  name: "",
+  email: "",
   avatarUrl: null,
   currency: "usd",
   categories: {
