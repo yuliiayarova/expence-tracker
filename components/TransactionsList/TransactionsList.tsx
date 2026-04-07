@@ -1,22 +1,26 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import css from "./TransactionsList.module.css";
 import { AllCommunityModule, ColDef } from "ag-grid-community";
 import { AgGridProvider } from "ag-grid-react";
-import Button from "../Button/Button";
 import { useWindowSize } from "react-use";
-import { getTransactions } from "@/lib/api/client/transactions/transactionApi";
+import {
+  deleteTransaction,
+  getTransactions,
+} from "@/lib/api/client/transactions/transactionApi";
 
 interface TransactionsListProps {
   type: "incomes" | "expenses";
   date?: string;
   search?: string;
+  handleChangeTransaction: (transaction: Row) => void;
 }
-interface Row {
+export interface Row {
   id: string;
   category: string;
+  categoryId: string;
   comment: string;
   date: string;
   time: string;
@@ -29,6 +33,7 @@ export default function TransactionsList({
   type,
   date,
   search,
+  handleChangeTransaction,
 }: TransactionsListProps) {
   const params = { ...(date && { date }), ...(search && { search }) };
   const { width } = useWindowSize();
@@ -36,11 +41,23 @@ export default function TransactionsList({
   //   queryKey: ["transactions", type, params],
   //   queryFn: () => getTransactions(type, params),
   // });
+  const queryClient = useQueryClient();
 
-  const SimleComp = () => {
+  const { mutate } = useMutation({
+    mutationFn: deleteTransaction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+    },
+  });
+
+  const SimleComp = (cellParams: { data: Row }) => {
     return (
       <div className={css.transationsBtn}>
-        <button type="button" className={css.editBtn}>
+        <button
+          type="button"
+          className={css.editBtn}
+          onClick={() => handleChangeTransaction(cellParams.data)}
+        >
           {width >= 1440 ? (
             <>
               <svg className={css.editIcon} width={16} height={16}>
@@ -54,7 +71,11 @@ export default function TransactionsList({
             </svg>
           )}
         </button>
-        <button type="button" className={css.deleteBtn}>
+        <button
+          type="button"
+          className={css.deleteBtn}
+          onClick={() => mutate(cellParams.data.id)}
+        >
           {width >= 1440 ? (
             <>
               <svg className={css.deleteIcon} width={16} height={16}>
@@ -74,7 +95,7 @@ export default function TransactionsList({
   const data = [
     {
       _id: "1",
-      category: { categoryName: "Food" },
+      category: { _id: "cat1", categoryName: "Food" },
       comment: "pizza",
       date: "2026-04-07",
       time: "12:30",
@@ -82,7 +103,7 @@ export default function TransactionsList({
     },
     {
       _id: "2",
-      category: { categoryName: "Transport" },
+      category: { _id: "cat2", categoryName: "Transport" },
       comment: "taxi",
       date: "2026-04-05",
       time: "18:40",
@@ -90,7 +111,7 @@ export default function TransactionsList({
     },
     {
       _id: "3",
-      category: { categoryName: "Shopping" },
+      category: { _id: "cat3", categoryName: "Shopping" },
       comment: "t-shirt",
       date: "2026-04-04",
       time: "14:10",
@@ -98,7 +119,7 @@ export default function TransactionsList({
     },
     {
       _id: "3",
-      category: { categoryName: "Shopping" },
+      category: { _id: "cat4", categoryName: "Shopping" },
       comment: "t-shirt",
       date: "2026-04-04",
       time: "14:10",
@@ -106,7 +127,7 @@ export default function TransactionsList({
     },
     {
       _id: "3",
-      category: { categoryName: "Shopping" },
+      category: { _id: "cat5", categoryName: "Shopping" },
       comment: "t-shirt",
       date: "2026-04-04",
       time: "14:10",
@@ -114,7 +135,7 @@ export default function TransactionsList({
     },
     {
       _id: "3",
-      category: { categoryName: "Shopping" },
+      category: { _id: "cat6", categoryName: "Shopping" },
       comment: "t-shirt",
       date: "2026-04-04",
       time: "14:10",
@@ -125,6 +146,7 @@ export default function TransactionsList({
   const rows = data.map((item) => ({
     id: item._id,
     category: item.category.categoryName,
+    categoryId: item.category._id,
     comment: item.comment ?? "",
     date: item.date,
     time: item.time,
