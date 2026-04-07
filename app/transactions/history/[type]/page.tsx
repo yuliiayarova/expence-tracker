@@ -18,7 +18,7 @@ export default async function TransactionsPage({
 }: TransactionsPageProps) {
   const mockUser: GetUserResponse = {
     _id: "1",
-    name: "Alex",
+    name: "Alex Rybachok",
     email: "alex@example.com",
     avatarUrl: null,
     currency: "uah",
