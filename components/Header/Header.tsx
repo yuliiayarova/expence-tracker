@@ -35,7 +35,6 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // 1. Извлекаем данные и сразу называем их user. Указываем тип <GetUserResponse>
   const { data: user } = useQuery<GetUserResponse>({
     queryKey: ["current-user"],
     queryFn: getCurrentUser,
@@ -49,7 +48,6 @@ export default function Header() {
 
   const { isAuthenticated } = useAuthStore();
 
-  // 2. Исправлено: работаем с user?.name и добавили проверку на существование user
   const initials = useMemo(() => {
     if (!user?.name) return "";
     return user.name
@@ -79,7 +77,6 @@ export default function Header() {
     queryClient.setQueryData(["current-user"], nextUser);
   };
 
-  // Мутации
   const updateUserMutation = useMutation({
     mutationFn: updateUser,
     onSuccess: async (updatedUser) => {
@@ -113,9 +110,11 @@ export default function Header() {
     onError: () => toast.error("Unable to remove avatar."),
   });
 
-  const clearIsAuthenticated = useAuthStore((state) => state.clearIsAuthenticated);
+  const clearIsAuthenticated = useAuthStore(
+    (state) => state.clearIsAuthenticated,
+  );
 
-  // Обработчики
+  
   const closeBurger = () => {
     setIsBurgerOpen(false);
     setIsUserPanelOpen(false);
@@ -187,7 +186,6 @@ export default function Header() {
     await deleteAvatarMutation.mutateAsync();
   };
 
-  
   if (!isAuthenticated) {
     return (
       <header className={`${css.header} ${css.headerHome}`}>
@@ -198,7 +196,6 @@ export default function Header() {
     );
   }
 
-  // Если данных еще нет, можно вернуть скелетон или null
   if (!user) return null;
 
   const userBar = (

@@ -29,7 +29,8 @@ export default async function RootLayout({
     <html lang="uk">
       <body className={inter.className}>
         <TanStackProvider>
-
+          
+          
           <AuthProvider>
             <Container>
               <Header  />
