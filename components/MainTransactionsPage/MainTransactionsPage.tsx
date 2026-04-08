@@ -9,9 +9,11 @@ import type { CategoryStatsItem } from '@/lib/api/types/stats.types';
 import { getCurrentUser } from '@/lib/api/client/user/userApi';
 import type { GetUserResponse } from '@/lib/api/types/user.types';
 
+
 import TransactionsChart from './TransactionsChart/TransactionsChart';
 import TransactionsTotalAmount from './TransactionsTotalAmount/TransactionsTotalAmount';
 import css from './MainTransactionsPage.module.css';
+
 
 type TransactionsType = 'expenses' | 'incomes';
 
@@ -95,6 +97,8 @@ export default function MainTransactionsPage({
           </div>
 
           <TransactionsChart items={chartItems} isLoading={isChartLoading} />
+
+         
         </section>
       </div>
 
