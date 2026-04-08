@@ -1,0 +1,47 @@
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 140px; 
+  
+}
+
+
+
+.customInput {
+  width: 100%;
+  background: transparent;
+  border: var(--border-gray);
+  border-radius: 12px;
+  padding: 12px 14px; 
+  color: #ffffff;
+  font-size: var(--font-size-sm);
+  outline: none;
+  transition: border-color var(--transition-base);
+}
+
+@media only screen and (min-width: 768px) {
+  .inputWrapper {
+    width: 247px;
+    height: 48px;
+  }
+  .customInput{
+    font-size: var(--font-size-lg)
+  }
+}
+
+.customInput:focus {
+  border-color: var(--color-primary-hover);
+}
+
+.iconWrapper {
+  position: absolute;
+  right: 14px;
+  pointer-events: none; 
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  stroke: #fff;
+}
