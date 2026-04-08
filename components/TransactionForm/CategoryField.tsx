@@ -5,7 +5,7 @@ import { ErrorMessage, useFormikContext } from 'formik';
 import CategoriesModal from '../CategoriesModal/CategoriesModal';
 import type { Category } from '@/lib/api/types/category.types';
 import type { TransactionFormValues } from '@/lib/api/client/transactions/transactionForm.config';
-import css from './TransactionForm.module.css';
+import css from './CategoryField.module.css';
 
 interface Props {
   inputId: string;

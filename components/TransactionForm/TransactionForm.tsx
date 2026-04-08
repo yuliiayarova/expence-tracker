@@ -124,12 +124,6 @@ export default function TransactionForm() {
           <PersistTransactionDraft />
           <div className={css.transactionWrapper}>
             <div className={css.transactionFieldset}>
-              <label
-                className={css.transactionLabel}
-                htmlFor={`${id}-expenses`}
-              >
-                Expense
-              </label>
               <Field name="type">
                 {({
                   field,
@@ -150,11 +144,15 @@ export default function TransactionForm() {
                   />
                 )}
               </Field>
+              <span className={css.customRadio}></span>
+              <label
+                className={css.transactionLabel}
+                htmlFor={`${id}-expenses`}
+              >
+                Expense
+              </label>
             </div>
             <div className={css.transactionFieldset}>
-              <label className={css.transactionLabel} htmlFor={`${id}-incomes`}>
-                Income
-              </label>
               <Field name="type">
                 {({
                   field,
@@ -175,6 +173,10 @@ export default function TransactionForm() {
                   />
                 )}
               </Field>
+              <span className={css.customRadio}></span>
+              <label className={css.transactionLabel} htmlFor={`${id}-incomes`}>
+                Income
+              </label>
             </div>
             <ErrorMessage name="type" component="span" className={css.error} />
           </div>
@@ -191,7 +193,8 @@ export default function TransactionForm() {
             </label>
             <Field
               id={`${id}-sum`}
-              type="number"
+              type="text"
+              inputMode="decimal"
               name="sum"
               min="1"
               max="1000000"

@@ -1,11 +1,11 @@
 .page {
   width: 100%;
-  padding-top: 61px;
   padding-bottom: 29px;
 }
 .wrapper {
   display: flex;
   flex-direction: column;
+  margin-top: 61px;
 }
 .log {
   color: var(--color-grey);
@@ -16,7 +16,6 @@
 .title {
   margin: 0;
   padding-bottom: 14px;
-  
 }
 .span {
   text-decoration: underline;
@@ -37,12 +36,14 @@
     padding-bottom: 20px;
   }
   .description {
-    
     padding-bottom: 40px;
     width: 533px;
   }
-}
 
+  .wrapper {
+    margin-top: 98px;
+  }
+}
 
 @media only screen and (min-width: 1440px) {
   .page {
@@ -54,11 +55,9 @@
     order: 2;
   }
   .wrapper {
+    gap: 54px;
+    margin-top: 76px;
     display: flex;
     flex-direction: row;
-
-    align-items: center;
-    justify-content: space-between;
-    height: 100vh;
   }
 }
