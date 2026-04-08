@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import MainTransactionsPage from '@/components/MainTransactionsPage/MainTransactionsPage';
-import TransactionForm from '@/components/TransactionForm/TransactionForm';
+
 
 type TransactionsType = 'expenses' | 'incomes';
 
@@ -25,7 +25,6 @@ export default async function TransactionsPage({
       <MainTransactionsPage
         transactionsType={transactionsType as TransactionsType}
       />
-      <TransactionForm />
     </>
   );
 }
