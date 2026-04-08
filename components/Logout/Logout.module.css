@@ -1,0 +1,24 @@
+.logoutText {
+  color: var(--color-white);
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.buttonWrapper {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.cancelBtn {
+  background-color: var(--color-button-secondary-bg);
+  color: var(--color-white);
+  transition:
+    color var(--transition-base),
+    background-color var(--transition-base);
+}
+
+.cancelBtn:hover {
+  color: var(--color-dark-grey);
+  background-color: var(--color-button-secondary-bg);
+}

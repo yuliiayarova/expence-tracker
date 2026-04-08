@@ -1,23 +1,25 @@
-"use client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import css from "./TransactionsList.module.css";
-import { AllCommunityModule, ColDef } from "ag-grid-community";
-import { AgGridProvider } from "ag-grid-react";
-import { useWindowSize } from "react-use";
+'use client';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-theme-quartz.css';
+import css from './TransactionsList.module.css';
+import { AllCommunityModule, ColDef } from 'ag-grid-community';
+import { AgGridProvider } from 'ag-grid-react';
+import { useWindowSize } from 'react-use';
 import {
   deleteTransaction,
   getTransactions,
-} from "@/lib/api/client/transactions/transactionApi";
+} from '@/lib/api/client/transactions/transactionApi';
+import Loader from '../Loader/Loader';
 
 interface TransactionsListProps {
-  type: "incomes" | "expenses";
+  type: 'incomes' | 'expenses';
   date?: string;
   search?: string;
   handleChangeTransaction: (transaction: Row) => void;
 }
 export interface Row {
+  type: 'incomes' | 'expenses';
   id: string;
   category: string;
   categoryId: string;
@@ -37,16 +39,16 @@ export default function TransactionsList({
 }: TransactionsListProps) {
   const params = { ...(date && { date }), ...(search && { search }) };
   const { width } = useWindowSize();
-  // const { data = [] } = useQuery({
-  //   queryKey: ["transactions", type, params],
-  //   queryFn: () => getTransactions(type, params),
-  // });
+  const { data = [], isLoading } = useQuery({
+    queryKey: ['transactions', type, params],
+    queryFn: () => getTransactions(type, params),
+  });
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: deleteTransaction,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
     },
   });
 
@@ -92,90 +94,41 @@ export default function TransactionsList({
       </div>
     );
   };
-  const data = [
-    {
-      _id: "1",
-      category: { _id: "cat1", categoryName: "Food" },
-      comment: "pizza",
-      date: "2026-04-07",
-      time: "12:30",
-      sum: 250,
-    },
-    {
-      _id: "2",
-      category: { _id: "cat2", categoryName: "Transport" },
-      comment: "taxi",
-      date: "2026-04-05",
-      time: "18:40",
-      sum: 80,
-    },
-    {
-      _id: "3",
-      category: { _id: "cat3", categoryName: "Shopping" },
-      comment: "t-shirt",
-      date: "2026-04-04",
-      time: "14:10",
-      sum: 560,
-    },
-    {
-      _id: "3",
-      category: { _id: "cat4", categoryName: "Shopping" },
-      comment: "t-shirt",
-      date: "2026-04-04",
-      time: "14:10",
-      sum: 560,
-    },
-    {
-      _id: "3",
-      category: { _id: "cat5", categoryName: "Shopping" },
-      comment: "t-shirt",
-      date: "2026-04-04",
-      time: "14:10",
-      sum: 560,
-    },
-    {
-      _id: "3",
-      category: { _id: "cat6", categoryName: "Shopping" },
-      comment: "t-shirt",
-      date: "2026-04-04",
-      time: "14:10",
-      sum: 560,
-    },
-  ];
 
-  const rows = data.map((item) => ({
+  const rows = data.map(item => ({
     id: item._id,
+    type: item.type,
     category: item.category.categoryName,
     categoryId: item.category._id,
-    comment: item.comment ?? "",
+    comment: item.comment ?? '',
     date: item.date,
     time: item.time,
     sum: item.sum,
   }));
 
   const mobileCols: ColDef<Row>[] = [
-    { field: "category", headerName: "Category", width: 105 },
-    { field: "comment", headerName: "Comment", width: 105 },
-    { field: "date", headerName: "Date", width: 80 },
-    { field: "time", headerName: "Time", width: 85 },
-    { field: "sum", headerName: "Sum", width: 110 },
-    { headerName: "Actions", cellRenderer: SimleComp, width: 125 },
+    { field: 'category', headerName: 'Category', width: 105 },
+    { field: 'comment', headerName: 'Comment', width: 105 },
+    { field: 'date', headerName: 'Date', width: 80 },
+    { field: 'time', headerName: 'Time', width: 85 },
+    { field: 'sum', headerName: 'Sum', width: 110 },
+    { headerName: 'Actions', cellRenderer: SimleComp, width: 125 },
   ];
   const tabletCols: ColDef<Row>[] = [
-    { field: "category", headerName: "Category", flex: 0.85 },
-    { field: "comment", headerName: "Comment", flex: 0.85 },
-    { field: "date", headerName: "Date", flex: 0.6 },
-    { field: "time", headerName: "Time", flex: 0.6 },
-    { field: "sum", headerName: "Sum", flex: 0.6 },
-    { headerName: "Actions", cellRenderer: SimleComp, flex: 0.8 },
+    { field: 'category', headerName: 'Category', flex: 0.85 },
+    { field: 'comment', headerName: 'Comment', flex: 0.85 },
+    { field: 'date', headerName: 'Date', flex: 0.6 },
+    { field: 'time', headerName: 'Time', flex: 0.6 },
+    { field: 'sum', headerName: 'Sum', flex: 0.6 },
+    { headerName: 'Actions', cellRenderer: SimleComp, flex: 0.8 },
   ];
   const desktopCols: ColDef<Row>[] = [
-    { field: "category", headerName: "Category", flex: 0.85 },
-    { field: "comment", headerName: "Comment", flex: 0.85 },
-    { field: "date", headerName: "Date", flex: 0.6 },
-    { field: "time", headerName: "Time", flex: 0.6 },
-    { field: "sum", headerName: "Sum", flex: 0.7 },
-    { headerName: "Actions", cellRenderer: SimleComp, flex: 1.15 },
+    { field: 'category', headerName: 'Category', flex: 0.85 },
+    { field: 'comment', headerName: 'Comment', flex: 0.85 },
+    { field: 'date', headerName: 'Date', flex: 0.6 },
+    { field: 'time', headerName: 'Time', flex: 0.6 },
+    { field: 'sum', headerName: 'Sum', flex: 0.7 },
+    { headerName: 'Actions', cellRenderer: SimleComp, flex: 1.15 },
   ];
 
   const currentCols = trueWidth();
@@ -192,19 +145,25 @@ export default function TransactionsList({
   }
   const defaultColDef = {
     cellStyle: {
-      display: "flex",
-      alignItems: "center",
+      display: 'flex',
+      alignItems: 'center',
     },
   };
 
   return (
     <AgGridProvider modules={modules}>
       <div className={css.tableWrapper}>
+        {isLoading && (
+          <div className={css.loadingOverlay}>
+            <Loader size={width > 768 ? 'small' : 'medium'} />
+          </div>
+        )}
         <div
           className="ag-theme-quartz"
           style={{
             height: 349,
-            width: "100%",
+            width: '100%',
+            visibility: isLoading ? 'hidden' : 'visible',
           }}
         >
           <AgGridReact
@@ -212,7 +171,7 @@ export default function TransactionsList({
             columnDefs={currentCols}
             defaultColDef={defaultColDef}
             rowHeight={70}
-            overlayNoRowsTemplate="<span>Нічого немає??</span>"
+            overlayNoRowsTemplate="<span>No transactions yet</span>"
           />
         </div>
       </div>

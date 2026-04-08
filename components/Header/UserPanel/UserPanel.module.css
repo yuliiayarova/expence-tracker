@@ -25,13 +25,21 @@
   letter-spacing: -0.02em;
   text-align: left;
   cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.userPanelItem:hover {
+  color: var(--color-white);
 }
 
 .userPanelIcon {
-  width: 16px;
-  height: 16px;
   fill: none;
   stroke: currentColor;
+  transition: all var(--transition-base);
+}
+
+.userPanelItem:hover .userPanelIcon * {
+  stroke: var(--color-primary-hover);
 }
 
 @media only screen and (min-width: 768px) {

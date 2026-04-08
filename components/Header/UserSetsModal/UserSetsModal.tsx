@@ -1,13 +1,14 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+
+import { useEffect, useRef, useState } from "react";
+import type { ChangeEvent } from "react";
 
 import Button from "@/components/Button/Button";
 import type { Currency, UpdateUserRequest } from "@/lib/api/types/user.types";
 
+import AvatarCropper from "./AvatarCropper";
 import css from "./UserSetsModal.module.css";
 
 interface UserSetsModalProps {
@@ -38,6 +39,8 @@ export default function UserSetsModal({
   );
   const [previewUrl, setPreviewUrl] = useState<string | null>(avatarUrl ?? null);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [cropFileName, setCropFileName] = useState("");
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
   const [error, setError] = useState("");
 
@@ -74,7 +77,7 @@ export default function UserSetsModal({
     };
   }, [previewUrl]);
 
-  const displayAvatar = useMemo(() => previewUrl || avatarUrl || null, [avatarUrl, previewUrl]);
+  const displayAvatar = previewUrl;
 
   const handleBackdropClick = () => {
     setIsCurrencyOpen(false);
@@ -83,28 +86,28 @@ export default function UserSetsModal({
 
   const handleAvatarSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
-    if (previewUrl && previewUrl.startsWith("blob:")) {
-      URL.revokeObjectURL(previewUrl);
-    }
-
-    setPendingFile(file);
-    setPreviewUrl(URL.createObjectURL(file));
+    if (!file) return;
+    event.target.value = "";
+    setCropSrc(URL.createObjectURL(file));
+    setCropFileName(file.name);
   };
 
-  const handleAvatarUpload = async () => {
-    if (!pendingFile) {
-      fileInputRef.current?.click();
-      return;
-    }
+  const handleCropConfirm = (croppedFile: File) => {
+    if (cropSrc) URL.revokeObjectURL(cropSrc);
+    setCropSrc(null);
 
-    const uploadedUrl = await onUploadAvatar(pendingFile);
-    setPendingFile(null);
-    setPreviewUrl(uploadedUrl ?? previewUrl);
+    if (previewUrl && previewUrl.startsWith("blob:")) URL.revokeObjectURL(previewUrl);
+    setPendingFile(croppedFile);
+    setPreviewUrl(URL.createObjectURL(croppedFile));
+  };
+
+  const handleCropCancel = () => {
+    if (cropSrc) URL.revokeObjectURL(cropSrc);
+    setCropSrc(null);
+  };
+
+  const handleAvatarUpload = () => {
+    fileInputRef.current?.click();
   };
 
   const handleAvatarRemove = async () => {
@@ -120,7 +123,7 @@ export default function UserSetsModal({
   const selectedCurrencyLabel =
     currencyOptions.find((option) => option.value === formCurrency)?.label ?? formCurrency;
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!formName.trim()) {
@@ -143,6 +146,15 @@ export default function UserSetsModal({
   };
 
   return (
+    <>
+    {cropSrc ? (
+      <AvatarCropper
+        imageSrc={cropSrc}
+        fileName={cropFileName}
+        onConfirm={handleCropConfirm}
+        onCancel={handleCropCancel}
+      />
+    ) : null}
     <div className={css.backdrop} onClick={handleBackdropClick} role="presentation">
       <div className={css.modal} onClick={(event) => event.stopPropagation()}>
         <div className={css.header}>
@@ -261,5 +273,6 @@ export default function UserSetsModal({
         </form>
       </div>
     </div>
+    </>
   );
 }

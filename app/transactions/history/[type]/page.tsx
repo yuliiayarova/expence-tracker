@@ -1,12 +1,10 @@
-import Header from "@/components/Header/Header";
-import TransactionsTotalAmount from "@/components/MainTransactionsPage/TransactionsTotalAmount/TransactionsTotalAmount";
-import { getCurrentUser } from "@/lib/api/server/user/userServerApi";
-import { notFound } from "next/navigation";
-import css from "./history.module.css";
-import TransactionsHistoryClient from "./TransactionsHistoryClient";
-import { GetUserResponse } from "@/lib/api/types/user.types";
+import TransactionsTotalAmount from '@/components/MainTransactionsPage/TransactionsTotalAmount/TransactionsTotalAmount';
+import { notFound } from 'next/navigation';
+import css from './history.module.css';
+import TransactionsHistoryClient from './TransactionsHistoryClient';
+import { getCurrentUser } from '@/lib/api/server/user/userServerApi';
 
-type Type = "expenses" | "incomes";
+type Type = 'expenses' | 'incomes';
 
 interface TransactionsPageProps {
   params: Promise<{
@@ -20,34 +18,16 @@ export default async function TransactionsPage({
   const { type } = await params;
   const user = await getCurrentUser();
 
-  if (type !== "expenses" && type !== "incomes") {
+  if (type !== 'expenses' && type !== 'incomes') {
     notFound();
   }
 
-  const mockUser: GetUserResponse = {
-    _id: "1",
-    name: "Alex Rybachok",
-    email: "alex@example.com",
-    avatarUrl: null,
-    currency: "uah",
-    categories: {
-      incomes: [],
-      expenses: [],
-    },
-    transactionsTotal: {
-      incomes: 0,
-      expenses: 0,
-    },
-  };
-
   return (
     <main>
-      {/* user={user} */}
-      <Header user={mockUser} />
       <div className={css.financeSummary}>
         <div className={css.financeHeader}>
           <h2 className={css.financeTitle}>All {type}</h2>
-          {type === "expenses" ? (
+          {type === 'expenses' ? (
             <p className={css.financeDescr}>
               View and manage every transaction seamlessly! Your entire
               financial landscape, all in one place.
@@ -59,7 +39,11 @@ export default async function TransactionsPage({
             </p>
           )}
         </div>
-        <TransactionsTotalAmount isLoading={false} />
+        <TransactionsTotalAmount
+          totals={user.transactionsTotal}
+          currency={user.currency}
+          isLoading={false}
+        />
       </div>
       <TransactionsHistoryClient type={type} />
     </main>
