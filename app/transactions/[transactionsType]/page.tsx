@@ -1,8 +1,9 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import MainTransactionsPage from "@/components/MainTransactionsPage/MainTransactionsPage";
+import MainTransactionsPage from '@/components/MainTransactionsPage/MainTransactionsPage';
+import TransactionForm from '@/components/TransactionForm/TransactionForm';
 
-type TransactionsType = "expenses" | "incomes";
+type TransactionsType = 'expenses' | 'incomes';
 
 interface TransactionsPageProps {
   params: Promise<{
@@ -15,13 +16,16 @@ export default async function TransactionsPage({
 }: TransactionsPageProps) {
   const { transactionsType } = await params;
 
-  if (transactionsType !== "expenses" && transactionsType !== "incomes") {
+  if (transactionsType !== 'expenses' && transactionsType !== 'incomes') {
     notFound();
   }
 
   return (
-    <MainTransactionsPage
-      transactionsType={transactionsType as TransactionsType}
-    />
+    <>
+      <MainTransactionsPage
+        transactionsType={transactionsType as TransactionsType}
+      />
+      <TransactionForm />
+    </>
   );
 }
