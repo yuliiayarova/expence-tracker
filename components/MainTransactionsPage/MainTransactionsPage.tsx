@@ -75,8 +75,6 @@ export default function MainTransactionsPage({
   return (
     <>
       <div className={css.home}>
-        
-
         <section
           className={css.content}
           data-transactions-type={transactionsType}
