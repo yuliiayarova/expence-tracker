@@ -3,7 +3,8 @@
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
 import css from './CategoriesModal.module.css';
-import { Category, CategoryType } from '../TransactionForm/typs/categoryType';
+import { Category } from '@/lib/api/types/category.types';
+import { useTransactionStore } from '@/lib/store/transactionStore';
 
 // type Category = {
 //   id: string;
@@ -13,9 +14,9 @@ import { Category, CategoryType } from '../TransactionForm/typs/categoryType';
 interface CategoriesModalProps {
   onClose: () => void;
   onSelectCategory: (category: string) => void;
-  group: CategoryType;
+  group: 'incomes' | 'expenses';
   categories: Category[];
-  setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  setCategories: (updater: (prev: Category[]) => Category[]) => void;
 }
 
 export default function CategoriesModal({

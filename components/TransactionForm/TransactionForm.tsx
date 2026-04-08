@@ -2,60 +2,28 @@
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useEffect, useState, useRef } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState /*useEffect, useRef */ } from 'react';
+import { useTransactionStore } from '@/lib/store/transactionStore';
+import {
+  useQuery /*useMutation, useQueryClient*/,
+} from '@tanstack/react-query';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format, parse } from 'date-fns';
 import clsx from 'clsx';
-import { updataTransaction, TransactionGetRes } from './api/transactionApi';
-import { getCategories } from './api/categoryApi';
-import type { CategoryType, Category } from './typs/categoryType';
+// import { updateTransaction } from '@/lib/api/client/transactions/transactionApi';
+// import { Transaction } from '@/lib/api/types/transaction.types';
+import { getCategories } from '@/lib/api/client/categories/categoryApi';
+import type {
+  CategoriesResponse,
+  Category,
+} from '@/lib/api/types/category.types';
+import { CreateTransactionRequest } from '@/lib/api/types/transaction.types';
 import CategoriesModal from '../CategoriesModal/CategoriesModal';
 import Button from '../Button/Button';
 import css from './TransactionForm.module.css';
-import { Transaction } from './typs/transactionType';
 
-/*type Category = {
-  id: string;
-  name: string;
-};
-
-const validationSchema = Yup.object({
-  typeTransaction: Yup.string().required('Choose transaction type'),
-  dateTransaction: Yup.date()
-    .max(new Date(), 'Error date')
-    .required('Date is required'),
-  timeTransaction: Yup.date()
-    .max(new Date(), 'Error date')
-    .required('Date is required'),
-  // timeTransaction: Yup.string()
-  //   .matches(
-  //     /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/,
-  //     'Format should be hh:mm:ss',
-  //   )
-  //   .required('Time is required'),
-  categoryTransaction: Yup.string(),
-  sumTransaction: Yup.number()
-    .typeError('Sum must be a number')
-    .positive('Sum must be positive')
-    .required('Sum is required'),
-  commentTransaction: Yup.string().min(
-    5,
-    'Comment must contain at least 5 letters',
-  ),
-  // .required('Comment is required'),
-});
-
-const initialValues = {
-  typeTransaction: 'expense',
-  dateTransaction: '',
-  timeTransaction: '',
-  categoryTransaction: '',
-  sumTransaction: '',
-  commentTransaction: '',
-};/**/
-let iziToastCssLoaded = false;
+/*let iziToastCssLoaded = false;
 const showToast = (
   type: 'success' | 'error',
   title: string,
@@ -68,12 +36,12 @@ const showToast = (
   import('izitoast').then(mod => {
     mod.default[type]({ title, message, position: 'topRight' });
   });
-};
+};*/
 
-interface TransactionFormProps {
-  transaction: TransactionGetRes;
-  onClose: () => void;
-}
+// interface TransactionFormProps {
+//   transaction: CreateTransactionRequest;
+//   onClose: () => void;
+// }
 
 const validationSchema = Yup.object({
   typeTransaction: Yup.string()
@@ -96,15 +64,19 @@ const validationSchema = Yup.object({
   ),
 });
 
-export default function TransactionForm({
+export default function TransactionForm(/*{
   transaction,
   onClose,
-}: TransactionFormProps) {
-  /*// const [transactionType, setTransactionType] =
-  //   useState<TypeTransaction>('expense');*/
-  const [groupCategories, setGroupCategories] =
-    useState<CategoryType>('expense');
-  const [category, setCategory] = useState<Category[]>([]);
+}: TransactionFormProps/**/) {
+  // const [groupCategories, setGroupCategories] = useState<
+  //   'expenses' | 'incomes'
+  // >('expenses');
+  // const [category, setCategory] = useState<Category[]>([]);
+  // const categoriesResponse: CategoriesResponse = {
+  //   incomes: useTransactionStore(state => state.incomes),
+  //   expenses: useTransactionStore(state => state.expences),
+  // };
+  const { expences, incomes, setExpenses, setIncomes } = useTransactionStore();
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
 
@@ -119,23 +91,14 @@ export default function TransactionForm({
     setIsCategoriesOpen(false);
   }; /**/
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategories,
   });
-  const mutation = useMutation({
-    mutationFn: (values: Transaction) =>
-      updataTransaction({
-        _idTransaction: transaction._idTransaction,
-        originalType: values.typeTransaction,
-        typeTransaction: values.typeTransaction,
-        dateTransaction: values.dateTransaction,
-        timeTransaction: values.timeTransaction,
-        categoryTransaction: values.categoryTransaction,
-        sumTransaction: values.sumTransaction,
-        commentTransaction: values.commentTransaction,
-      }),
+
+  /*const mutation = useMutation({
+    mutationFn: (values: Transaction) => updateTransaction(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions', 'expense'] });
       queryClient.invalidateQueries({ queryKey: ['transactions', 'income'] });
@@ -146,20 +109,20 @@ export default function TransactionForm({
     onError: () => {
       showToast('error', 'Error', 'Failed to update transaction');
     },
-  });
+  });/**/
 
-  const initialValues: Transaction = {
-    typeTransaction: transaction.typeTransaction,
-    dateTransaction: transaction.dateTransaction,
-    timeTransaction: transaction.timeTransaction,
-    categoryTransaction: transaction.categoryTransaction.categoryName,
-    sumTransaction: transaction.sumTransaction,
-    commentTransaction: transaction.commentTransaction ?? '',
+  const initialValues: CreateTransactionRequest = {
+    type: 'expenses',
+    date: '',
+    time: '',
+    category: '',
+    sum: 0,
+    comment: '',
   };
 
-  const handleSubmit = (values: Transaction) => {
+  const handleSubmit = (values: CreateTransactionRequest) => {
     console.log('Form submitted:', values);
-    mutation.mutate(values);
+    // mutation.mutate(values);
   };
 
   return (
@@ -170,217 +133,186 @@ export default function TransactionForm({
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, values, setFieldValue }) => {
-          const groupCategories =
-            values.typeTransaction === 'income'
-              ? (categories?.income ?? [])
-              : (categories?.expense ?? []);
-          // setCategory(groupCategories);
-          setGroupCategories(values.typeTransaction);
-          return (
-            <Form className={css['transaction-form']}>
-              <div className={css['transaction-groop-container']}>
-                <label className={css['transaction-label-radio']}>
-                  <Field
-                    type="radio"
-                    name="typeTransaction"
-                    value="expense"
-                    className={css['visually-hidden']}
-                  />
-                  <span className={css.borderGreen}>
-                    <span className={css.inCircle}></span>
-                  </span>
-                  Expense
-                </label>
-                <label className={css['transaction-label-radio']}>
-                  <Field
-                    type="radio"
-                    name="typeTransaction"
-                    value="income"
-                    className={css['visually-hidden']}
-                  />
-                  <span className={css.borderGreen}>
-                    <span className={css.inCircle}></span>
-                  </span>
-                  Income
-                </label>
-                <ErrorMessage
-                  name="typeTransaction"
-                  component="span"
-                  className={css['text-error']}
-                />
-              </div>
-              <div className={css['transaction-groop-container']}>
-                <div className={css['transaction-groop-item']}>
-                  <label
-                    className={css['transaction-label']}
-                    htmlFor="dateTransaction"
-                  >
-                    Date
-                  </label>
-                  <DatePicker
-                    name="dateTransaction"
-                    id="dateTransaction"
-                    className={clsx(
-                      css['transaction-input'],
-                      errors.dateTransaction &&
-                        touched.dateTransaction &&
-                        css['text-error'],
-                    )}
-                    calendarClassName={css['transaction-datetime-background']}
-                    selected={
-                      values.dateTransaction
-                        ? new Date(values.dateTransaction)
-                        : null
-                    }
-                    onChange={(date: Date | null) => {
-                      if (date) {
-                        const dateString = format(date, 'MM/dd/yyyy');
-                        setFieldValue('dateTransaction', dateString);
-                      } else {
-                        setFieldValue('dateTransaction', '');
-                      }
-                    }}
-                    dateFormat="MM/dd/yyyy"
-                    placeholderText="mm/dd/yyyy"
-                  />
-                  <ErrorMessage
-                    name="dateTransaction"
-                    component="span"
-                    className={css['text-error']}
-                  />
-                </div>
-                <div className={css['transaction-groop-item']}>
-                  <label
-                    className={css['transaction-label']}
-                    htmlFor="timeTransaction"
-                  >
-                    Time
-                  </label>
-                  <DatePicker
-                    id="timeTransaction"
-                    name="timeTransaction"
-                    selected={
-                      values.timeTransaction
-                        ? parse(values.timeTransaction, 'HH:mm:ss', new Date())
-                        : null
-                    }
-                    onChange={(time: Date | null) => {
-                      const timeString = time ? format(time, 'HH:mm:ss') : '';
-                      setFieldValue('timeTransaction', timeString);
-                    }}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeFormat="HH:mm:ss"
-                    dateFormat="HH:mm:ss"
-                    placeholderText="00:00:00"
-                    className={css['transaction-input']}
-                    timeClassName={() => css['transaction-datetime-background']}
-                  />
-                  <ErrorMessage
-                    name="timeTransaction"
-                    component="span"
-                    className={css['text-error']}
-                  />
-                </div>
-              </div>
-              <div className={css['transaction-groop']}>
-                <label
-                  className={css['transaction-label']}
-                  htmlFor="categoryTransaction"
-                >
-                  Category
-                </label>
+        {({ errors, touched, values, setFieldValue }) => (
+          <Form className={css['transaction-form']}>
+            <div className={css['transaction-groop-container']}>
+              <label className={css['transaction-label-radio']}>
                 <Field
-                  name="categoryTransaction"
-                  id="categoryTransaction"
-                  placeholder="Different"
-                  value={selectedCategory || ''}
-                  className={css['transaction-input']}
-                  onClick={handleOpenModalCategories}
-                  readOnly
+                  type="radio"
+                  name="type"
+                  value="expenses"
+                  className={css['visually-hidden']}
                 />
-                <ErrorMessage
-                  name="categoryTransaction"
-                  component="span"
-                  className={css['text-error']}
-                />
-              </div>
-              <div className={css['transaction-groop']}>
-                <label
-                  className={css['transaction-label']}
-                  htmlFor="sumTransaction"
-                >
-                  Sum
-                </label>
-                <div className={css['field-wrapper']}>
-                  <Field
-                    type="number"
-                    name="sumTransaction"
-                    id="sumTransaction"
-                    placeholder="Enter the sum"
-                    className={clsx(
-                      // css['transaction-input'],
-                      css['transaction-input-sum'],
-                      errors.sumTransaction &&
-                        touched.sumTransaction &&
-                        css['input-error'],
-                    )}
-                  />
-                  <span className={css['field-wrapper-suffix']}>UAH</span>
-                </div>
-                <ErrorMessage
-                  name="sumTransaction"
-                  component="span"
-                  className={css['text-error']}
-                />
-              </div>
-              <div className={css['transaction-groop']}>
-                <label
-                  className={css['transaction-label']}
-                  htmlFor="commentTransaction"
-                >
-                  Comment
-                </label>
+                <span className={css.borderGreen}>
+                  <span className={css.inCircle}></span>
+                </span>
+                Expense
+              </label>
+              <label className={css['transaction-label-radio']}>
                 <Field
-                  as="textarea"
-                  name="commentTransaction"
-                  id="commentTransaction"
-                  rows="5"
-                  placeholder="Enter the text"
+                  type="radio"
+                  name="type"
+                  value="incomes"
+                  className={css['visually-hidden']}
+                />
+                <span className={css.borderGreen}>
+                  <span className={css.inCircle}></span>
+                </span>
+                Income
+              </label>
+              <ErrorMessage
+                name="type"
+                component="span"
+                className={css['text-error']}
+              />
+            </div>
+            <div className={css['transaction-groop-container']}>
+              <div className={css['transaction-groop-item']}>
+                <label className={css['transaction-label']} htmlFor="date">
+                  Date
+                </label>
+                <DatePicker
+                  name="date"
+                  id="date"
                   className={clsx(
                     css['transaction-input'],
-                    css['transaction-textarea'],
-                    errors.sumTransaction &&
-                      touched.sumTransaction &&
-                      css['input-error'],
+                    errors.date && touched.date && css['text-error'],
                   )}
+                  calendarClassName={css['transaction-datetime-background']}
+                  selected={values.date ? new Date(values.date) : null}
+                  onChange={(date: Date | null) => {
+                    if (date) {
+                      const dateString = format(date, 'MM/dd/yyyy');
+                      setFieldValue('date', dateString);
+                    } else {
+                      setFieldValue('date', '');
+                    }
+                  }}
+                  dateFormat="MM/dd/yyyy"
+                  placeholderText="mm/dd/yyyy"
                 />
                 <ErrorMessage
-                  name="commentTransaction"
+                  name="date"
                   component="span"
                   className={css['text-error']}
                 />
               </div>
-              <Button
-                text="Add"
-                type="submit"
-                className={css['transaction-submit']}
+              <div className={css['transaction-groop-item']}>
+                <label className={css['transaction-label']} htmlFor="time">
+                  Time
+                </label>
+                <DatePicker
+                  id="time"
+                  name="time"
+                  selected={
+                    values.time
+                      ? parse(values.time, 'HH:mm:ss', new Date())
+                      : null
+                  }
+                  onChange={(time: Date | null) => {
+                    const timeString = time ? format(time, 'HH:mm:ss') : '';
+                    setFieldValue('time', timeString);
+                  }}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={15}
+                  timeFormat="HH:mm:ss"
+                  dateFormat="HH:mm:ss"
+                  placeholderText="00:00:00"
+                  className={css['transaction-input']}
+                  timeClassName={() => css['transaction-datetime-background']}
+                />
+                <ErrorMessage
+                  name="time"
+                  component="span"
+                  className={css['text-error']}
+                />
+              </div>
+            </div>
+            <div className={css['transaction-groop']}>
+              <label className={css['transaction-label']} htmlFor="category">
+                Category
+              </label>
+              <Field
+                name="category"
+                id="category"
+                placeholder="Different"
+                value={values.category}
+                className={css['transaction-input']}
+                onClick={() => setIsCategoriesOpen(true)}
+                readOnly
               />
-            </Form>
-          );
-        }}
+              <ErrorMessage
+                name="category"
+                component="span"
+                className={css['text-error']}
+              />
+            </div>
+            <div className={css['transaction-groop']}>
+              <label className={css['transaction-label']} htmlFor="sum">
+                Sum
+              </label>
+              <div className={css['field-wrapper']}>
+                <Field
+                  type="number"
+                  name="sum"
+                  id="sum"
+                  placeholder="Enter the sum"
+                  className={clsx(
+                    // css['transaction-input'],
+                    css['transaction-input-sum'],
+                    errors.sum && touched.sum && css['input-error'],
+                  )}
+                />
+                <span className={css['field-wrapper-suffix']}>UAH</span>
+              </div>
+              <ErrorMessage
+                name="sum"
+                component="span"
+                className={css['text-error']}
+              />
+            </div>
+            <div className={css['transaction-groop']}>
+              <label className={css['transaction-label']} htmlFor="comment">
+                Comment
+              </label>
+              <Field
+                as="textarea"
+                name="comment"
+                id="comment"
+                rows="5"
+                placeholder="Enter the text"
+                className={clsx(
+                  css['transaction-input'],
+                  css['transaction-textarea'],
+                  errors.sum && touched.sum && css['input-error'],
+                )}
+              />
+              <ErrorMessage
+                name="comment"
+                component="span"
+                className={css['text-error']}
+              />
+            </div>
+            <Button
+              text="Add"
+              type="submit"
+              className={css['transaction-submit']}
+            />
+            {isCategoriesOpen && (
+              <CategoriesModal
+                onClose={() => setIsCategoriesOpen(false)}
+                onSelectCategory={catName => setFieldValue('category', catName)}
+                group={values.type}
+                categories={values.type === 'expenses' ? expences : incomes}
+                setCategories={
+                  values.type === 'expenses' ? setExpenses : setIncomes
+                }
+              />
+            )}
+          </Form>
+        )}
       </Formik>
-      {isCategoriesOpen && (
-        <CategoriesModal
-          onClose={handleCloseModalCategories}
-          onSelectCategory={handleSelectedCategory}
-          group={groupCategories}
-          categories={category}
-          setCategories={setCategory}
-        />
-      )}
     </div>
   );
 }
