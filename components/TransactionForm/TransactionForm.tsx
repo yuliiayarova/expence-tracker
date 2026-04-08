@@ -1,6 +1,13 @@
 'use client';
 
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
+import {
+  ErrorMessage,
+  Field,
+  FieldProps,
+  Form,
+  Formik,
+  FormikHelpers,
+} from 'formik';
 import css from './TransactionForm.module.css';
 import Button from '../Button/Button';
 import Loader from '../Loader/Loader';
@@ -16,6 +23,8 @@ import {
   TransactionFormValues,
 } from '@/lib/api/client/transactions/transactionForm.config';
 import PersistTransactionDraft from './PersistTransactionDraft';
+import CategoryField from './CategoryField';
+import { CreateTransactionRequest } from '@/lib/api/types/transaction.types';
 
 const transactionSchema = Yup.object({
   type: Yup.string()
@@ -64,7 +73,6 @@ type ErrorResponse = {
 
 export default function TransactionForm() {
   const { draft, clearDraft } = useTransactionDraftStore();
-
   const id = useId();
 
   const handleSubmit = async (
@@ -72,8 +80,11 @@ export default function TransactionForm() {
     { setSubmitting, resetForm }: FormikHelpers<TransactionFormValues>,
   ) => {
     try {
-      const payload = {
-        ...values,
+      const payload: CreateTransactionRequest = {
+        type: values.type,
+        date: values.date,
+        time: values.time,
+        category: values.category,
         sum: Number(values.sum),
         comment: values.comment.trim() || undefined,
       };
@@ -119,25 +130,51 @@ export default function TransactionForm() {
               >
                 Expense
               </label>
-              <Field
-                id={`${id}-expenses`}
-                type="radio"
-                name="type"
-                value="expenses"
-                className={css.transactionInput}
-              />
+              <Field name="type">
+                {({
+                  field,
+                  form,
+                }: FieldProps<TransactionFormValues['type']>) => (
+                  <input
+                    id={`${id}-expenses`}
+                    type="radio"
+                    {...field}
+                    value="expenses"
+                    checked={field.value === 'expenses'}
+                    className={css.transactionInput}
+                    onChange={() => {
+                      form.setFieldValue('type', 'expenses');
+                      form.setFieldValue('category', '');
+                      form.setFieldValue('categoryName', '');
+                    }}
+                  />
+                )}
+              </Field>
             </div>
             <div className={css.transactionFieldset}>
               <label className={css.transactionLabel} htmlFor={`${id}-incomes`}>
                 Income
               </label>
-              <Field
-                id={`${id}-incomes`}
-                type="radio"
-                name="type"
-                value="incomes"
-                className={css.transactionInput}
-              />
+              <Field name="type">
+                {({
+                  field,
+                  form,
+                }: FieldProps<TransactionFormValues['type']>) => (
+                  <input
+                    id={`${id}-incomes`}
+                    type="radio"
+                    {...field}
+                    value="incomes"
+                    checked={field.value === 'incomes'}
+                    className={css.transactionInput}
+                    onChange={() => {
+                      form.setFieldValue('type', 'incomes');
+                      form.setFieldValue('category', '');
+                      form.setFieldValue('categoryName', '');
+                    }}
+                  />
+                )}
+              </Field>
             </div>
             <ErrorMessage name="type" component="span" className={css.error} />
           </div>
@@ -146,25 +183,7 @@ export default function TransactionForm() {
             <DatePickerGroup />
           </div>
 
-          <div className={css.categoryFieldset}>
-            <label className={css.categoryLabel} htmlFor={`${id}-category`}>
-              Category
-            </label>
-            <Field
-              as="select"
-              id={`${id}-category`}
-              name="category"
-              className={css.categoryInput}
-            >
-              <option value="">Select category</option>
-              <option value="6522bf1f9027bb7d55d6512b">Different</option>
-            </Field>
-            <ErrorMessage
-              name="category"
-              component="span"
-              className={css.error}
-            />
-          </div>
+          <CategoryField inputId={`${id}-category`} />
 
           <div className={css.sumFieldset}>
             <label className={css.sumLabel} htmlFor={`${id}-sum`}>
@@ -205,16 +224,14 @@ export default function TransactionForm() {
             />
           </div>
 
-          <div className={css.actions}>
-            <div className={css.loadingWrapper}>
-              <Button
-                className={css.submitButton}
-                type="submit"
-                text={isSubmitting ? 'Adding...' : 'Add'}
-                disabled={isSubmitting}
-              />
-              {isSubmitting && <Loader size="small" />}
-            </div>
+          <div className={css.loadingWrapper}>
+            <Button
+              className={css.submitButton}
+              type="submit"
+              text={isSubmitting ? 'Adding...' : 'Add'}
+              disabled={isSubmitting}
+            />
+            {isSubmitting && <Loader size="small" />}
           </div>
         </Form>
       )}

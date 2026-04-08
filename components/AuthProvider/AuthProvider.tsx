@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { refreshSession } from "@/lib/api/client/auth/authApi";
-import { useAuthStore } from "../../lib/store/authStore";
-import { useEffect, useState } from "react";
-import { getCurrentUser } from "@/lib/api/client/user/userApi";
-import Loader from "../Loader/Loader";
+import { refreshSession } from '@/lib/api/client/auth/authApi';
+import { useAuthStore } from '../../lib/store/authStore';
+import { useEffect, useState } from 'react';
+import { getCurrentUser } from '@/lib/api/client/user/userApi';
+import Loader from '../Loader/Loader';
 
 type Props = {
   children: React.ReactNode;
 };
 
 export default function AuthProvider({ children }: Props) {
-  const setUser = useAuthStore((state) => state.setUser);
+  const setUser = useAuthStore(state => state.setUser);
   const clearIsAuthenticated = useAuthStore(
-    (state) => state.clearIsAuthenticated,
+    state => state.clearIsAuthenticated,
   );
 
   const [isLoading, setIsLoading] = useState(true);

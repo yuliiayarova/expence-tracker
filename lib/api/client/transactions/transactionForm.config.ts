@@ -3,6 +3,7 @@ export interface TransactionFormValues {
   date: string;
   time: string;
   category: string;
+  categoryName: string;
   sum: number | '';
   comment: string;
 }
@@ -18,6 +19,7 @@ export const getInitialTransactionValues = (): TransactionFormValues => {
     date: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`,
     time: `${pad(now.getHours())}:${pad(now.getMinutes())}`,
     category: '',
+    categoryName: '',
     sum: '',
     comment: '',
   };

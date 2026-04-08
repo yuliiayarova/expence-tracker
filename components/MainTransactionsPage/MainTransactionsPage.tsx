@@ -79,26 +79,33 @@ export default function MainTransactionsPage({
           className={css.content}
           data-transactions-type={transactionsType}
         >
-          <div className={css.overview}>
-            <div className={css.hero}>
-              <h1 className={css.title}>Expense Log</h1>
-              <p className={css.description}>
-                Capture and organize every penny spent with ease! A clear view
-                of your financial habits at your fingertips.
-              </p>
+          <div className={css.container}>
+            <div className={css.overviewWrapper}>
+              <div className={css.overview}>
+                <div className={css.hero}>
+                  <h1 className={css.title}>Expense Log</h1>
+                  <p className={css.description}>
+                    Capture and organize every penny spent with ease! A clear
+                    view of your financial habits at your fingertips.
+                  </p>
+                </div>
+
+                <TransactionsTotalAmount
+                  currency={user?.currency}
+                  totals={user?.transactionsTotal}
+                  isLoading={isSummaryLoading}
+                />
+              </div>
+
+              <TransactionsChart
+                items={chartItems}
+                isLoading={isChartLoading}
+              />
             </div>
 
-            <TransactionsTotalAmount
-              currency={user?.currency}
-              totals={user?.transactionsTotal}
-              isLoading={isSummaryLoading}
-            />
-          </div>
-
-          <TransactionsChart items={chartItems} isLoading={isChartLoading} />
-
-          <div className={css.formWrapper}>
-            <TransactionForm />
+            <div className={css.formWrapper}>
+              <TransactionForm />
+            </div>
           </div>
         </section>
       </div>

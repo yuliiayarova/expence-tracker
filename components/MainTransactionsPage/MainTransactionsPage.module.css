@@ -62,6 +62,7 @@
 
   .overview {
     gap: 39px;
+    margin-bottom: 40px;
   }
 
   .hero {
@@ -84,4 +85,8 @@
 .container {
   display: flex;
   gap: 44px;
+}
+
+.overviewWrapper {
+  flex-basis: calc((100% - 40px) / 2);
 }
