@@ -29,7 +29,7 @@ export default function CategoryField({ inputId }: Props) {
           type="text"
           readOnly
           value={values.categoryName || ''}
-          placeholder="Select category"
+          placeholder="Different"
           className={`${css.categoryInput} ${
             errors.category && touched.category ? css.inputError : ''
           }`}
