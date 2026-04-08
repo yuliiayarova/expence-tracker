@@ -80,3 +80,8 @@
     line-height: 1.2;
   }
 }
+
+.container {
+  display: flex;
+  gap: 44px;
+}

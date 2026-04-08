@@ -1,35 +1,23 @@
 'use client';
 
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import css from './TransactionForm.module.css';
 import Button from '../Button/Button';
 import Loader from '../Loader/Loader';
 import { useId } from 'react';
 import * as Yup from 'yup';
-// import { createTransaction } from '@/lib/api/client/transactions/transactionApi';
+import { DatePickerGroup } from '../DatePickerGroup/DatePickerGroup';
+import { createTransaction } from '@/lib/api/client/transactions/transactionApi';
+import { useTransactionDraftStore } from '@/lib/store/transactionStore';
+import { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
+import {
+  getInitialTransactionValues,
+  TransactionFormValues,
+} from '@/lib/api/client/transactions/transactionForm.config';
+import PersistTransactionDraft from './PersistTransactionDraft';
 
-interface TransactionFormValues {
-  type: 'incomes' | 'expenses';
-  date: string;
-  time: string;
-  category: string;
-  sum: number | '';
-  comment: string;
-}
-
-const now = new Date();
-const pad = (num: number) => num.toString().padStart(2, '0');
-
-const initialValues: TransactionFormValues = {
-  type: 'expenses',
-  date: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`,
-  time: `${pad(now.getHours())}:${pad(now.getMinutes())}`,
-  category: '',
-  sum: '',
-  comment: '',
-};
-
-export const transactionSchema = Yup.object({
+const transactionSchema = Yup.object({
   type: Yup.string()
     .oneOf(['incomes', 'expenses'], 'Choose transaction type')
     .required('Transaction type is required'),
@@ -66,95 +54,96 @@ export const transactionSchema = Yup.object({
     .notRequired(),
 });
 
+type ErrorResponse = {
+  error?: string;
+  message?: string;
+  response?: {
+    message?: string;
+  };
+};
+
 export default function TransactionForm() {
+  const { draft, clearDraft } = useTransactionDraftStore();
+
   const id = useId();
 
-  //   const handleSubmit = async (
-  //     values: TransactionFormValues,
-  //     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
-  //   ) => {
-  //     try {
-  //       await createTransaction(values);
+  const handleSubmit = async (
+    values: TransactionFormValues,
+    { setSubmitting, resetForm }: FormikHelpers<TransactionFormValues>,
+  ) => {
+    try {
+      const payload = {
+        ...values,
+        sum: Number(values.sum),
+        comment: values.comment.trim() || undefined,
+      };
 
-  //       const transaction = await getTransactions();
-  //       setUser(user);
+      await createTransaction(payload);
 
-  //       router.replace('/transactions/expenses');
-  //     } catch (error) {
-  //       const axiosError = error as AxiosError<ErrorResponse>;
+      toast.success('Transaction successfully added');
 
-  //       toast.error(
-  //         axiosError.response?.data?.response?.message ??
-  //           axiosError.response?.data?.message ??
-  //           axiosError.response?.data?.error ??
-  //           axiosError.message ??
-  //           'Oops... some error',
-  //       );
-  //     } finally {
-  //       setSubmitting(false);
-  //     }
-  //   };
+      const freshInitialValues = getInitialTransactionValues();
 
-  const handleSubmit = () => {};
+      clearDraft();
+      resetForm({ values: freshInitialValues });
+    } catch (error) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+
+      toast.error(
+        axiosError.response?.data?.response?.message ??
+          axiosError.response?.data?.message ??
+          axiosError.response?.data?.error ??
+          axiosError.message ??
+          'Oops... some error',
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={draft}
+      enableReinitialize
       validationSchema={transactionSchema}
       onSubmit={handleSubmit}
     >
       {({ errors, touched, isSubmitting }) => (
         <Form className={css.form}>
+          <PersistTransactionDraft />
           <div className={css.transactionWrapper}>
             <div className={css.transactionFieldset}>
-              <label className={css.transactionLabel} htmlFor={`${id}-expense`}>
+              <label
+                className={css.transactionLabel}
+                htmlFor={`${id}-expenses`}
+              >
                 Expense
               </label>
               <Field
-                id={`${id}-expense`}
+                id={`${id}-expenses`}
                 type="radio"
-                name="transaction"
-                value="expense"
+                name="type"
+                value="expenses"
                 className={css.transactionInput}
               />
             </div>
             <div className={css.transactionFieldset}>
-              <label className={css.transactionLabel} htmlFor={`${id}-income`}>
+              <label className={css.transactionLabel} htmlFor={`${id}-incomes`}>
                 Income
               </label>
               <Field
-                id={`${id}-income`}
+                id={`${id}-incomes`}
                 type="radio"
-                name="transaction"
-                value="income"
+                name="type"
+                value="incomes"
                 className={css.transactionInput}
               />
             </div>
+            <ErrorMessage name="type" component="span" className={css.error} />
           </div>
 
-          <div className="dateTimeWrapper">
-            <div className={css.dateFieldset}>
-              <label className={css.dateLabel} htmlFor={`${id}-date`}>
-                Date
-              </label>
-              <Field
-                id={`${id}-date`}
-                type="date"
-                name="date"
-                className={css.dateInput}
-              />
-            </div>
-
-            <div className={css.timeFieldset}>
-              <label className={css.timeLabel} htmlFor={`${id}-time`}>
-                Time
-              </label>
-              <Field
-                id={`${id}-time`}
-                type="time"
-                name="time"
-                className={css.timeInput}
-              />
-            </div>
+          <div className={css.dateTimeWrapper}>
+            <DatePickerGroup />
           </div>
 
           <div className={css.categoryFieldset}>
@@ -167,8 +156,14 @@ export default function TransactionForm() {
               name="category"
               className={css.categoryInput}
             >
-              <option value="different">Different</option>
+              <option value="">Select category</option>
+              <option value="6522bf1f9027bb7d55d6512b">Different</option>
             </Field>
+            <ErrorMessage
+              name="category"
+              component="span"
+              className={css.error}
+            />
           </div>
 
           <div className={css.sumFieldset}>
@@ -179,6 +174,8 @@ export default function TransactionForm() {
               id={`${id}-sum`}
               type="number"
               name="sum"
+              min="1"
+              max="1000000"
               placeholder="Enter the sum"
               className={`${css.sumInput} ${
                 errors.sum && touched.sum ? css.inputError : ''
@@ -193,7 +190,7 @@ export default function TransactionForm() {
               Comment
             </label>
             <Field
-              as="textaria"
+              as="textarea"
               id={`${id}-comment`}
               name="comment"
               placeholder="Enter the text"
@@ -201,7 +198,11 @@ export default function TransactionForm() {
                 errors.comment && touched.comment ? css.inputError : ''
               }`}
             />
-            <ErrorMessage name="sum" component="span" className={css.error} />
+            <ErrorMessage
+              name="comment"
+              component="span"
+              className={css.error}
+            />
           </div>
 
           <div className={css.actions}>
