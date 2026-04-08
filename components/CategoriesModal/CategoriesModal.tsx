@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
-import axios from "axios";
+import { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
 
-import Modal from "@/components/Modal/Modal";
-import Button from "@/components/Button/Button";
-import Icon from "@/components/Icon/Icon";
-import Loader from "@/components/Loader/Loader";
+import Modal from '@/components/Modal/Modal';
+import Button from '@/components/Button/Button';
+import Icon from '@/components/Icon/Icon';
+import Loader from '@/components/Loader/Loader';
 import {
   getCategories,
   createCategory,
   updateCategory,
   deleteCategory,
-} from "@/lib/api/client/categories/categoryApi";
+} from '@/lib/api/client/categories/categoryApi';
 import type {
   Category,
   CategoriesResponse,
-} from "@/lib/api/types/category.types";
-import css from "./CategoriesModal.module.css";
+} from '@/lib/api/types/category.types';
+import css from './CategoriesModal.module.css';
 
 const MIN_LENGTH = 2;
 const MAX_LENGTH = 16;
@@ -29,22 +29,22 @@ function getErrorMessage(error: unknown): string {
     return (
       error.response?.data?.message ||
       error.response?.data?.error ||
-      "Something went wrong."
+      'Something went wrong.'
     );
   }
-  return "Something went wrong.";
+  return 'Something went wrong.';
 }
 
 function validate(value: string): string {
   const trimmed = value.trim();
-  if (!trimmed) return "Category name is required.";
+  if (!trimmed) return 'Category name is required.';
   if (trimmed.length < MIN_LENGTH) return `Minimum ${MIN_LENGTH} characters.`;
   if (trimmed.length > MAX_LENGTH) return `Maximum ${MAX_LENGTH} characters.`;
-  return "";
+  return '';
 }
 
 interface CategoriesModalProps {
-  type: "incomes" | "expenses";
+  type: 'incomes' | 'expenses';
   onClose: () => void;
   onSelectCategory: (category: Category) => void;
 }
@@ -56,12 +56,12 @@ export default function CategoriesModal({
 }: CategoriesModalProps) {
   const queryClient = useQueryClient();
 
-  const [inputValue, setInputValue] = useState("");
-  const [inputError, setInputError] = useState("");
+  const [inputValue, setInputValue] = useState('');
+  const [inputError, setInputError] = useState('');
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["categories"],
+    queryKey: ['categories'],
     queryFn: getCategories,
     staleTime: Infinity,
   });
@@ -70,50 +70,50 @@ export default function CategoriesModal({
 
   const addMutation = useMutation({
     mutationFn: (name: string) => createCategory({ type, categoryName: name }),
-    onSuccess: (newCategory) => {
-      queryClient.setQueryData<CategoriesResponse>(["categories"], (old) => {
+    onSuccess: newCategory => {
+      queryClient.setQueryData<CategoriesResponse>(['categories'], old => {
         if (!old) return old;
         return { ...old, [type]: [...old[type], newCategory] };
       });
-      setInputValue("");
+      setInputValue('');
     },
-    onError: (error) => toast.error(getErrorMessage(error)),
+    onError: error => toast.error(getErrorMessage(error)),
   });
 
   const editMutation = useMutation({
     mutationFn: ({ id, name }: { id: string; name: string }) =>
       updateCategory(id, { categoryName: name }),
-    onSuccess: (updated) => {
-      queryClient.setQueryData<CategoriesResponse>(["categories"], (old) => {
+    onSuccess: updated => {
+      queryClient.setQueryData<CategoriesResponse>(['categories'], old => {
         if (!old) return old;
         return {
           ...old,
-          [type]: old[type].map((c) =>
+          [type]: old[type].map(c =>
             c._id === updated._id
               ? { ...c, categoryName: updated.categoryName }
               : c,
           ),
         };
       });
-      setInputValue("");
+      setInputValue('');
       setEditingCategory(null);
     },
-    onError: (error) => toast.error(getErrorMessage(error)),
+    onError: error => toast.error(getErrorMessage(error)),
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => deleteCategory(id),
     onSuccess: (_, id) => {
-      queryClient.setQueryData<CategoriesResponse>(["categories"], (old) => {
+      queryClient.setQueryData<CategoriesResponse>(['categories'], old => {
         if (!old) return old;
-        return { ...old, [type]: old[type].filter((c) => c._id !== id) };
+        return { ...old, [type]: old[type].filter(c => c._id !== id) };
       });
       if (editingCategory?._id === id) {
         setEditingCategory(null);
-        setInputValue("");
+        setInputValue('');
       }
     },
-    onError: (error) => toast.error(getErrorMessage(error)),
+    onError: error => toast.error(getErrorMessage(error)),
   });
 
   const isActionsPending =
@@ -123,23 +123,24 @@ export default function CategoriesModal({
   const handleEditStart = (category: Category) => {
     setEditingCategory(category);
     setInputValue(category.categoryName);
-    setInputError("");
+    setInputError('');
   };
 
   const handleCancelEdit = () => {
     setEditingCategory(null);
-    setInputValue("");
-    setInputError("");
+    setInputValue('');
+    setInputError('');
   };
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     const error = validate(inputValue);
     if (error) {
       setInputError(error);
       return;
     }
-    setInputError("");
+    setInputError('');
 
     if (editingCategory) {
       editMutation.mutate({ id: editingCategory._id, name: inputValue.trim() });
@@ -150,10 +151,10 @@ export default function CategoriesModal({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    if (inputError) setInputError("");
+    if (inputError) setInputError('');
   };
 
-  const title = type === "incomes" ? "Incomes" : "Expenses";
+  const title = type === 'incomes' ? 'Incomes' : 'Expenses';
 
   return (
     <Modal onClose={onClose} className={css.modalOverride}>
@@ -165,9 +166,11 @@ export default function CategoriesModal({
       ) : (
         <div className={css.listWrapper}>
           <ul className={css.list}>
-            {categories.map((category) => (
+            {categories.map(category => (
               <li key={category._id} className={css.item}>
-                <span className={css.categoryName}>{category.categoryName}</span>
+                <span className={css.categoryName}>
+                  {category.categoryName}
+                </span>
 
                 <div className={css.actions}>
                   <button
@@ -214,7 +217,7 @@ export default function CategoriesModal({
       <form className={css.form} onSubmit={handleSubmit} noValidate>
         <div className={css.inputContainer}>
           <input
-            className={`${css.addInput} ${inputError ? css.addInputError : ""}`}
+            className={`${css.addInput} ${inputError ? css.addInputError : ''}`}
             placeholder="Enter the text"
             value={inputValue}
             onChange={handleInputChange}
@@ -226,7 +229,7 @@ export default function CategoriesModal({
           ) : (
             <Button
               type="submit"
-              text={editingCategory ? "Edit" : "Add"}
+              text={editingCategory ? 'Edit' : 'Add'}
               disabled={isActionsPending}
               className={css.addBtn}
             />

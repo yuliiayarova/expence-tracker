@@ -9,11 +9,10 @@ import type { CategoryStatsItem } from '@/lib/api/types/stats.types';
 import { getCurrentUser } from '@/lib/api/client/user/userApi';
 import type { GetUserResponse } from '@/lib/api/types/user.types';
 
-
 import TransactionsChart from './TransactionsChart/TransactionsChart';
 import TransactionsTotalAmount from './TransactionsTotalAmount/TransactionsTotalAmount';
 import css from './MainTransactionsPage.module.css';
-
+import TransactionForm from '../TransactionForm/TransactionForm';
 
 type TransactionsType = 'expenses' | 'incomes';
 
@@ -80,25 +79,34 @@ export default function MainTransactionsPage({
           className={css.content}
           data-transactions-type={transactionsType}
         >
-          <div className={css.overview}>
-            <div className={css.hero}>
-              <h1 className={css.title}>Expense Log</h1>
-              <p className={css.description}>
-                Capture and organize every penny spent with ease! A clear view
-                of your financial habits at your fingertips.
-              </p>
+          <div className={css.container}>
+            <div className={css.overviewWrapper}>
+              <div className={css.overview}>
+                <div className={css.hero}>
+                  <h1 className={css.title}>Expense Log</h1>
+                  <p className={css.description}>
+                    Capture and organize every penny spent with ease! A clear
+                    view of your financial habits at your fingertips.
+                  </p>
+                </div>
+
+                <TransactionsTotalAmount
+                  currency={user?.currency}
+                  totals={user?.transactionsTotal}
+                  isLoading={isSummaryLoading}
+                />
+              </div>
+
+              <TransactionsChart
+                items={chartItems}
+                isLoading={isChartLoading}
+              />
             </div>
 
-            <TransactionsTotalAmount
-              currency={user?.currency}
-              totals={user?.transactionsTotal}
-              isLoading={isSummaryLoading}
-            />
+            <div className={css.formWrapper}>
+              <TransactionForm />
+            </div>
           </div>
-
-          <TransactionsChart items={chartItems} isLoading={isChartLoading} />
-
-         
         </section>
       </div>
 
