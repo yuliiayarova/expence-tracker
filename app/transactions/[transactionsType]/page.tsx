@@ -1,7 +1,17 @@
 import { notFound } from 'next/navigation';
 
 import MainTransactionsPage from '@/components/MainTransactionsPage/MainTransactionsPage';
+import { Metadata } from 'next';
 
+export async function generateMetadata({
+  params,
+}: TransactionsPageProps): Promise<Metadata> {
+  const { transactionsType } = await params;
+  return {
+    title: `${transactionsType} tracking`,
+    description: `Your financial dashboard ${transactionsType} awaits.`,
+  };
+}
 
 type TransactionsType = 'expenses' | 'incomes';
 
