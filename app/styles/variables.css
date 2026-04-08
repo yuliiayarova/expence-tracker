@@ -50,9 +50,9 @@
   ); /* Фон для інформації про здоров'я (Health Info) */
 
   /* ===== Border ===== */
-  --border-gray: 1px solid var(--color-white-40);
+  --border-gray: 1px solid var(--color-grey);
   --border-primary: 1px solid var(--color-primary);
-
+  
   /* ===== TYPOGRAPHY ===== */
   /* Розміри шрифтів */
   --font-size-xxs: 0.625rem;
