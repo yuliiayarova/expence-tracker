@@ -6,8 +6,11 @@
   justify-content: space-between;
   gap: 16px;
   min-height: 48px;
+  border-bottom: 1px solid var(--color-border);
 }
-
+.headerHome {
+  border: transparent
+}
 .desktopNav,
 .desktopUser {
   display: none;
@@ -21,6 +24,12 @@
   width: max-content;
   gap: 8px;
 }
+.logoHome {
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
 
 @media only screen and (min-width: 768px) {
   .header {
@@ -31,7 +40,7 @@
 @media only screen and (min-width: 1440px) {
   .header {
     min-height: 91px;
-    border-bottom: 1px solid var(--color-border);
+    
   }
 
   .desktopNav {

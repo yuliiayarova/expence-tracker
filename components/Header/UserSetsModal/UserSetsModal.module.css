@@ -169,7 +169,6 @@
   border: none;
   background: transparent;
   color: rgba(250, 250, 250, 0.5);
-  font-size: 14px;
   line-height: 1.2;
   text-align: left;
   cursor: pointer;
@@ -197,8 +196,6 @@
   border-radius: 30px;
   background: var(--color-primary);
   color: var(--color-text-black);
-  font-size: 14px;
-  font-weight: 600;
   cursor: pointer;
 }
 
