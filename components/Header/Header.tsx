@@ -1,32 +1,32 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
+import { useEffect, useMemo, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
 
-import { logout } from "@/lib/api/client/auth/authApi";
+import { logout } from '@/lib/api/client/auth/authApi';
 import {
   deleteAvatar,
   getCurrentUser,
   updateAvatar,
   updateUser,
-} from "@/lib/api/client/user/userApi";
+} from '@/lib/api/client/user/userApi';
 import type {
   GetUserResponse,
   UpdateUserRequest,
-} from "@/lib/api/types/user.types";
-import { useAuthStore } from "@/lib/store/authStore";
-import BurgerMenu from "./BurgerMenu/BurgerMenu";
-import BurgerMenuBtn from "./BurgerMenuBtn/BurgerMenuBtn";
-import css from "./Header.module.css";
-import Logo from "./Logo/Logo";
-import TransactionsHistoryNav from "./TransactionsHistoryNav/TransactionsHistoryNav";
-import UserBarBtn from "./UserBarBtn/UserBarBtn";
-import UserPanel from "./UserPanel/UserPanel";
-import UserSetsModal from "./UserSetsModal/UserSetsModal";
-import Modal from "../Modal/Modal";
-import Logout from "../Logout/Logout";
+} from '@/lib/api/types/user.types';
+import { useAuthStore } from '@/lib/store/authStore';
+import BurgerMenu from './BurgerMenu/BurgerMenu';
+import BurgerMenuBtn from './BurgerMenuBtn/BurgerMenuBtn';
+import css from './Header.module.css';
+import Logo from './Logo/Logo';
+import TransactionsHistoryNav from './TransactionsHistoryNav/TransactionsHistoryNav';
+import UserBarBtn from './UserBarBtn/UserBarBtn';
+import UserPanel from './UserPanel/UserPanel';
+import UserSetsModal from './UserSetsModal/UserSetsModal';
+import Modal from '../Modal/Modal';
+import Logout from '../Logout/Logout';
 
 const hasApiConfig = Boolean(process.env.NEXT_PUBLIC_API_URL);
 
@@ -35,9 +35,13 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
+  const { isAuthenticated } = useAuthStore();
+
   const { data: user } = useQuery<GetUserResponse>({
-    queryKey: ["current-user"],
+    queryKey: ['current-user'],
     queryFn: getCurrentUser,
+    enabled: isAuthenticated && hasApiConfig,
+    retry: false,
   });
 
   const [isUserPanelOpen, setIsUserPanelOpen] = useState(false);
@@ -46,57 +50,55 @@ export default function Header() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const { isAuthenticated } = useAuthStore();
-
   const initials = useMemo(() => {
-    if (!user?.name) return "";
+    if (!user?.name) return '';
     return user.name
-      .split(" ")
+      .split(' ')
       .filter(Boolean)
       .slice(0, 2)
-      .map((part) => part[0]?.toUpperCase() ?? "")
-      .join("");
+      .map(part => part[0]?.toUpperCase() ?? '')
+      .join('');
   }, [user?.name]);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         setIsBurgerOpen(false);
         setIsUserPanelOpen(false);
       }
     };
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
   }, []);
 
   const syncCurrentUser = async () => {
-    await queryClient.invalidateQueries({ queryKey: ["current-user"] });
+    await queryClient.invalidateQueries({ queryKey: ['current-user'] });
   };
 
   const applyUserUpdate = (nextUser: GetUserResponse) => {
-    queryClient.setQueryData(["current-user"], nextUser);
+    queryClient.setQueryData(['current-user'], nextUser);
   };
 
   const updateUserMutation = useMutation({
     mutationFn: updateUser,
-    onSuccess: async (updatedUser) => {
+    onSuccess: async updatedUser => {
       if (!user) return;
       applyUserUpdate({ ...user, ...updatedUser });
       await syncCurrentUser();
-      toast.success("Profile updated.");
+      toast.success('Profile updated.');
     },
-    onError: () => toast.error("Unable to update profile."),
+    onError: () => toast.error('Unable to update profile.'),
   });
 
   const updateAvatarMutation = useMutation({
     mutationFn: updateAvatar,
-    onSuccess: async (updatedAvatar) => {
+    onSuccess: async updatedAvatar => {
       if (!user) return;
       applyUserUpdate({ ...user, avatarUrl: updatedAvatar.avatarUrl });
       await syncCurrentUser();
-      toast.success("Avatar updated.");
+      toast.success('Avatar updated.');
     },
-    onError: () => toast.error("Unable to upload avatar."),
+    onError: () => toast.error('Unable to upload avatar.'),
   });
 
   const deleteAvatarMutation = useMutation({
@@ -105,16 +107,15 @@ export default function Header() {
       if (!user) return;
       applyUserUpdate({ ...user, avatarUrl: null });
       await syncCurrentUser();
-      toast.success("Avatar removed.");
+      toast.success('Avatar removed.');
     },
-    onError: () => toast.error("Unable to remove avatar."),
+    onError: () => toast.error('Unable to remove avatar.'),
   });
 
   const clearIsAuthenticated = useAuthStore(
-    (state) => state.clearIsAuthenticated,
+    state => state.clearIsAuthenticated,
   );
 
-  
   const closeBurger = () => {
     setIsBurgerOpen(false);
     setIsUserPanelOpen(false);
@@ -137,14 +138,14 @@ export default function Header() {
       setIsLoggingOut(true);
       await logout();
       clearIsAuthenticated();
-      queryClient.removeQueries({ queryKey: ["current-user"] });
+      queryClient.removeQueries({ queryKey: ['current-user'] });
       setIsLogoutModalOpen(false);
       setIsUserPanelOpen(false);
       setIsBurgerOpen(false);
-      toast.success("Logged out.");
-      router.push("/");
+      toast.success('Logged out.');
+      router.push('/');
     } catch {
-      toast.error("Unable to log out.");
+      toast.error('Unable to log out.');
     } finally {
       setIsLoggingOut(false);
     }
@@ -155,7 +156,7 @@ export default function Header() {
       if (!user) return;
       applyUserUpdate({ ...user, ...payload });
       setIsUserSettingsOpen(false);
-      toast.success("Profile updated locally.");
+      toast.success('Profile updated locally.');
       return;
     }
     try {
@@ -166,10 +167,10 @@ export default function Header() {
 
   const handleUploadAvatar = async (file: File) => {
     if (!hasApiConfig) {
-      if (!user) return "";
+      if (!user) return '';
       const localUrl = URL.createObjectURL(file);
       applyUserUpdate({ ...user, avatarUrl: localUrl });
-      toast.success("Avatar updated locally.");
+      toast.success('Avatar updated locally.');
       return localUrl;
     }
     const response = await updateAvatarMutation.mutateAsync(file);
@@ -180,7 +181,7 @@ export default function Header() {
     if (!hasApiConfig) {
       if (!user) return;
       applyUserUpdate({ ...user, avatarUrl: null });
-      toast.success("Avatar removed locally.");
+      toast.success('Avatar removed locally.');
       return;
     }
     await deleteAvatarMutation.mutateAsync();
@@ -201,11 +202,11 @@ export default function Header() {
   const userBar = (
     <div className={css.userArea}>
       <UserBarBtn
-        userName={user.name || ""}
+        userName={user.name || ''}
         avatarUrl={user.avatarUrl}
         initials={initials}
         isOpen={isUserPanelOpen}
-        onToggle={() => setIsUserPanelOpen((value) => !value)}
+        onToggle={() => setIsUserPanelOpen(value => !value)}
       />
 
       {isUserPanelOpen && (
@@ -231,7 +232,7 @@ export default function Header() {
         <BurgerMenuBtn
           isOpen={isBurgerOpen}
           onClick={() => {
-            setIsBurgerOpen((value) => !value);
+            setIsBurgerOpen(value => !value);
             setIsUserPanelOpen(false);
           }}
         />
@@ -253,7 +254,7 @@ export default function Header() {
 
       {isUserSettingsOpen && (
         <UserSetsModal
-          name={user.name || ""}
+          name={user.name || ''}
           currency={user.currency}
           avatarUrl={user.avatarUrl}
           onClose={() => setIsUserSettingsOpen(false)}

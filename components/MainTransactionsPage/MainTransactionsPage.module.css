@@ -26,6 +26,7 @@
   font-size: var(--font-size-3_5xl);
   line-height: var(--line-height-none);
   letter-spacing: var(--letter-spacing-tight);
+  margin: 0;
 }
 
 .description {
@@ -55,14 +56,15 @@
   }
 
   .content {
-    width: 630px;
     gap: 40px;
     padding: 59px 0 50px;
   }
 
   .overview {
-    gap: 39px;
-    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
   }
 
   .hero {
@@ -83,10 +85,36 @@
 }
 
 .container {
-  display: flex;
-  gap: 44px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'hero'
+    'totals'
+    'form'
+    'chart';
+  gap: 40px;
 }
 
-.overviewWrapper {
-  flex-basis: calc((100% - 40px) / 2);
+.hero {
+  grid-area: hero;
+}
+.totals {
+  grid-area: totals;
+}
+.transactionFormWrapper {
+  grid-area: form;
+}
+.chartWrapper {
+  grid-area: chart;
+}
+
+@media only screen and (min-width: 1440px) {
+  .container {
+    grid-template-columns: 1fr 566px;
+    grid-template-areas:
+      'hero form'
+      'totals form'
+      'chart form';
+    gap: 40px 44px;
+  }
 }
