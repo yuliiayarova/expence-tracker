@@ -11,6 +11,7 @@ import {
   getTransactions,
 } from '@/lib/api/client/transactions/transactionApi';
 import Loader from '../Loader/Loader';
+import { useRouter } from 'next/navigation';
 import { getCurrentUser } from '@/lib/api/client/user/userApi';
 
 interface TransactionsListProps {
@@ -45,6 +46,7 @@ export default function TransactionsList({
     queryFn: () => getTransactions(type, params),
   });
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { data: userData } = useQuery({
     queryKey: ['currentUser'],
     queryFn: getCurrentUser,
@@ -55,6 +57,8 @@ export default function TransactionsList({
     mutationFn: deleteTransaction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      
+      router.refresh();
     },
   });
 

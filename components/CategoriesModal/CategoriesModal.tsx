@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import Modal from '@/components/Modal/Modal';
 import Button from '@/components/Button/Button';
@@ -95,9 +95,8 @@ export default function CategoriesModal({
           ),
         };
       });
-      await queryClient.invalidateQueries({
-        queryKey: ['current-month-stats'],
-      });
+      queryClient.invalidateQueries({ queryKey: ['current-month-stats'] });
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
       setInputValue('');
       setEditingCategory(null);
     },
@@ -111,12 +110,21 @@ export default function CategoriesModal({
         if (!old) return old;
         return { ...old, [type]: old[type].filter(c => c._id !== id) };
       });
+      queryClient.invalidateQueries({ queryKey: ['current-month-stats'] });
       if (editingCategory?._id === id) {
         setEditingCategory(null);
         setInputValue('');
       }
     },
-    onError: error => toast.error(getErrorMessage(error)),
+    onError: (error: Error | AxiosError) => {
+      if (axios.isAxiosError(error) && error.response?.status === 409) {
+        toast.error(
+          'Cannot delete: this category is already in use by transactions.',
+        );
+      } else {
+        toast.error('Something went wrong. Please try again.');
+      }
+    },
   });
 
   const isActionsPending =
