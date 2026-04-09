@@ -11,6 +11,7 @@ import {
   getTransactions,
 } from '@/lib/api/client/transactions/transactionApi';
 import Loader from '../Loader/Loader';
+import { useRouter } from 'next/navigation';
 
 interface TransactionsListProps {
   type: 'incomes' | 'expenses';
@@ -44,11 +45,13 @@ export default function TransactionsList({
     queryFn: () => getTransactions(type, params),
   });
   const queryClient = useQueryClient();
-
+  const router = useRouter();
   const { mutate } = useMutation({
     mutationFn: deleteTransaction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      
+      router.refresh();
     },
   });
 

@@ -9,6 +9,7 @@ import type { Currency, UpdateUserRequest } from '@/lib/api/types/user.types';
 
 import AvatarCropper from './AvatarCropper';
 import css from './UserSetsModal.module.css';
+import { useRouter } from 'next/navigation';
 
 interface UserSetsModalProps {
   name: string;
@@ -31,6 +32,7 @@ export default function UserSetsModal({
   onRemoveAvatar,
   isSaving,
 }: UserSetsModalProps) {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [formName, setFormName] = useState(name);
@@ -148,6 +150,7 @@ export default function UserSetsModal({
       currency: formCurrency,
     });
     await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+    router.refresh();
   };
 
   return (
