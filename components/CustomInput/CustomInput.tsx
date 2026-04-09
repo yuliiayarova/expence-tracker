@@ -21,13 +21,13 @@ export const CustomInput = forwardRef<HTMLInputElement, Props>(
           className={css.customInput}
           placeholder={type === 'date' ? 'yyyy-mm-dd' : '00:00'}
         />
-        <button type="button" className={css.iconWrapper} onClick={onClick}>
+        <div className={css.iconWrapper} onClick={onClick}>
           <Icon
             name={type === 'date' ? 'icon-calendar' : 'icon-clock'}
             className={css.icon}
             size={18}
           />
-        </button>
+        </div>
       </div>
     );
   },
