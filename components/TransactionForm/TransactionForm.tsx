@@ -185,6 +185,7 @@ export default function TransactionForm({
         comment: initialData.comment,
       }
     : draft;
+
   return (
     <Formik
       initialValues={initialValues}

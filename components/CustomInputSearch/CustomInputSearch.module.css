@@ -12,6 +12,7 @@
   padding: 15px 30px;
   width: 302px;
   height: 50px;
+  transition: border-color var(--transition-base);
 }
 
 .searchDate:focus {

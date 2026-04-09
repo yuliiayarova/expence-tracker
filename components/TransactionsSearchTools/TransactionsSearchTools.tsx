@@ -10,6 +10,7 @@ interface TransactionsSearchToolsProps {
   dateSearch?: Date | null;
   handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   handleDateSearch?: (date: Date | null) => void;
+  showTip: number;
 }
 
 export default function TransactionsSearchTools({
@@ -17,6 +18,7 @@ export default function TransactionsSearchTools({
   dateSearch,
   handleChange,
   handleDateSearch,
+  showTip,
 }: TransactionsSearchToolsProps) {
   return (
     <div className={css.search}>
@@ -31,8 +33,10 @@ export default function TransactionsSearchTools({
         <svg className={css.searchIcon} width={20} height={20}>
           <use href="/icons/sprite.svg#icon-search"></use>
         </svg>
+        {showTip >= 1 && showTip < 3 && (
+          <p className={css.errorText}>Minimum 3 characters</p>
+        )}
       </div>
-
       <DatePicker
         selected={dateSearch}
         onChange={handleDateSearch}
