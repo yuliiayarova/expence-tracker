@@ -89,7 +89,7 @@ tracking application focusing on:
 
 - **Ігор Вжос** — Team Lead
 - **Діана Пригожина** — Scrum Master
-- **Анастасия Загляда** — Developer
+- **Анастасія Загляда** — Developer
 - **Юлія Ярова** — Developer
 - **Артем Багно** — Developer
 - **Тася Штик** — Developer
