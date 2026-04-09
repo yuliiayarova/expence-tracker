@@ -1,10 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ErrorMessage, useFormikContext } from 'formik';
+import { useQuery } from '@tanstack/react-query';
+
 import CategoriesModal from '../CategoriesModal/CategoriesModal';
+import { getCategories } from '@/lib/api/client/categories/categoryApi';
+
 import type { Category } from '@/lib/api/types/category.types';
 import type { TransactionFormValues } from '@/lib/api/client/transactions/transactionForm.config';
+
 import css from './CategoryField.module.css';
 
 interface Props {
@@ -16,6 +21,34 @@ export default function CategoryField({ inputId }: Props) {
     useFormikContext<TransactionFormValues>();
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+    staleTime: Infinity,
+  });
+
+  useEffect(() => {
+    if (!values.category) return;
+
+    const categories = data?.[values.type] ?? [];
+
+    const currentCategory = categories.find(
+      category => category._id === values.category,
+    );
+
+    if (!currentCategory) {
+      if (values.category || values.categoryName) {
+        setFieldValue('category', '');
+        setFieldValue('categoryName', '');
+      }
+      return;
+    }
+
+    if (values.categoryName !== currentCategory.categoryName) {
+      setFieldValue('categoryName', currentCategory.categoryName);
+    }
+  }, [data, values.type, values.category, values.categoryName, setFieldValue]);
 
   return (
     <>
