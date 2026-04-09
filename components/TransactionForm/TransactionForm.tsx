@@ -28,7 +28,8 @@ import {
 import PersistTransactionDraft from './PersistTransactionDraft';
 import CategoryField from './CategoryField';
 import { CreateTransactionRequest } from '@/lib/api/types/transaction.types';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getCurrentUser } from '@/lib/api/client/user/userApi';
 
 const transactionSchema = Yup.object({
   type: Yup.string()
@@ -98,6 +99,12 @@ export default function TransactionForm({
   const { draft, clearDraft } = useTransactionDraftStore();
   const id = useId();
   const queryClient = useQueryClient();
+  const { data: userData } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: getCurrentUser,
+    
+  });
+  const currencySymbol = userData?.currency?.toUpperCase() || 'UAH';
 
   const handleSubmit = async (
     values: TransactionFormValues,
@@ -256,7 +263,7 @@ export default function TransactionForm({
                 errors.sum && touched.sum ? css.inputError : ''
               }`}
             />
-            <span className={css.currency}>UAH</span>
+            <span className={css.currency}>{currencySymbol}</span>
             <ErrorMessage name="sum" component="span" className={css.error} />
           </div>
 
