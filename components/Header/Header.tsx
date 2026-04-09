@@ -270,7 +270,7 @@ export default function Header() {
       )}
 
       {isLogoutModalOpen && (
-        <Modal onClose={() => setIsLogoutModalOpen(false)}>
+        <Modal className={css.logoutModal} onClose={() => setIsLogoutModalOpen(false)}>
           <Logout
             onCancel={() => setIsLogoutModalOpen(false)}
             onConfirm={handleConfirmLogout}

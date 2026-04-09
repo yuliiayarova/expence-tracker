@@ -89,12 +89,14 @@ interface TransactionFormProps {
     sum: number;
   } | null;
   onClose?: () => void;
+  className?: string;
 }
 
 export default function TransactionForm({
   mode = 'create',
   initialData = null,
   onClose,
+  className,
 }: TransactionFormProps) {
   const { draft, clearDraft } = useTransactionDraftStore();
   const id = useId();
@@ -102,7 +104,6 @@ export default function TransactionForm({
   const { data: userData } = useQuery({
     queryKey: ['currentUser'],
     queryFn: getCurrentUser,
-    
   });
   const currencySymbol = userData?.currency?.toUpperCase() || 'UAH';
 
@@ -130,14 +131,18 @@ export default function TransactionForm({
       if (mode === 'edit' && initialData) {
         await updateTransaction(values.type, initialData.id, updatePayload);
         await queryClient.invalidateQueries({ queryKey: ['current-user'] });
-        await queryClient.invalidateQueries({ queryKey: ['current-month-stats'] });
+        await queryClient.invalidateQueries({
+          queryKey: ['current-month-stats'],
+        });
         toast.success('Transaction successfully updated');
         queryClient.invalidateQueries({ queryKey: ['transactions'] });
         onClose?.();
       } else {
         await createTransaction(payload);
         await queryClient.invalidateQueries({ queryKey: ['current-user'] });
-        await queryClient.invalidateQueries({ queryKey: ['current-month-stats'] });
+        await queryClient.invalidateQueries({
+          queryKey: ['current-month-stats'],
+        });
         toast.success('Transaction successfully added');
 
         const freshInitialValues = getInitialTransactionValues();
@@ -184,7 +189,7 @@ export default function TransactionForm({
       onSubmit={handleSubmit}
     >
       {({ errors, touched, isSubmitting }) => (
-        <Form className={css.form}>
+        <Form className={`${css.form}${className ? ` ${className}` : ''}`}>
           <PersistTransactionDraft />
           <div className={css.transactionWrapper}>
             <div className={css.transactionFieldset}>

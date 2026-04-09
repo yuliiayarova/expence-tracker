@@ -6,6 +6,7 @@ import TransactionsList, {
 } from '@/components/TransactionsList/TransactionsList';
 import TransactionsSearchTools from '@/components/TransactionsSearchTools/TransactionsSearchTools';
 import { ChangeEvent, useState } from 'react';
+import css from './history.module.css';
 
 interface TransactionsHistoryClientProps {
   type: 'expenses' | 'incomes';
@@ -48,8 +49,9 @@ export default function TransactionsHistoryClient({
   return (
     <>
       {openEditModal && transactions && (
-        <Modal onClose={handleCloseEditModal}>
+        <Modal className={css.formModal} onClose={handleCloseEditModal}>
           <TransactionForm
+            className={css.modalTransactionForm}
             mode="edit"
             initialData={transactions}
             onClose={handleCloseEditModal}
