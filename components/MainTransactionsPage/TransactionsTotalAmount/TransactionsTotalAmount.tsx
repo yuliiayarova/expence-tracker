@@ -1,4 +1,4 @@
-import css from "./TransactionsTotalAmount.module.css";
+import css from './TransactionsTotalAmount.module.css';
 
 interface TransactionsTotalAmountProps {
   totals?: {
@@ -7,22 +7,23 @@ interface TransactionsTotalAmountProps {
   };
   currency?: string;
   isLoading: boolean;
+  variant?: 'default' | 'compact';
 }
 
 const currencySymbols: Record<string, string> = {
-  uah: "₴",
-  usd: "$",
-  eur: "€",
-  UAH: "₴",
-  USD: "$",
-  EUR: "€",
+  uah: '₴',
+  usd: '$',
+  eur: '€',
+  UAH: '₴',
+  USD: '$',
+  EUR: '€',
 };
 
-function formatAmount(value: number, currency = "usd") {
+function formatAmount(value: number, currency = 'usd') {
   const symbol = currencySymbols[currency] ?? currency;
-  const formatted = new Intl.NumberFormat("de-DE", {
-    maximumFractionDigits: 3,
-    minimumFractionDigits: 3,
+  const formatted = new Intl.NumberFormat('de-DE', {
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
   }).format(value);
 
   return `${symbol}${formatted}`;
@@ -32,36 +33,57 @@ export default function TransactionsTotalAmount({
   totals,
   currency,
   isLoading,
+  variant = 'default',
 }: TransactionsTotalAmountProps) {
+  const isCompact = variant === 'compact';
   const cards = [
     {
-      label: "Total Income",
+      label: 'Total Income',
       value: totals?.incomes ?? 0,
-      icon: "icon-arrow-up",
+      icon: 'icon-arrow-up',
     },
     {
-      label: "Total Expense",
+      label: 'Total Expense',
       value: totals?.expenses ?? 0,
-      icon: "icon-arrow-down",
+      icon: 'icon-arrow-down',
     },
   ];
 
   return (
-    <div className={css.grid}>
-      {cards.map((card) => (
-        <article key={card.label} className={css.card}>
-          <span className={css.iconWrap}>
-            <svg className={css.icon} aria-hidden="true">
+    <div className={`${css.grid} ${isCompact ? css.gridCompact : ''}`}>
+      {cards.map(card => (
+        <article
+          key={card.label}
+          className={`${css.card} ${isCompact ? css.cardCompact : ''}`}
+        >
+          <span
+            className={`${css.iconWrap} ${isCompact ? css.iconWrapCompact : ''}`}
+          >
+            <svg
+              className={`${css.icon} ${isCompact ? css.iconCompact : ''}`}
+              aria-hidden="true"
+            >
               <use href={`/icons/sprite.svg#${card.icon}`} />
             </svg>
           </span>
 
-          <div className={css.content}>
-            <p className={css.label}>{card.label}</p>
+          <div
+            className={`${css.content} ${isCompact ? css.contentCompact : ''}`}
+          >
+            <p className={`${css.label} ${isCompact ? css.labelCompact : ''}`}>
+              {card.label}
+            </p>
             {isLoading ? (
-              <span className={css.valueSkeleton} aria-hidden="true" />
+              <span
+                className={`${css.valueSkeleton} ${isCompact ? css.valueSkeletonCompact : ''}`}
+                aria-hidden="true"
+              />
             ) : (
-              <strong className={css.value}>{formatAmount(card.value, currency)}</strong>
+              <strong
+                className={`${css.value} ${isCompact ? css.valueCompact : ''}`}
+              >
+                {formatAmount(card.value, currency)}
+              </strong>
             )}
           </div>
         </article>

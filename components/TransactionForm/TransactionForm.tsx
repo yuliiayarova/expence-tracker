@@ -14,7 +14,10 @@ import Loader from '../Loader/Loader';
 import { useId } from 'react';
 import * as Yup from 'yup';
 import { DatePickerGroup } from '../DatePickerGroup/DatePickerGroup';
-import { createTransaction } from '@/lib/api/client/transactions/transactionApi';
+import {
+  createTransaction,
+  updateTransaction,
+} from '@/lib/api/client/transactions/transactionApi';
 import { useTransactionDraftStore } from '@/lib/store/transactionStore';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
@@ -25,6 +28,7 @@ import {
 import PersistTransactionDraft from './PersistTransactionDraft';
 import CategoryField from './CategoryField';
 import { CreateTransactionRequest } from '@/lib/api/types/transaction.types';
+import { useQueryClient } from '@tanstack/react-query';
 
 const transactionSchema = Yup.object({
   type: Yup.string()
@@ -71,9 +75,29 @@ type ErrorResponse = {
   };
 };
 
-export default function TransactionForm() {
+interface TransactionFormProps {
+  mode?: 'create' | 'edit';
+  initialData?: {
+    id: string;
+    type: 'incomes' | 'expenses';
+    category: string;
+    categoryId: string;
+    comment: string;
+    date: string;
+    time: string;
+    sum: number;
+  } | null;
+  onClose?: () => void;
+}
+
+export default function TransactionForm({
+  mode = 'create',
+  initialData = null,
+  onClose,
+}: TransactionFormProps) {
   const { draft, clearDraft } = useTransactionDraftStore();
   const id = useId();
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (
     values: TransactionFormValues,
@@ -88,15 +112,34 @@ export default function TransactionForm() {
         sum: Number(values.sum),
         comment: values.comment.trim() || undefined,
       };
+      const updatePayload = {
+        date: values.date,
+        time: values.time,
+        category: values.category,
+        sum: Number(values.sum),
+        comment: values.comment.trim() || undefined,
+      };
+      // await createTransaction(payload);
+      if (mode === 'edit' && initialData) {
+        await updateTransaction(values.type, initialData.id, updatePayload);
+        toast.success('Transaction successfully updated');
+        queryClient.invalidateQueries({ queryKey: ['transactions'] });
+        onClose?.();
+      } else {
+        await createTransaction(payload);
+        toast.success('Transaction successfully added');
 
-      await createTransaction(payload);
+        const freshInitialValues = getInitialTransactionValues();
+        clearDraft();
+        resetForm({ values: freshInitialValues });
+      }
 
-      toast.success('Transaction successfully added');
+      // toast.success('Transaction successfully added');
 
-      const freshInitialValues = getInitialTransactionValues();
+      // const freshInitialValues = getInitialTransactionValues();
 
-      clearDraft();
-      resetForm({ values: freshInitialValues });
+      // clearDraft();
+      // resetForm({ values: freshInitialValues });
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
 
@@ -111,10 +154,20 @@ export default function TransactionForm() {
       setSubmitting(false);
     }
   };
-
+  const initialValues = initialData
+    ? {
+        type: initialData.type,
+        date: initialData.date,
+        time: initialData.time,
+        category: initialData.categoryId,
+        categoryName: initialData.category,
+        sum: initialData.sum,
+        comment: initialData.comment,
+      }
+    : draft;
   return (
     <Formik
-      initialValues={draft}
+      initialValues={initialValues}
       enableReinitialize
       validationSchema={transactionSchema}
       onSubmit={handleSubmit}

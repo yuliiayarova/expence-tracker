@@ -9,8 +9,8 @@ interface TransactionsHistoryNavProps {
 }
 
 const navItems = [
-  { href: "/transactions/expenses", label: "All Expense" },
-  { href: "/transactions/incomes", label: "All Income" },
+  { href: "/transactions/history/expenses", label: "All Expense" },
+  { href: "/transactions/history/incomes", label: "All Income" },
 ];
 
 export default function TransactionsHistoryNav({
@@ -30,7 +30,9 @@ export default function TransactionsHistoryNav({
           <Link
             key={item.href}
             href={item.href}
-            className={isActive ? `${chipClassName} ${activeClassName}` : chipClassName}
+            className={
+              isActive ? `${chipClassName} ${activeClassName}` : chipClassName
+            }
             onClick={onNavigate}
           >
             {item.label}
