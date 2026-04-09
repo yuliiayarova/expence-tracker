@@ -1,11 +1,11 @@
 'use client';
+import { useState, ChangeEvent } from 'react';
 import Modal from '@/components/Modal/Modal';
 import TransactionForm from '@/components/TransactionForm/TransactionForm';
 import TransactionsList, {
   Row,
 } from '@/components/TransactionsList/TransactionsList';
 import TransactionsSearchTools from '@/components/TransactionsSearchTools/TransactionsSearchTools';
-import { ChangeEvent, useState } from 'react';
 import css from './history.module.css';
 
 interface TransactionsHistoryClientProps {
@@ -16,35 +16,24 @@ export default function TransactionsHistoryClient({
   type,
 }: TransactionsHistoryClientProps) {
   const [search, setSearch] = useState('');
-  const [dateSearch, setDateSearch] = useState('');
+  const [dateSearch, setDateSearch] = useState<Date | null>(null);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [transactions, setTransactions] = useState<Row | null>(null);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearch(value);
-  };
-  const handleDateSearch = (date: Date | null) => {
-    if (!date) {
-      setDateSearch('');
-      return;
-    }
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setSearch(e.target.value);
 
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-
-    setDateSearch(`${year}-${month}-${day}`);
-  };
-  const handleChangeTransaction = (transaction: Row) => {
-    setTransactions(transaction);
-    setOpenEditModal(true);
-  };
+  const handleDateSearch = (date: Date | null) => setDateSearch(date);
 
   const handleCloseEditModal = () => {
     setOpenEditModal(false);
     setTransactions(null);
   };
+
+  const formattedDate =
+    dateSearch && !isNaN(dateSearch.getTime())
+      ? `${dateSearch.getFullYear()}-${String(dateSearch.getMonth() + 1).padStart(2, '0')}-${String(dateSearch.getDate()).padStart(2, '0')}`
+      : '';
 
   return (
     <>
@@ -58,17 +47,22 @@ export default function TransactionsHistoryClient({
           />
         </Modal>
       )}
+
       <TransactionsSearchTools
         inputSearch={search}
         dateSearch={dateSearch}
         handleChange={handleChange}
         handleDateSearch={handleDateSearch}
       />
+
       <TransactionsList
         type={type}
         search={search}
-        date={dateSearch}
-        handleChangeTransaction={handleChangeTransaction}
+        date={formattedDate}
+        handleChangeTransaction={t => {
+          setTransactions(t);
+          setOpenEditModal(true);
+        }}
       />
     </>
   );
