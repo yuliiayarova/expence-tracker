@@ -1,15 +1,39 @@
 .header {
   position: relative;
   z-index: 20;
+  min-height: 48px;
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+}
+.headerHome {
+  border-bottom: 1px solid transparent;
+}
+.headerInner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   min-height: 48px;
-  border-bottom: 1px solid var(--color-border);
+
+  max-width: 375px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
-.headerHome {
-  border: transparent;
+
+@media only screen and (min-width: 768px) {
+  .headerInner {
+    min-height: 56px;
+    max-width: 768px;
+    padding: 0 32px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .headerInner {
+    min-height: 91px;
+    max-width: 1440px;
+    padding: 0 100px;
+  }
 }
 .desktopNav,
 .desktopUser {

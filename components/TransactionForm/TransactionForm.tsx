@@ -30,6 +30,7 @@ import CategoryField from './CategoryField';
 import { CreateTransactionRequest } from '@/lib/api/types/transaction.types';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCurrentUser } from '@/lib/api/client/user/userApi';
+import { useRouter } from 'next/navigation';
 
 const transactionSchema = Yup.object({
   type: Yup.string()
@@ -98,6 +99,7 @@ export default function TransactionForm({
   onClose,
   className,
 }: TransactionFormProps) {
+  const router = useRouter();
   const { draft, clearDraft } = useTransactionDraftStore();
   const id = useId();
   const queryClient = useQueryClient();
@@ -130,16 +132,17 @@ export default function TransactionForm({
       // await createTransaction(payload);
       if (mode === 'edit' && initialData) {
         await updateTransaction(values.type, initialData.id, updatePayload);
-        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
+        await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
         await queryClient.invalidateQueries({
           queryKey: ['current-month-stats'],
         });
         toast.success('Transaction successfully updated');
         queryClient.invalidateQueries({ queryKey: ['transactions'] });
         onClose?.();
+        router.refresh();
       } else {
         await createTransaction(payload);
-        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
+        await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
         await queryClient.invalidateQueries({
           queryKey: ['current-month-stats'],
         });
@@ -148,6 +151,7 @@ export default function TransactionForm({
         const freshInitialValues = getInitialTransactionValues();
         clearDraft();
         resetForm({ values: freshInitialValues });
+        router.refresh();
       }
 
       // toast.success('Transaction successfully added');
@@ -181,6 +185,7 @@ export default function TransactionForm({
         comment: initialData.comment,
       }
     : draft;
+
   return (
     <Formik
       initialValues={initialValues}

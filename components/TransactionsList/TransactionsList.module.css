@@ -13,6 +13,7 @@
   width: 44px;
   height: 44px;
   cursor: pointer;
+  transition: var(--transition-base);
 }
 
 @media only screen and (min-width: 1440px) {
@@ -46,6 +47,7 @@
   width: 44px;
   height: 44px;
   cursor: pointer;
+  transition: var(--transition-base);
 }
 
 .deleteBtn:hover {
@@ -88,7 +90,23 @@
   border-top-right-radius: 0;
 }
 
+/* текст */
+.tableWrapper :global(.ag-theme-quartz .ag-cell),
+.tableWrapper :global(.ag-theme-quartz .ag-cell-value) {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+}
+
+@media only screen and (min-width: 768px) {
+  .tableWrapper :global(.ag-theme-quartz .ag-cell),
+  .tableWrapper :global(.ag-theme-quartz .ag-cell-value) {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* заголовок */
 .tableWrapper :global(.ag-theme-quartz .ag-header-cell-text) {
+  font-size: var(--font-size-base);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-normal);
   color: var(--color-grey);
@@ -97,18 +115,6 @@
 @media only screen and (min-width: 768px) {
   .tableWrapper :global(.ag-theme-quartz .ag-header-cell-text) {
     font-size: var(--font-size-base);
-  }
-}
-
-.tableWrapper :global(.ag-theme-quartz .ag-cell) {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-normal);
-  color: var(--color-white);
-}
-
-@media only screen and (min-width: 768px) {
-  .tableWrapper :global(.ag-theme-quartz .ag-cell) {
-    font-size: var(--font-size-xl);
   }
 }
 
@@ -163,4 +169,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.tableWrapper :global(.ag-theme-quartz .ag-row),
+.tableWrapper :global(.ag-theme-quartz .ag-cell) {
+  border: none;
+}
+
+.tableWrapper :global(.ag-theme-quartz .ag-cell:first-child),
+.tableWrapper :global(.ag-theme-quartz .ag-header-cell:first-child) {
+  padding-left: 20px;
+}
+@media only screen and (min-width: 768px) {
+  .tableWrapper :global(.ag-theme-quartz .ag-cell:first-child),
+  .tableWrapper :global(.ag-theme-quartz .ag-header-cell:first-child) {
+    padding-left: 32px;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  .tableWrapper :global(.ag-theme-quartz .ag-cell:first-child),
+  .tableWrapper :global(.ag-theme-quartz .ag-header-cell:first-child) {
+    padding-left: 40px;
+  }
+}
+
+.tableWrapper :global(.ag-theme-quartz .ag-header-cell::after),
+.tableWrapper :global(.ag-theme-quartz .ag-header-group-cell::after),
+.tableWrapper :global(.ag-theme-quartz .ag-header-cell-resize) {
+  opacity: 0;
 }
