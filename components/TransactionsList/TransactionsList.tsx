@@ -11,6 +11,8 @@ import {
   getTransactions,
 } from '@/lib/api/client/transactions/transactionApi';
 import Loader from '../Loader/Loader';
+import { useRouter } from 'next/navigation';
+import { getCurrentUser } from '@/lib/api/client/user/userApi';
 
 interface TransactionsListProps {
   type: 'incomes' | 'expenses';
@@ -44,11 +46,19 @@ export default function TransactionsList({
     queryFn: () => getTransactions(type, params),
   });
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const { data: userData } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: getCurrentUser,
+  });
+  const currencySymbol = userData?.currency?.toUpperCase() || 'UAH';
 
   const { mutate } = useMutation({
     mutationFn: deleteTransaction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      
+      router.refresh();
     },
   });
 
@@ -111,7 +121,12 @@ export default function TransactionsList({
     { field: 'comment', headerName: 'Comment', width: 105 },
     { field: 'date', headerName: 'Date', width: 80 },
     { field: 'time', headerName: 'Time', width: 85 },
-    { field: 'sum', headerName: 'Sum', width: 110 },
+    {
+      field: 'sum',
+      headerName: 'Sum',
+      width: 110,
+      valueFormatter: ({ value }) => `${value} ${currencySymbol}`,
+    },
     { headerName: 'Actions', cellRenderer: SimleComp, width: 125 },
   ];
   const tabletCols: ColDef<Row>[] = [
@@ -119,7 +134,12 @@ export default function TransactionsList({
     { field: 'comment', headerName: 'Comment', flex: 0.85 },
     { field: 'date', headerName: 'Date', flex: 0.6 },
     { field: 'time', headerName: 'Time', flex: 0.6 },
-    { field: 'sum', headerName: 'Sum', flex: 0.6 },
+    {
+      field: 'sum',
+      headerName: 'Sum',
+      flex: 0.6,
+      valueFormatter: ({ value }) => `${value} ${currencySymbol}`,
+    },
     { headerName: 'Actions', cellRenderer: SimleComp, flex: 0.8 },
   ];
   const desktopCols: ColDef<Row>[] = [
@@ -127,7 +147,12 @@ export default function TransactionsList({
     { field: 'comment', headerName: 'Comment', flex: 0.85 },
     { field: 'date', headerName: 'Date', flex: 0.5 },
     { field: 'time', headerName: 'Time', flex: 0.5 },
-    { field: 'sum', headerName: 'Sum', flex: 0.7 },
+    {
+      field: 'sum',
+      headerName: 'Sum',
+      flex: 0.7,
+      valueFormatter: ({ value }) => `${value} / ${currencySymbol}`,
+    },
     { headerName: 'Actions', cellRenderer: SimleComp, flex: 1.15 },
   ];
 
