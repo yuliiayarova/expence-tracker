@@ -122,11 +122,15 @@ export default function TransactionForm({
       // await createTransaction(payload);
       if (mode === 'edit' && initialData) {
         await updateTransaction(values.type, initialData.id, updatePayload);
+        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
+        await queryClient.invalidateQueries({ queryKey: ['current-month-stats'] });
         toast.success('Transaction successfully updated');
         queryClient.invalidateQueries({ queryKey: ['transactions'] });
         onClose?.();
       } else {
         await createTransaction(payload);
+        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
+        await queryClient.invalidateQueries({ queryKey: ['current-month-stats'] });
         toast.success('Transaction successfully added');
 
         const freshInitialValues = getInitialTransactionValues();
