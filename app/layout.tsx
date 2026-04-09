@@ -42,8 +42,9 @@ export default async function RootLayout({
       <body className={inter.className}>
         <TanStackProvider>
           <AuthProvider>
+            <Header />
             <Container>
-              <Header />
+              
               <main>{children}</main>
               <Toaster position="top-right" />
             </Container>
