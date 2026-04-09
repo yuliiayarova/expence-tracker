@@ -18,69 +18,69 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith(route),
   );
 
-  if (!accessToken) {
-    if (refreshToken) {
-      try {
-        const data = await refreshSession();
-        const setCookie = data.headers['set-cookie'];
+  
+  if (!accessToken && refreshToken) {
+    try {
+      const res = await refreshSession();
+      const setCookie = res.headers['set-cookie'];
 
-        if (setCookie) {
-          const cookieArray = Array.isArray(setCookie)
-            ? setCookie
-            : [setCookie];
+      if (setCookie) {
+        
+        const response = isPublicRoute
+          ? NextResponse.redirect(new URL('/', request.url))
+          : NextResponse.next();
 
-          for (const cookieStr of cookieArray) {
-            const parsed = parse(cookieStr);
+        const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
 
-            if (parsed.accessToken) {
-              cookieStore.set('accessToken', parsed.accessToken);
-            }
+        for (const cookieStr of cookieArray) {
+          const parsed = parse(cookieStr);
+          const entries = Object.entries(parsed);
 
-            if (parsed.refreshToken) {
-              cookieStore.set('refreshToken', parsed.refreshToken);
-            }
-          }
+          if (entries.length === 0) continue;
 
-          if (isPublicRoute) {
-            return NextResponse.redirect(new URL('/', request.url), {
-              headers: {
-                Cookie: cookieStore.toString(),
-              },
-            });
-          }
+          const [name, value] = entries[0];
+          const cookieOptions = parsed as Record<string, string>;
 
-          if (isPrivateRoute) {
-            return NextResponse.next({
-              headers: {
-                Cookie: cookieStore.toString(),
-              },
+          
+          if (
+            (name === 'accessToken' || name === 'refreshToken') &&
+            value !== undefined
+          ) {
+            response.cookies.set(name, value, {
+              path: cookieOptions.Path || '/',
+              httpOnly: true,
+              secure: process.env.NODE_ENV === 'production',
+              sameSite: 'lax',
+              maxAge: cookieOptions['Max-Age']
+                ? parseInt(cookieOptions['Max-Age'], 10)
+                : undefined,
+              expires: cookieOptions.Expires
+                ? new Date(cookieOptions.Expires)
+                : undefined,
             });
           }
         }
-      } catch {
-        if (isPrivateRoute) {
-          return NextResponse.redirect(new URL('/login', request.url));
-        }
 
-        return NextResponse.next();
+        return response;
+      }
+    } catch (error) {
+      console.error('Refresh failed:', error);
+      if (isPrivateRoute) {
+        return NextResponse.redirect(new URL('/login', request.url));
       }
     }
+  }
 
-    if (isPublicRoute) {
-      return NextResponse.next();
-    }
-
+  // 2. Стандартная проверка прав доступа
+  if (!accessToken) {
     if (isPrivateRoute) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
+    return NextResponse.next();
   }
 
   if (isPublicRoute) {
     return NextResponse.redirect(new URL('/', request.url));
-  }
-
-  if (isPrivateRoute) {
-    return NextResponse.next();
   }
 
   return NextResponse.next();

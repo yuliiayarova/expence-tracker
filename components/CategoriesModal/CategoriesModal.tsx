@@ -83,7 +83,7 @@ export default function CategoriesModal({
   const editMutation = useMutation({
     mutationFn: ({ id, name }: { id: string; name: string }) =>
       updateCategory(id, { categoryName: name }),
-    onSuccess: updated => {
+    onSuccess: async updated => {
       queryClient.setQueryData<CategoriesResponse>(['categories'], old => {
         if (!old) return old;
         return {
@@ -94,6 +94,9 @@ export default function CategoriesModal({
               : c,
           ),
         };
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['current-month-stats'],
       });
       setInputValue('');
       setEditingCategory(null);

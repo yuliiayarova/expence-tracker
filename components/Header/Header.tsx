@@ -220,7 +220,7 @@ export default function Header() {
 
   return (
     <>
-      <header className={css.header}>
+      <header className={`${css.header}`}>
         <div className={css.headerInner}>
         <Logo />
 

@@ -1,4 +1,6 @@
 import { serverFetch } from "../serverApi";
+import axios, { AxiosResponse } from "axios";
+import { cookies } from "next/headers";
 
 import type {
   RegisterRequest,
@@ -6,12 +8,17 @@ import type {
   LoginRequest,
   LoginResponse,
 } from "../../types/auth.types";
-import { AxiosResponse } from "axios";
+
+const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL || ''}/api`;
+
+
+const refreshInstance = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+});
 
 // POST /auth/register
-export const register = async (
-  data: RegisterRequest,
-): Promise<RegisterResponse> => {
+export const register = async (data: RegisterRequest): Promise<RegisterResponse> => {
   return serverFetch<RegisterResponse>("/auth/register", {
     method: "POST",
     body: data,
@@ -31,7 +38,13 @@ export const logout = async (): Promise<void> => {
   return serverFetch<void>("/auth/logout", { method: "POST" });
 };
 
-// GET /auth/session
+// GET /auth/session 
 export const refreshSession = async (): Promise<AxiosResponse> => {
-  return serverFetch("/auth/session");
+  const cookieStore = await cookies();
+  
+  return refreshInstance.get("/auth/session", {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
 };
