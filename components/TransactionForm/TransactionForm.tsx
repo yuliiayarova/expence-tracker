@@ -104,7 +104,7 @@ export default function TransactionForm({
   const id = useId();
   const queryClient = useQueryClient();
   const { data: userData } = useQuery({
-    queryKey: ['currentUser'],
+    queryKey: ['current-user'],
     queryFn: getCurrentUser,
   });
   const currencySymbol = userData?.currency?.toUpperCase() || 'UAH';
@@ -138,11 +138,16 @@ export default function TransactionForm({
         });
         toast.success('Transaction successfully updated');
         queryClient.invalidateQueries({ queryKey: ['transactions'] });
+        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
+        await queryClient.invalidateQueries({
+          queryKey: ['current-month-stats'],
+        });
         onClose?.();
         router.refresh();
       } else {
         await createTransaction(payload);
-        await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
+
         await queryClient.invalidateQueries({
           queryKey: ['current-month-stats'],
         });

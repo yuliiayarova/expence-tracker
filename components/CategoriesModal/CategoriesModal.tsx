@@ -95,8 +95,10 @@ export default function CategoriesModal({
           ),
         };
       });
-      queryClient.invalidateQueries({ queryKey: ['current-month-stats'] });
-      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['current-month-stats'],
+      });
+      await queryClient.invalidateQueries({ queryKey: ['transactions'] });
       setInputValue('');
       setEditingCategory(null);
     },
@@ -105,12 +107,14 @@ export default function CategoriesModal({
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => deleteCategory(id),
-    onSuccess: (_, id) => {
+    onSuccess: async (_, id) => {
       queryClient.setQueryData<CategoriesResponse>(['categories'], old => {
         if (!old) return old;
         return { ...old, [type]: old[type].filter(c => c._id !== id) };
       });
-      queryClient.invalidateQueries({ queryKey: ['current-month-stats'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['current-month-stats'],
+      });
       if (editingCategory?._id === id) {
         setEditingCategory(null);
         setInputValue('');
