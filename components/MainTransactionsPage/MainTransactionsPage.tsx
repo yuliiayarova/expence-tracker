@@ -96,7 +96,7 @@ export default function MainTransactionsPage({
               />
             </div>
             <div className={css.transactionFormWrapper}>
-              <TransactionForm />
+              <TransactionForm className={css.mainTransactionForm} />
             </div>
 
             <div className={css.chartWrapper}>
