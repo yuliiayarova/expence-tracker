@@ -6,6 +6,8 @@ import TransactionsList, {
 } from '@/components/TransactionsList/TransactionsList';
 import TransactionsSearchTools from '@/components/TransactionsSearchTools/TransactionsSearchTools';
 import { ChangeEvent, useState } from 'react';
+import css from './history.module.css';
+import { useDebounce } from 'use-debounce';
 
 interface TransactionsHistoryClientProps {
   type: 'expenses' | 'incomes';
@@ -19,10 +21,14 @@ export default function TransactionsHistoryClient({
   const [openEditModal, setOpenEditModal] = useState(false);
   const [transactions, setTransactions] = useState<Row | null>(null);
 
+  const [valueSearch] = useDebounce(search, 300);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearch(value);
   };
+
+  const tip = search.length;
   const handleDateSearch = (date: Date | null) => {
     if (!date) {
       setDateSearch('');
@@ -48,12 +54,12 @@ export default function TransactionsHistoryClient({
   return (
     <>
       {openEditModal && transactions && (
-        <Modal onClose={handleCloseEditModal} className="modalEdit">
+        <Modal className={css.formModal} onClose={handleCloseEditModal}>
           <TransactionForm
+            className={css.modalTransactionForm}
             mode="edit"
             initialData={transactions}
             onClose={handleCloseEditModal}
-            isOpenModal={openEditModal}
           />
         </Modal>
       )}
@@ -62,10 +68,11 @@ export default function TransactionsHistoryClient({
         dateSearch={dateSearch}
         handleChange={handleChange}
         handleDateSearch={handleDateSearch}
+        showTip={tip}
       />
       <TransactionsList
         type={type}
-        search={search}
+        search={valueSearch.length < 3 ? '' : valueSearch}
         date={dateSearch}
         handleChangeTransaction={handleChangeTransaction}
       />

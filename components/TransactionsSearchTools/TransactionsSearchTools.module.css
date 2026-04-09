@@ -25,6 +25,11 @@
   background-color: #0c0d0d;
   border: 1px solid #0c0d0d;
   color: #fafafa;
+  transition: border-color var(--transition-base);
+}
+
+.searchInput::placeholder {
+  font-size: var(--font-size-base);
 }
 
 .searchInput:focus {
@@ -42,6 +47,13 @@
   pointer-events: none;
   fill: none;
   stroke: #0ef387;
+}
+
+.errorText {
+  position: absolute;
+  left: 50;
+  color: var(--color-error);
+  font-size: var(--font-size-xs);
 }
 
 @media only screen and (min-width: 768px) {

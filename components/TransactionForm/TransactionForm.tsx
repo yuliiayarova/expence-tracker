@@ -89,14 +89,14 @@ interface TransactionFormProps {
     sum: number;
   } | null;
   onClose?: () => void;
-  isOpenModal: boolean;
+  className?: string;
 }
 
 export default function TransactionForm({
   mode = 'create',
   initialData = null,
   onClose,
-  isOpenModal,
+  className,
 }: TransactionFormProps) {
   const { draft, clearDraft } = useTransactionDraftStore();
   const id = useId();
@@ -130,11 +130,19 @@ export default function TransactionForm({
       // await createTransaction(payload);
       if (mode === 'edit' && initialData) {
         await updateTransaction(values.type, initialData.id, updatePayload);
+        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
+        await queryClient.invalidateQueries({
+          queryKey: ['current-month-stats'],
+        });
         toast.success('Transaction successfully updated');
         queryClient.invalidateQueries({ queryKey: ['transactions'] });
         onClose?.();
       } else {
         await createTransaction(payload);
+        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
+        await queryClient.invalidateQueries({
+          queryKey: ['current-month-stats'],
+        });
         toast.success('Transaction successfully added');
 
         const freshInitialValues = getInitialTransactionValues();
@@ -182,7 +190,7 @@ export default function TransactionForm({
       onSubmit={handleSubmit}
     >
       {({ errors, touched, isSubmitting }) => (
-        <Form className={isOpenModal ? css.formModal : css.form}>
+        <Form className={`${css.form}${className ? ` ${className}` : ''}`}>
           <PersistTransactionDraft />
           <div className={css.transactionWrapper}>
             <div className={css.transactionFieldset}>
