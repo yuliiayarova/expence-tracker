@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 100vh;
+  text-align: center;
+  padding: 24px;
+}
+
+.code {
+  font-size: 10rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  color: var(--color-primary);
+  letter-spacing: var(--letter-spacing-tighter);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+}
+
+.message {
+  font-size: var(--font-size-base);
+  color: var(--color-grey);
+  max-width: 400px;
+  margin-bottom: 8px;
+}

@@ -1,0 +1,77 @@
+.profileButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 8px 20px 8px 8px;
+  border: none;
+  border-radius: 30px;
+  background: var(--color-bg-card);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f8f8f8 0%, #bdbdbd 100%);
+  color: var(--color-text-black);
+  font-size: 12px;
+  font-weight: 700;
+  overflow: hidden;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userName {
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: rgba(250, 250, 250, 0.4);
+}
+
+.profileIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: var(--color-primary);
+  transition: transform var(--transition-base);
+}
+
+.profileIconOpen {
+  transform: rotate(180deg);
+}
+
+@media only screen and (min-width: 768px) {
+  .profileButton {
+    min-height: 48px;
+    padding: 6px 16px 6px 6px;
+    gap: 8px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .profileButton {
+    min-height: 56px;
+    padding: 6px 16px;
+  }
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+  }
+}

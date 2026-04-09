@@ -1,0 +1,59 @@
+.userstab {
+  display: none;
+}
+@media (min-width: 1440px) {
+  .userstab {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .usersAvatar {
+    position: relative;
+    width: 125px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .avatar {
+    border-radius: 50%;
+    border: 3px solid var(--color-text-black);
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+  }
+
+  .avatar:nth-child(1) {
+    left: 0;
+    z-index: 3;
+  }
+
+  .avatar:nth-child(2) {
+    left: 37px;
+
+    z-index: 2;
+  }
+
+  .avatar:nth-child(3) {
+    left: 74px;
+    z-index: 1;
+  }
+
+  .textBox {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .info {
+    font-size: var(--font-size-2_5xl);
+    letter-spacing: var(--letter-spacing-tight);
+    
+  }
+
+  .description {
+    color: var(--color-grey);
+  }
+}

@@ -1,0 +1,203 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 335px;
+  border-radius: 30px;
+  background-color: var(--color-bg-card);
+  padding: 20px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1439.98px) {
+  .form {
+    max-width: 704px;
+    padding: 40px 108px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .form {
+    max-width: 566px;
+    padding: 40px;
+  }
+}
+
+.transactionWrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.transactionFieldset {
+  display: flex;
+  gap: 8px;
+}
+
+.transactionLabel {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.transactionInput {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.customRadio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color var(--transition-fast);
+}
+
+.customRadio::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-secondary-green);
+  transform: scale(0);
+  transition: transform var(--transition-fast);
+}
+
+.transactionInput:checked + .customRadio::after {
+  transform: scale(1);
+}
+
+.transactionInput:checked + .customRadio {
+  border-color: var(--color-secondary-green);
+}
+
+.sumFieldset {
+  position: relative;
+}
+
+.sumLabel {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.sumInput {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  width: 100%;
+  height: 42px;
+  background-color: var(--color-input-bg);
+  outline: none;
+  color: var(--color-white);
+  transition: border-color var(--transition-base);
+  position: relative;
+}
+
+@media only screen and (min-width: 768px) {
+  .sumInput {
+    height: 48px;
+  }
+}
+
+.sumInput:hover,
+.sumInput:focus {
+  border-color: var(--color-primary);
+}
+
+.sumInput::placeholder {
+  color: var(--color-white-40);
+  line-height: var(--line-height-normal);
+  font-size: var(--font-size-sm);
+}
+
+@media only screen and (min-width: 768px) {
+  .sumInput::placeholder {
+    font-size: var(--font-size-base);
+  }
+}
+
+.currency {
+  position: absolute;
+  top: 38px;
+  right: 20px;
+
+  color: var(--color-white-40);
+  line-height: var(--line-height-normal);
+  font-size: var(--font-size-sm);
+}
+
+@media only screen and (min-width: 768px) {
+  .currency {
+    font-size: var(--font-size-base);
+  }
+}
+
+.commentLabel {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.commentInput {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  width: 100%;
+  height: 91px;
+  background-color: var(--color-input-bg);
+  outline: none;
+  color: var(--color-white);
+  resize: none;
+  transition: border-color var(--transition-base);
+}
+
+@media only screen and (min-width: 768px) {
+  .commentInput {
+    height: 97px;
+  }
+}
+
+.commentInput:hover,
+.commentInput:focus {
+  border-color: var(--color-primary);
+}
+
+.commentInput::placeholder {
+  color: var(--color-white-40);
+  line-height: var(--line-height-normal);
+  font-size: var(--font-size-sm);
+}
+
+@media only screen and (min-width: 768px) {
+  .commentInput::placeholder {
+    font-size: var(--font-size-base);
+  }
+}
+
+.error {
+  font-size: var(--font-size-xxs);
+  color: var(--color-error);
+  margin-top: 4px;
+  margin-left: 15px;
+}
+
+.inputError {
+  border-color: var(--color-error);
+}
+
+.loadingWrapper {
+  display: flex;
+  gap: 12px;
+}
+.submitButton {
+  max-width: 115px;
+  font-size: var(--font-size-sm);
+}
+
+@media only screen and (min-width: 768px) {
+  .submitButton {
+    max-width: 119px;
+    font-size: var(--font-size-base);
+  }
+}

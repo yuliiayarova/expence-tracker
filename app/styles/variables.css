@@ -2,7 +2,7 @@
   /* ===== COLORS ===== */
   /* Background Colors */
   --color-bg-main: #0c0d0d; /* Основний фон сторінки */
-  --color-bg-card: #171717; /* Фон карток (як блок з аватаром) */
+  --color-bg-card: #171719; /* Фон карток (як блок з аватаром) */
   --color-bg-modal-backdrop: #0c0d0d99; /* Напівпрозорий чорний для фону модальних вікон */
 
   /* Primary & Accents (Greens) */
@@ -11,14 +11,32 @@
 
   /* Neutral Colors */
   --color-white: #fafafa; /* Основний текст, логотип */
-  --color-white-40: #5e4c4c66; /* Вторинний текст (підписи до інпутів) */
+  --color-white-40: #fafafa66; /* Вторинний текст (підписи до інпутів) */
   --color-white-50: #fafafa80; /* Текст у неактивних кнопках (Cancel) */
+  --color-white-60: #fafafa99; /* Текст-навігація в формі реєстрації */
+
   --color-text-black: #0c0d0d; /* Чорний для тексту */
+  --color-grey: rgba(
+    250,
+    250,
+    250,
+    0.4
+  ); /* Сірий для вторинного тексту (опис, підписи) */
+  --color-dark-grey: rgba(
+    250,
+    250,
+    250,
+    0.5
+  ); /* Колір тексту кнопки Cancel при ховері */
+  --color-primary-green: #02b15a; /* Neutral Colors */
+  --color-primary-green-15: rgba(2, 177, 90, 0.15); /* 15% opacity */
+  --color-secondary-green: #4dc274; /* Колір радіокнопок */
 
   /* UI Elements */
-  --color-border: rgba(250, 250, 250, 0.1); /* Межі звичайних інпутів */
+  --color-border: rgba(250, 250, 250, 0.2); /* Межі звичайних інпутів */
   --color-input-bg: transparent; /* Фон полів введення */
-  --color-button-secondary-bg: #292929; /* Фон кнопки Cancel */
+  --color-button-secondary-bg: #29292b; /* Фон кнопки Cancel */
+  --color-border-modal: rgba(250, 250, 250, 0.1); /* Межі модальних вікон */
 
   /* Feedback States */
   --color-error: #e74a3b; /* Червоний для помилок */
@@ -33,11 +51,12 @@
   ); /* Фон для інформації про здоров'я (Health Info) */
 
   /* ===== Border ===== */
-  --border-gray: 1px solid var(--color-white-40);
+  --border-gray: 1px solid var(--color-grey);
   --border-primary: 1px solid var(--color-primary);
 
   /* ===== TYPOGRAPHY ===== */
   /* Розміри шрифтів */
+  --font-size-xxs: 0.625rem;
   --font-size-xs: 0.75rem; /* 12px */
   --font-size-sm: 0.875rem; /* 14px */
   --font-size-base: 1rem; /* 16px */

@@ -1,0 +1,70 @@
+.userPanel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 18px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 15px;
+  background: var(--color-bg-main);
+}
+
+.userPanelItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  background: transparent;
+  color: var(--color-white-50);
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.userPanelItem:hover {
+  color: var(--color-white);
+}
+
+.userPanelIcon {
+  fill: none;
+  stroke: currentColor;
+  transition: all var(--transition-base);
+}
+
+.userPanelItem:hover .userPanelIcon * {
+  stroke: var(--color-primary-hover);
+}
+
+@media only screen and (min-width: 768px) {
+  .userPanel {
+    top: calc(100% + 8px);
+    padding: 12px 14px;
+  }
+
+  .userPanelItem {
+    padding: 6px 0;
+    font-size: 14px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .userPanel {
+    top: calc(100% + 8px);
+    right: 0;
+    left: auto;
+    width: 217px;
+    padding: 18px 16px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  }
+
+  .userPanelItem {
+    font-size: 16px;
+  }
+}

@@ -1,17 +1,4 @@
 
-SVGOMG
-Powered by SVGO v4.0.0
-
-
-Open SVG
-Paste markup
-
-Demo
-Contribute
-
-
-
-2.12k → 2.04k 95.95%
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
   <defs>
     <symbol id="icon-burger-menu" viewBox="0 0 32 32">
@@ -57,6 +44,11 @@ Contribute
     <symbol id="icon-user" viewBox="0 0 32 32">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6" d="M26.667 28v-2.667c0-1.415-.562-2.771-1.562-3.771S22.748 20 21.334 20H10.667c-1.415 0-2.771.562-3.771 1.562s-1.562 2.357-1.562 3.771V28m10.665-13.333c2.946 0 5.333-2.388 5.333-5.333s-2.388-5.333-5.333-5.333-5.333 2.388-5.333 5.333 2.388 5.333 5.333 5.333"/>
     </symbol>
+    <symbol id="icon-log-out" viewBox="0 0 32 32">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M12 28H6.667A2.666 2.666 0 0 1 4 25.333V6.667A2.666 2.666 0 0 1 6.667 4H12"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M21.333 22.667 28 16l-6.667-6.667"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M28 16H12"/>
+    </symbol>
     <symbol id="icon-eye-off" viewBox="0 0 32 32">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M23.92 23.92A13.43 13.43 0 0 1 16 26.667C6.667 26.667 1.333 16 1.333 16A24.605 24.605 0 0 1 8.08 8.08m5.12-2.427c.918-.215 1.857-.322 2.8-.32C25.333 5.333 30.667 16 30.667 16a24.65 24.65 0 0 1-2.88 4.253m-8.96-1.426a4.003 4.003 0 0 1-2.856 1.273c-.537.009-1.071-.089-1.569-.291s-.95-.501-1.33-.88c-.38-.38-.679-.832-.88-1.33s-.3-1.032-.29-1.569c.009-.537.127-1.067.346-1.558s.534-.932.927-1.298M1.333 1.333l29.333 29.333"/>
     </symbol>
@@ -68,5 +60,9 @@ Contribute
       <path fill="#0ef387" d="M37.14 22.762c-.105-.281-9.39-18.757-9.529-19.038-.489-1.194-1.361-2.213-2.513-2.916-2.897-1.686-6.597-.703-8.273 2.213-1.152 2.002-1.082 4.356.035 6.217.105.246 8.971 17.95 9.145 18.231.105.281.244.527.384.808.489 1.194 1.361 2.213 2.513 2.916 2.897 1.686 6.597.738 8.273-2.178 1.187-2.002 1.082-4.391-.035-6.252z" style="fill:var(--color1, #0ef387)"/>
       <path fill="#fafafa" d="M26.424 10.257a6.135 6.135 0 0 0 1.641-4.18C28.065 2.74 25.377 0 22.026 0c-2.059 0-3.875 1.019-4.957 2.599C16.86 2.81 1.815 21.497 1.64 21.743a6.135 6.135 0 0 0-1.641 4.18C-.001 29.295 2.722 32 6.038 32c2.059 0 3.875-1.019 4.957-2.599.209-.246 15.289-18.898 15.429-19.144m25.935 0A6.135 6.135 0 0 0 54 6.077C54 2.705 51.277 0 47.961 0c-2.06 0-3.875 1.019-4.957 2.599-.209.211-15.289 18.898-15.463 19.144a6.135 6.135 0 0 0-1.641 4.18c0 3.372 2.723 6.077 6.039 6.077 2.059 0 3.875-1.019 4.957-2.599.244-.246 15.289-18.898 15.464-19.144z" style="fill:var(--color2, #fafafa)"/>
     </symbol>
+    <symbol id="icon-close" viewBox="0 0 32 32">
+      <path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.6667" d="M24 8l-16 16"></path>
+      <path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.6667" d="M8 8l16 16"></path>
+     </symbol>
   </defs>
 </svg>

@@ -1,0 +1,29 @@
+.decor {
+  display: none;
+}
+
+.content {
+  margin-top: 127px;
+}
+
+@media only screen and (min-width: 768px) {
+  .content {
+    margin-top: 206px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .wrapper {
+    display: flex;
+    gap: 54px;
+    margin-top: 76px;
+  }
+
+  .decor {
+    display: block;
+  }
+
+  .content {
+    margin-top: 18px;
+  }
+}

@@ -1,0 +1,27 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+
+  min-width: 115px;
+  min-height: 45px;
+
+  background-color: var(--color-primary);
+  color: var(--color-text-black);
+  transition: var(--transition-base);
+}
+
+.btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+@media only screen and (min-width: 768px) {
+  .btn {
+    min-width: 119px;
+    min-height: 47px;
+  }
+}
