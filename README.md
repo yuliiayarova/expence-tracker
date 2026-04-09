@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💸 Expense Tracker
 
-## Getting Started
+An easy-to-use expense tracker for recording spending, organizing finances, and
+staying in control of your money.
 
-First, run the development server:
+🔗 **[Live Demo](https://expence-tracker-teal-one.vercel.app/)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎯 Project Purpose
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Expense Tracker** was developed as a collaborative team project to practice
+modern frontend development. The goal was to build a real-world financial
+tracking application focusing on:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Dynamic UI updates** and state management.
+- **Data visualization** for financial insights.
+- **Responsive design** for seamless use across devices.
+- **Static typing** for robust and scalable code.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 💰 Expense Management
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **CRUD Operations:** Add, edit, and delete expenses easily.
+- **Categorization:** Group transactions by categories.
+- **History:** Track and filter expenses by date using specialized pickers.
 
-## Deploy on Vercel
+### 📊 Analytics & Insights
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Visual Data:** Interactive charts powered by **Recharts**.
+- **Spend Analysis:** Clear overview of financial habits through category-based
+  breakdowns.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 📝 Forms & UX
+
+- **Validation:** Robust forms managed by **Formik** and **Yup**.
+- **Masked Inputs:** Clean data entry with **react-imask**.
+- **Image Handling:** Profile or receipt cropping with **react-easy-crop**.
+- **Feedback:** Real-time notifications via **React Hot Toast**.
+
+---
+
+## 🛠️ Tech Stack
+
+### Core
+
+- **Next.js 16** (App Router) & **React 19**
+- **TypeScript** for static typing
+- **Zustand** for global state management
+- **TanStack Query (v5)** for server state handling
+- **Axios** for API requests
+
+### UI & Styling
+
+- **Tailwind CSS 4** — for modern, utility-first styling.
+- **AG Grid React** — for high-performance data tables.
+- **Recharts** — for data visualization.
+- **React Use** — for essential custom hooks.
+
+---
+
+## ⚙️ Getting Started
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/vjosik/expence-tracker.git](https://github.com/vjosik/expence-tracker.git)
+    ```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Environment Variables:** Create a `.env.local` file in the root directory
+    and add the following:
+    ```env
+    NEXT_PUBLIC_API_URL=http://localhost:3000
+    ```
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+5.  **Open the app:** Visit [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🧑‍💻 The Team
+
+- **Ігор Вжос** — Team Lead
+- **Діана Пригожина** — Scrum Master
+- **Анастасия Загляда** — Developer
+- **Юлія Ярова** — Developer
+- **Артем Багно** — Developer
+- **Тася Штик** — Developer
+- **Роман Кузишин** — Developer
+
+---
+
+### 🧪 Project Maintenance
+
+- `npm run build` — Production build.
+- `npm run lint` — Code quality check with ESLint.
+- **Styling:** Tailwind CSS 4, PostCSS, Normalize.css.
