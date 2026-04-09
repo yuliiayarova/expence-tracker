@@ -6,7 +6,7 @@ interface LogoProps {
   href?: string;
 }
 
-export default function Logo({ href = '/' }: LogoProps) {
+export default function Logo({ href = '/transactions/expenses' }: LogoProps) {
   return (
     <Link href={href} className={css.brand} aria-label="Expense Tracker home">
       <svg className={css.logo} aria-hidden="true">
