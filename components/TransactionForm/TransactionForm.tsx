@@ -30,6 +30,7 @@ import CategoryField from './CategoryField';
 import { CreateTransactionRequest } from '@/lib/api/types/transaction.types';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCurrentUser } from '@/lib/api/client/user/userApi';
+import { useRouter } from 'next/navigation';
 
 const transactionSchema = Yup.object({
   type: Yup.string()
@@ -89,20 +90,22 @@ interface TransactionFormProps {
     sum: number;
   } | null;
   onClose?: () => void;
+  className?: string;
 }
 
 export default function TransactionForm({
   mode = 'create',
   initialData = null,
   onClose,
+  className,
 }: TransactionFormProps) {
+  const router = useRouter();
   const { draft, clearDraft } = useTransactionDraftStore();
   const id = useId();
   const queryClient = useQueryClient();
   const { data: userData } = useQuery({
     queryKey: ['currentUser'],
     queryFn: getCurrentUser,
-    
   });
   const currencySymbol = userData?.currency?.toUpperCase() || 'UAH';
 
@@ -129,20 +132,26 @@ export default function TransactionForm({
       // await createTransaction(payload);
       if (mode === 'edit' && initialData) {
         await updateTransaction(values.type, initialData.id, updatePayload);
-        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
-        await queryClient.invalidateQueries({ queryKey: ['current-month-stats'] });
+        await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+        await queryClient.invalidateQueries({
+          queryKey: ['current-month-stats'],
+        });
         toast.success('Transaction successfully updated');
         queryClient.invalidateQueries({ queryKey: ['transactions'] });
         onClose?.();
+        router.refresh();
       } else {
         await createTransaction(payload);
-        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
-        await queryClient.invalidateQueries({ queryKey: ['current-month-stats'] });
+        await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+        await queryClient.invalidateQueries({
+          queryKey: ['current-month-stats'],
+        });
         toast.success('Transaction successfully added');
 
         const freshInitialValues = getInitialTransactionValues();
         clearDraft();
         resetForm({ values: freshInitialValues });
+        router.refresh();
       }
 
       // toast.success('Transaction successfully added');
@@ -176,6 +185,7 @@ export default function TransactionForm({
         comment: initialData.comment,
       }
     : draft;
+
   return (
     <Formik
       initialValues={initialValues}
@@ -184,7 +194,7 @@ export default function TransactionForm({
       onSubmit={handleSubmit}
     >
       {({ errors, touched, isSubmitting }) => (
-        <Form className={css.form}>
+        <Form className={`${css.form}${className ? ` ${className}` : ''}`}>
           <PersistTransactionDraft />
           <div className={css.transactionWrapper}>
             <div className={css.transactionFieldset}>

@@ -123,10 +123,10 @@ export default function TransactionsList({
     { headerName: 'Actions', cellRenderer: SimleComp, flex: 0.8 },
   ];
   const desktopCols: ColDef<Row>[] = [
-    { field: 'category', headerName: 'Category', flex: 0.85 },
+    { field: 'category', headerName: 'Category', flex: 0.6 },
     { field: 'comment', headerName: 'Comment', flex: 0.85 },
-    { field: 'date', headerName: 'Date', flex: 0.6 },
-    { field: 'time', headerName: 'Time', flex: 0.6 },
+    { field: 'date', headerName: 'Date', flex: 0.5 },
+    { field: 'time', headerName: 'Time', flex: 0.5 },
     { field: 'sum', headerName: 'Sum', flex: 0.7 },
     { headerName: 'Actions', cellRenderer: SimleComp, flex: 1.15 },
   ];

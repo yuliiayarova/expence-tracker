@@ -33,3 +33,25 @@
   gap: 20px;
   flex-direction: column;
 }
+
+.formModal {
+  max-width: 335px;
+}
+
+@media only screen and (min-width: 768px) {
+  .formModal {
+    max-width: 500px;
+  }
+}
+
+.modalTransactionForm {
+  max-width: 100%;
+  padding: 40px 20px;
+}
+
+@media only screen and (min-width: 768px) {
+  .modalTransactionForm {
+    padding: 40px;
+    max-width: 100%;
+  }
+}

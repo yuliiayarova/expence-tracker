@@ -221,6 +221,7 @@ export default function Header() {
   return (
     <>
       <header className={css.header}>
+        <div className={css.headerInner}>
         <Logo />
 
         <nav className={css.desktopNav} aria-label="Transactions history">
@@ -236,6 +237,7 @@ export default function Header() {
             setIsUserPanelOpen(false);
           }}
         />
+      </div>
       </header>
 
       {isBurgerOpen && (
@@ -270,7 +272,7 @@ export default function Header() {
       )}
 
       {isLogoutModalOpen && (
-        <Modal onClose={() => setIsLogoutModalOpen(false)}>
+        <Modal className={css.logoutModal} onClose={() => setIsLogoutModalOpen(false)}>
           <Logout
             onCancel={() => setIsLogoutModalOpen(false)}
             onConfirm={handleConfirmLogout}

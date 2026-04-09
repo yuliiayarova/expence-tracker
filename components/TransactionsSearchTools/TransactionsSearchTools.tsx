@@ -1,14 +1,16 @@
 'use client';
 import { ChangeEvent } from 'react';
-import css from './TransactionsSearchTools.module.css';
 import DatePicker from 'react-datepicker';
 import { CustomInputSearch } from '../CustomInputSearch/CustomInputSearch';
+import 'react-datepicker/dist/react-datepicker.css';
+import css from './TransactionsSearchTools.module.css';
 
 interface TransactionsSearchToolsProps {
   inputSearch?: string;
-  dateSearch?: string;
+  dateSearch?: Date | null;
   handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   handleDateSearch?: (date: Date | null) => void;
+  showTip: number;
 }
 
 export default function TransactionsSearchTools({
@@ -16,8 +18,8 @@ export default function TransactionsSearchTools({
   dateSearch,
   handleChange,
   handleDateSearch,
+  showTip,
 }: TransactionsSearchToolsProps) {
-  const selectedDate = dateSearch ? new Date(dateSearch) : null;
   return (
     <div className={css.search}>
       <div className={css.searchBox}>
@@ -31,27 +33,17 @@ export default function TransactionsSearchTools({
         <svg className={css.searchIcon} width={20} height={20}>
           <use href="/icons/sprite.svg#icon-search"></use>
         </svg>
+        {showTip >= 1 && showTip < 3 && (
+          <p className={css.errorText}>Minimum 3 characters</p>
+        )}
       </div>
-
       <DatePicker
-        selected={selectedDate}
+        selected={dateSearch}
         onChange={handleDateSearch}
-        onChangeRaw={e => {
-          const value = (e?.target as HTMLInputElement | undefined)?.value;
-
-          if (!value) {
-            handleDateSearch?.(null);
-            return;
-          }
-
-          const parsedDate = new Date(value);
-
-          if (!isNaN(parsedDate.getTime())) {
-            handleDateSearch?.(parsedDate);
-          }
-        }}
         dateFormat="dd-MM-yyyy"
-        shouldCloseOnSelect
+        placeholderText="dd-mm-yyyy"
+        shouldCloseOnSelect={true}
+        strictParsing={false}
         customInput={<CustomInputSearch type="date" />}
       />
     </div>
