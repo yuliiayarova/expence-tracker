@@ -50,7 +50,7 @@ export default function TransactionsSearchTools({
             handleDateSearch?.(parsedDate);
           }
         }}
-        dateFormat="yyyy-MM-dd"
+        dateFormat="dd-MM-yyyy"
         shouldCloseOnSelect
         customInput={<CustomInputSearch type="date" />}
       />
