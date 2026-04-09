@@ -48,11 +48,12 @@ export default function TransactionsHistoryClient({
   return (
     <>
       {openEditModal && transactions && (
-        <Modal onClose={handleCloseEditModal}>
+        <Modal onClose={handleCloseEditModal} className="modalEdit">
           <TransactionForm
             mode="edit"
             initialData={transactions}
             onClose={handleCloseEditModal}
+            isOpenModal={openEditModal}
           />
         </Modal>
       )}

@@ -15,17 +15,31 @@
   position: relative;
   width: 100%;
   max-width: 335px;
-  padding: 80px 28px;
+  /* padding: 80px 28px; */
   border: 1px solid var(--color-border-modal);
   border-radius: 30px;
   background: var(--color-bg-card);
 }
 
+.modalEdit {
+  position: relative;
+  width: 100%;
+  max-width: 335px;
+  padding: 20px 40px;
+  border: 1px solid var(--color-border-modal);
+  border-radius: 30px;
+  background: var(--color-bg-card);
+}
 @media only screen and (min-width: 768px) {
   .modal {
     max-width: 500px;
-    padding-right: 104px;
-    padding-left: 104px;
+
+    /* padding-right: 104px; */
+    /* padding-left: 104px; */
+  }
+  .modalEdit {
+    max-width: 500px;
+    padding: 40px;
   }
 }
 

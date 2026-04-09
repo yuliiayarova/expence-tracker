@@ -89,12 +89,14 @@ interface TransactionFormProps {
     sum: number;
   } | null;
   onClose?: () => void;
+  isOpenModal: boolean;
 }
 
 export default function TransactionForm({
   mode = 'create',
   initialData = null,
   onClose,
+  isOpenModal,
 }: TransactionFormProps) {
   const { draft, clearDraft } = useTransactionDraftStore();
   const id = useId();
@@ -102,7 +104,6 @@ export default function TransactionForm({
   const { data: userData } = useQuery({
     queryKey: ['currentUser'],
     queryFn: getCurrentUser,
-    
   });
   const currencySymbol = userData?.currency?.toUpperCase() || 'UAH';
 
@@ -172,6 +173,7 @@ export default function TransactionForm({
         comment: initialData.comment,
       }
     : draft;
+
   return (
     <Formik
       initialValues={initialValues}
@@ -180,7 +182,7 @@ export default function TransactionForm({
       onSubmit={handleSubmit}
     >
       {({ errors, touched, isSubmitting }) => (
-        <Form className={css.form}>
+        <Form className={isOpenModal ? css.formModal : css.form}>
           <PersistTransactionDraft />
           <div className={css.transactionWrapper}>
             <div className={css.transactionFieldset}>
