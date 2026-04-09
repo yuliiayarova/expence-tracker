@@ -20,6 +20,19 @@
   padding: 0 20px;
 }
 
+.headerHome {
+  border-bottom: 1px solid transparent;
+ 
+  margin-top: 20px; 
+}
+
+@media only screen and (min-width: 768px) {
+  .headerHome {
+    margin-top: 32px;
+  }
+}
+
+
 @media only screen and (min-width: 768px) {
   .headerInner {
     min-height: 56px;
