@@ -23,6 +23,7 @@ export default function TransactionsHistoryClient({
   const [transactions, setTransactions] = useState<Row | null>(null);
 
   const [valueSearch] = useDebounce(search, 300);
+  const [debouncedDate] = useDebounce(dateSearch, 700);
 
   const { clearDraft } = useTransactionDraftStore();
   const handleCloseEditModal = () => {
@@ -36,8 +37,8 @@ export default function TransactionsHistoryClient({
   const handleDateSearch = (date: Date | null) => setDateSearch(date);
 
   const formattedDate =
-    dateSearch && !isNaN(dateSearch.getTime())
-      ? `${dateSearch.getFullYear()}-${String(dateSearch.getMonth() + 1).padStart(2, '0')}-${String(dateSearch.getDate()).padStart(2, '0')}`
+    debouncedDate && !isNaN(debouncedDate.getTime())
+      ? `${debouncedDate.getFullYear()}-${String(debouncedDate.getMonth() + 1).padStart(2, '0')}-${String(debouncedDate.getDate()).padStart(2, '0')}`
       : '';
 
   const tip = search.trim().length;
