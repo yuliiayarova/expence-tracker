@@ -1,7 +1,7 @@
 /* app/globals.css */
-@import "normalize.css";
-@import "./styles/variables.css";
-@import "./styles/typography.css";
+@import 'normalize.css';
+@import './styles/variables.css';
+@import './styles/typography.css';
 
 * {
   margin: 0;
@@ -17,8 +17,7 @@ body {
 body {
   background-color: var(--color-bg-main);
   color: var(--color-white);
-  font-family:
-    "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   overflow-x: hidden;
 }
 
@@ -36,4 +35,33 @@ svg {
 
 main {
   width: 100%;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-grey);
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.react-datepicker__day--disabled {
+  color: var(--color-bg-modal-backdrop) !important;
+  cursor: not-allowed;
+  background-color: transparent !important;
+  text-decoration: line-through;
+}
+
+.react-datepicker__day--disabled:hover {
+  background-color: transparent !important;
+  border-radius: 0;
 }
