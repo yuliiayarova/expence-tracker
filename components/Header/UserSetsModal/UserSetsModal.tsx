@@ -10,6 +10,7 @@ import type { Currency, UpdateUserRequest } from '@/lib/api/types/user.types';
 import AvatarCropper from './AvatarCropper';
 import css from './UserSetsModal.module.css';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface UserSetsModalProps {
   name: string;
@@ -96,14 +97,28 @@ export default function UserSetsModal({
     setCropFileName(file.name);
   };
 
-  const handleCropConfirm = (croppedFile: File) => {
-    if (cropSrc) URL.revokeObjectURL(cropSrc);
-    setCropSrc(null);
+  const handleCropConfirm = async (croppedFile: File) => {
+    if (cropSrc) {
+      URL.revokeObjectURL(cropSrc);
+      setCropSrc(null);
+    }
 
-    if (previewUrl && previewUrl.startsWith('blob:'))
-      URL.revokeObjectURL(previewUrl);
-    setPendingFile(croppedFile);
-    setPreviewUrl(URL.createObjectURL(croppedFile));
+    try {
+      const uploadedUrl = await onUploadAvatar(croppedFile);
+
+      if (uploadedUrl) {
+        setPreviewUrl(uploadedUrl);
+
+        await queryClient.invalidateQueries({ queryKey: ['current-user'] });
+
+        toast.success('Avatar updated successfully!');
+      }
+    } catch (err) {
+      toast.error('Failed to upload avatar. Please try again.');
+      console.error(err);
+    }
+
+    setPendingFile(null);
   };
 
   const handleCropCancel = () => {
@@ -131,7 +146,6 @@ export default function UserSetsModal({
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     if (!formName.trim()) {
       setError('Name is required.');
       return;
@@ -139,17 +153,12 @@ export default function UserSetsModal({
 
     setError('');
 
-    if (pendingFile) {
-      const uploadedUrl = await onUploadAvatar(pendingFile);
-      setPendingFile(null);
-      setPreviewUrl(uploadedUrl ?? previewUrl);
-    }
-
     await onSave({
       name: formName.trim(),
       currency: formCurrency,
     });
-    await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+
+    await queryClient.invalidateQueries({ queryKey: ['current-user'] });
     router.refresh();
   };
 
