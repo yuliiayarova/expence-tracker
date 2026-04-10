@@ -8,6 +8,7 @@ import TransactionsList, {
 import TransactionsSearchTools from '@/components/TransactionsSearchTools/TransactionsSearchTools';
 import css from './history.module.css';
 import { useDebounce } from 'use-debounce';
+import { useTransactionDraftStore } from '@/lib/store/transactionStore';
 
 interface TransactionsHistoryClientProps {
   type: 'expenses' | 'incomes';
@@ -24,21 +25,21 @@ export default function TransactionsHistoryClient({
   const [valueSearch] = useDebounce(search, 300);
   const [debouncedDate] = useDebounce(dateSearch, 700);
 
-
+  const { clearDraft } = useTransactionDraftStore();
+  const handleCloseEditModal = () => {
+    clearDraft();
+    setOpenEditModal(false);
+    setTransactions(null);
+  };
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setSearch(e.target.value);
 
   const handleDateSearch = (date: Date | null) => setDateSearch(date);
 
-  const handleCloseEditModal = () => {
-    setOpenEditModal(false);
-    setTransactions(null);
-  };
-
- const formattedDate =
+  const formattedDate =
     debouncedDate && !isNaN(debouncedDate.getTime())
       ? `${debouncedDate.getFullYear()}-${String(
-          debouncedDate.getMonth() + 1
+          debouncedDate.getMonth() + 1,
         ).padStart(2, '0')}-${String(debouncedDate.getDate()).padStart(2, '0')}`
       : '';
 

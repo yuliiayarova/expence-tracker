@@ -198,3 +198,14 @@
 .tableWrapper :global(.ag-theme-quartz .ag-header-cell-resize) {
   opacity: 0;
 }
+
+.tableWrapper :global(.ag-theme-quartz .ag-header-cell::after):hover,
+.tableWrapper :global(.ag-theme-quartz .ag-header-group-cell::after):hover,
+.tableWrapper :global(.ag-theme-quartz .ag-header-cell-resize):hover {
+  opacity: 1;
+  background-color: var(--color-primary);
+  height: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: var(--transition-base);
+}
