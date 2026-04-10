@@ -129,7 +129,6 @@ export default function TransactionForm({
         sum: Number(values.sum),
         comment: values.comment.trim() || undefined,
       };
-      // await createTransaction(payload);
       if (mode === 'edit' && initialData) {
         await updateTransaction(values.type, initialData.id, updatePayload);
         await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
@@ -138,6 +137,7 @@ export default function TransactionForm({
         });
         toast.success('Transaction successfully updated');
         queryClient.invalidateQueries({ queryKey: ['transactions'] });
+        clearDraft();
         onClose?.();
         router.refresh();
       } else {
@@ -153,13 +153,6 @@ export default function TransactionForm({
         resetForm({ values: freshInitialValues });
         router.refresh();
       }
-
-      // toast.success('Transaction successfully added');
-
-      // const freshInitialValues = getInitialTransactionValues();
-
-      // clearDraft();
-      // resetForm({ values: freshInitialValues });
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
 
@@ -195,7 +188,7 @@ export default function TransactionForm({
     >
       {({ errors, touched, isSubmitting }) => (
         <Form className={`${css.form}${className ? ` ${className}` : ''}`}>
-          <PersistTransactionDraft />
+          {mode === 'create' && <PersistTransactionDraft />}
           <div className={css.transactionWrapper}>
             <div className={css.transactionFieldset}>
               <Field name="type">
