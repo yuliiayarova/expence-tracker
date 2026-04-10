@@ -45,6 +45,7 @@ export default function TransactionsSearchTools({
         shouldCloseOnSelect={true}
         strictParsing={false}
         customInput={<CustomInputSearch type="date" />}
+        maxDate={new Date()}
       />
     </div>
   );

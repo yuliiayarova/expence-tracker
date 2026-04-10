@@ -69,6 +69,7 @@ export const DatePickerGroup = () => {
           shouldCloseOnSelect
           customInput={<CustomInput type="date" />}
           calendarClassName={css.myCalendar}
+          maxDate={new Date()}
         />
         {errors.date && touched.date && (
           <span className={css.error}>{errors.date}</span>
