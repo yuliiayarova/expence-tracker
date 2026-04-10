@@ -38,7 +38,9 @@ export default function TransactionsHistoryClient({
 
   const formattedDate =
     debouncedDate && !isNaN(debouncedDate.getTime())
-      ? `${debouncedDate.getFullYear()}-${String(debouncedDate.getMonth() + 1).padStart(2, '0')}-${String(debouncedDate.getDate()).padStart(2, '0')}`
+      ? `${debouncedDate.getFullYear()}-${String(
+          debouncedDate.getMonth() + 1,
+        ).padStart(2, '0')}-${String(debouncedDate.getDate()).padStart(2, '0')}`
       : '';
 
   const tip = search.trim().length;
