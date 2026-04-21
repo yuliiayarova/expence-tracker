@@ -6,6 +6,17 @@ staying in control of your money.
 🔗 **[Live Demo](https://expence-tracker-teal-one.vercel.app/)**
 
 ---
+## 👩‍💻 My Contribution
+
+**In this team project, I was responsible for the core client-side logic related to authentication, routing, and transaction creation. I implemented:
+
+- **Full authentication flow (registration, login, logout)
+- **Protected routing and access control
+- **API handling via proxy.ts
+- **Pages for user registration and login
+- **Transaction creation form with validation using Formik and Yup
+- **Logic for creating new transactions and sending data to the backend
+- **State updates after successful requests
 
 ## 🎯 Project Purpose
 
@@ -55,7 +66,7 @@ tracking application focusing on:
 
 ### UI & Styling
 
-- **Tailwind CSS 4** — for modern, utility-first styling.
+- **CSS Modules** — for modern, utility-first styling.
 - **AG Grid React** — for high-performance data tables.
 - **Recharts** — for data visualization.
 - **React Use** — for essential custom hooks.
@@ -87,13 +98,13 @@ tracking application focusing on:
 
 ## 🧑‍💻 The Team
 
-- **Ігор Вжос** — Team Lead
-- **Діана Пригожина** — Scrum Master
-- **Анастасія Загляда** — Developer
-- **Юлія Ярова** — Developer
-- **Артем Багно** — Developer
-- **Тася Штик** — Developer
-- **Роман Кузишин** — Developer
+- **Ihor Vzhos** — Team Lead
+- **Diana Pryhozhyna** — Scrum Master
+- **Anastasiia Zahliada** — Developer
+- **Yuliia Yarova** — Developer (authentication, routing, transactions, forms validation)
+- **Artem Bahno** — Developer
+- **Tasia Shtyk** — Developer
+- **Roman Kuzyshyn** — Developer
 
 ---
 
@@ -101,4 +112,3 @@ tracking application focusing on:
 
 - `npm run build` — Production build.
 - `npm run lint` — Code quality check with ESLint.
-- **Styling:** Tailwind CSS 4, PostCSS, Normalize.css.
